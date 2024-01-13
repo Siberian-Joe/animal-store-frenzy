@@ -6,10 +6,10 @@ using Zenject;
 
 namespace Core.Views
 {
-    public class View<TViewModel> : MonoBehaviour, IView<TViewModel> where TViewModel : IViewModel<IModel>
+    public class View<TViewModel> : MonoBehaviour, IView where TViewModel : IViewModel
     {
-        public TViewModel ViewModel { get; private set; }
-    
+        protected TViewModel ViewModel { get; private set; }
+
         protected ICollection<IDisposable> Disposables { get; } = new List<IDisposable>();
 
         [Inject]
@@ -22,13 +22,19 @@ namespace Core.Views
         protected virtual void Initialize()
         {
         }
-    
+
         protected virtual void OnDestroy()
         {
+            Dispose();
+        }
+
+        public virtual void Dispose()
+        {
             foreach (var disposable in Disposables)
-            {
                 disposable.Dispose();
-            }
+
+            Disposables.Clear();
+            ViewModel.Dispose();
         }
     }
 }

@@ -1,7 +1,8 @@
+using System;
+
 namespace Interfaces.Core
 {
-    public interface IViewModel<out TModel> where TModel : IModel
+    public interface IViewModel : IDisposable
     {
-        TModel Model { get; }
     }
 }
