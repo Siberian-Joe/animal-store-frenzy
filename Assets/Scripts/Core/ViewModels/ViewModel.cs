@@ -5,9 +5,9 @@ using Interfaces.Services.DataServices;
 
 namespace Core.ViewModels
 {
-    public abstract class ViewModel<TModel> : IViewModel<TModel> where TModel : IModel
+    public abstract class ViewModel<TModel> : IViewModel where TModel : IModel
     {
-        public TModel Model { get; private set; }
+        protected TModel Model { get; private set; }
 
         protected ICollection<IDisposable> Disposables { get; } = new List<IDisposable>();
 
@@ -24,6 +24,14 @@ namespace Core.ViewModels
         protected virtual void Initialize()
         {
             Model = _dataService.Load(GetType().Name, CreateDefaultModel());
+        }
+
+        public virtual void Dispose()
+        {
+            foreach (var disposable in Disposables)
+                disposable.Dispose();
+
+            Disposables.Clear();
         }
     }
 }
