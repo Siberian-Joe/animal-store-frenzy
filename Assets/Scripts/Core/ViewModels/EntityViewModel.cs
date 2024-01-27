@@ -19,7 +19,7 @@ namespace Core.ViewModels
         protected virtual void Update()
         {
         }
-        
+
         protected virtual void FixedUpdate()
         {
         }
