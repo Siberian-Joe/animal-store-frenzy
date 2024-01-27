@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Interfaces.Core;
+﻿using Interfaces.Core;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -9,8 +8,7 @@ namespace Core.Views
     public class View<TViewModel> : MonoBehaviour, IView where TViewModel : IViewModel
     {
         protected TViewModel ViewModel { get; private set; }
-
-        protected ICollection<IDisposable> Disposables { get; } = new List<IDisposable>();
+        protected CompositeDisposable Disposable { get; } = new();
 
         [Inject]
         private void Constructor(TViewModel viewModel)
@@ -30,10 +28,10 @@ namespace Core.Views
 
         public virtual void Dispose()
         {
-            foreach (var disposable in Disposables)
+            foreach (var disposable in Disposable)
                 disposable.Dispose();
 
-            Disposables.Clear();
+            Disposable.Clear();
             ViewModel.Dispose();
         }
     }
