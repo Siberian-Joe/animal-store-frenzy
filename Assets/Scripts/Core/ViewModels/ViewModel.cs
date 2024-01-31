@@ -9,20 +9,12 @@ namespace Core.ViewModels
         protected TModel Model { get; private set; }
         protected CompositeDisposable Disposable { get; } = new();
 
-        private readonly IDataService _dataService;
-
         protected ViewModel(IDataService dataService)
         {
-            _dataService = dataService;
-            Initialize();
+            Model = dataService.Load(GetType().Name, CreateDefaultModel());
         }
 
         protected abstract TModel CreateDefaultModel();
-
-        protected virtual void Initialize()
-        {
-            Model = _dataService.Load(GetType().Name, CreateDefaultModel());
-        }
 
         public virtual void Dispose()
         {

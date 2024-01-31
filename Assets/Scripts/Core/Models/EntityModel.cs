@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Core.Models
+namespace Core.Enums
 {
     public abstract class EntityModel : IModel
     {

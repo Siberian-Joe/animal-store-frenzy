@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Enums;
 using Interfaces.Core;
 using Interfaces.Services.DataServices;
 using UniRx;
@@ -16,17 +16,17 @@ namespace Core.ViewModels
             Observable.EveryFixedUpdate().Subscribe(_ => FixedUpdate()).AddTo(Disposable);
         }
 
+        public void SetTransform(Transform transform)
+        {
+            Model.Transform.Value = transform;
+        }
+
         protected virtual void Update()
         {
         }
 
         protected virtual void FixedUpdate()
         {
-        }
-
-        public void SetTransform(Transform transform)
-        {
-            Model.Transform.Value = transform;
         }
     }
 }

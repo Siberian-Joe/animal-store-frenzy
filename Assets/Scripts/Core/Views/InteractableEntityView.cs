@@ -4,8 +4,8 @@ using Interfaces.Interactions;
 
 namespace Core.Views
 {
-    public class InteractableView<TViewModel> : View<TViewModel>, IInteractable
-        where TViewModel : IViewModel, IInteractable
+    public class InteractableEntityView<TViewModel> : EntityView<TViewModel>, IInteractable
+        where TViewModel : IEntityViewModel, IInteractable
     {
         public virtual void Interact<TInteraction>(Action<TInteraction> action = null) where TInteraction : IInteraction
         {
