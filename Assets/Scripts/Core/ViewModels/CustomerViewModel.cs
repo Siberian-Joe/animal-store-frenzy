@@ -2,6 +2,7 @@
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Core.ViewModels
 {
@@ -9,10 +10,22 @@ namespace Core.ViewModels
     {
         private readonly IInteractableEntitiesLocatorService _interactableEntitiesLocatorService;
 
-        public CustomerViewModel(IDataService dataService,
-            IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService)
+        private NavMeshAgent _agent = new();
+
+        public CustomerViewModel(IDataService dataService, ILoggingService loggingService,
+            IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService, loggingService)
         {
             _interactableEntitiesLocatorService = interactableEntitiesLocatorService;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (_agent == null)
+                return;
+
+            UpdateDirection(_agent.velocity);
         }
 
         //TODO: Extract to a common implementation for automatic determination of the type of walking animation
@@ -21,44 +34,21 @@ namespace Core.ViewModels
             return direction.x < 0 - 0.1f ? 3 : direction.x > 0 + 0.1f ? 2 : direction.y > 0 + 0.1f ? 1 : 0;
         }
 
-        public void UpdateTargetPosition(Vector2 position)
+        public void SetInteractableObjectType(InteractableEntityType interactableEntityType)
         {
-            Model.TargetPosition.Value = position;
+            Model.TargetPosition.Value =
+                _interactableEntitiesLocatorService
+                    .FindPositionNearestObjectByType(interactableEntityType, Transform.Value.position);
         }
 
-        protected override void FixedUpdate()
+        public void SetAgent(NavMeshAgent agent)
         {
-            if (TryMoveToPosition(TargetPosition.Value))
-                base.FixedUpdate();
-            else
-                StopMoving();
+            _agent = agent;
         }
 
         protected override CustomerModel CreateDefaultModel()
         {
             return new CustomerModel();
-        }
-
-        private bool TryMoveToPosition(Vector2 position)
-        {
-            if ((position - (Vector2)Transform.Value.position).sqrMagnitude < 0.1f * 0.1f)
-                return false;
-
-            UpdateDirection(position);
-
-            return true;
-        }
-
-        private void StopMoving()
-        {
-            UpdateDirection(Vector2.zero);
-        }
-
-        public void SetInteractableObjectType(InteractableEntityType interactableEntityType)
-        {
-            Model.TargetPosition.Value =
-                _interactableEntitiesLocatorService
-                    .FindPositionNearestObjectByType(interactableEntityType, Model.Transform.Value.position);
         }
     }
 }

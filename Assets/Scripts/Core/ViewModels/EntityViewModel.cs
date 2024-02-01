@@ -12,21 +12,11 @@ namespace Core.ViewModels
 
         protected EntityViewModel(IDataService dataService) : base(dataService)
         {
-            Observable.EveryUpdate().Subscribe(_ => Update()).AddTo(Disposable);
-            Observable.EveryFixedUpdate().Subscribe(_ => FixedUpdate()).AddTo(Disposable);
         }
 
         public void SetTransform(Transform transform)
         {
             Model.Transform.Value = transform;
-        }
-
-        protected virtual void Update()
-        {
-        }
-
-        protected virtual void FixedUpdate()
-        {
         }
     }
 }

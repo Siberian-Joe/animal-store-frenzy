@@ -21,6 +21,16 @@ namespace Core.Views
         {
         }
 
+        protected virtual void Update()
+        {
+            ViewModel.Update();
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            ViewModel.FixedUpdate();
+        }
+
         protected virtual void OnDestroy()
         {
             Dispose();

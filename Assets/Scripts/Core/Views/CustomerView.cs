@@ -26,10 +26,11 @@ namespace Core.Views
             _agent = GetComponent<NavMeshAgent>();
 
             _agent.speed = _speed;
+            ViewModel.SetAgent(_agent);
 
             ViewModel.SetSpeed(_speed);
 
-            ViewModel.TargetPosition.Subscribe(UpdateAnimatorDirection)
+            ViewModel.Direction.Subscribe(UpdateAnimatorDirection)
                 .AddTo(Disposable);
 
             ViewModel.IsMoving
