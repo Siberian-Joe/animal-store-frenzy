@@ -16,6 +16,14 @@ namespace Core.ViewModels
 
         protected abstract TModel CreateDefaultModel();
 
+        public virtual void Update()
+        {
+        }
+        
+        public virtual void FixedUpdate()
+        {
+        }
+
         public virtual void Dispose()
         {
             foreach (var disposable in Disposable)

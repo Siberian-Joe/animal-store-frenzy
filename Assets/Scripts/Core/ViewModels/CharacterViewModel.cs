@@ -10,7 +10,8 @@ namespace Core.ViewModels
     {
         public ReactiveCommand Interact { get; } = new();
 
-        public CharacterViewModel(IInputService inputService, IDataService dataService) : base(dataService)
+        public CharacterViewModel(IDataService dataService, ILoggingService loggingService, IInputService inputService)
+            : base(dataService, loggingService)
         {
             inputService.Direction
                 .Subscribe(UpdateDirection)
@@ -19,6 +20,14 @@ namespace Core.ViewModels
             inputService.Interact
                 .Subscribe(_ => Interact.Execute())
                 .AddTo(Disposable);
+            
+            Direction.Subscribe(direction =>
+            {
+                Model.TargetPosition.Value = direction;
+            }).AddTo(Disposable);
+
+            DistanceThreshold = 0f;
+            IsMovingToDirection = true;
         }
 
         //TODO: Extract to a common implementation for automatic determination of the type of walking animation

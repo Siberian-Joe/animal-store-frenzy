@@ -23,7 +23,7 @@ namespace Core.Views
 
             _animator = GetComponent<Animator>();
 
-            ViewModel.TargetPosition
+            ViewModel.Direction
                 .Subscribe(UpdateAnimatorDirection)
                 .AddTo(Disposable);
 
@@ -32,10 +32,10 @@ namespace Core.Views
 
             ViewModel.Interact
                 .Subscribe(_ =>
-            {
-                var interactable = FindNearestInteractable();
-                interactable?.Interact<IInteraction>(interaction => { interaction.Interact(); });
-            })
+                {
+                    var interactable = FindNearestInteractable();
+                    interactable?.Interact<IInteraction>(interaction => { interaction.Interact(); });
+                })
                 .AddTo(Disposable);
 
             ViewModel.IsMoving
@@ -43,8 +43,10 @@ namespace Core.Views
                 .AddTo(Disposable);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 var interactable = FindNearestInteractable();

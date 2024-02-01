@@ -23,7 +23,7 @@ namespace Core.ViewModels.MovementStrategies
         public void Move(Vector2 direction)
         {
             var clampedDirection = Vector2.ClampMagnitude(direction, 1);
-            _transform.Translate(clampedDirection * _speed * Time.fixedDeltaTime);
+            _transform.Translate(clampedDirection * (_speed * Time.fixedDeltaTime));
         }
 
         public void Dispose()
