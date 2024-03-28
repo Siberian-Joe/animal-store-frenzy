@@ -6,9 +6,9 @@ namespace Core.Views
     {
         protected override void Initialize()
         {
-            base.Initialize();
-
             ViewModel.SetTransform(transform);
+
+            base.Initialize();
         }
     }
 }
