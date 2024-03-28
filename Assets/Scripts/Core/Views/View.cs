@@ -19,6 +19,7 @@ namespace Core.Views
 
         protected virtual void Initialize()
         {
+            ViewModel.Initialize();
         }
 
         protected virtual void Update()

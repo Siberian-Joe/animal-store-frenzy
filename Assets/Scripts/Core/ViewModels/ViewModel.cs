@@ -14,15 +14,19 @@ namespace Core.ViewModels
             Model = dataService.Load(GetType().Name, CreateDefaultModel());
         }
 
-        protected abstract TModel CreateDefaultModel();
+        public virtual void Initialize()
+        {
+        }
 
         public virtual void Update()
         {
         }
-        
+
         public virtual void FixedUpdate()
         {
         }
+
+        protected abstract TModel CreateDefaultModel();
 
         public virtual void Dispose()
         {

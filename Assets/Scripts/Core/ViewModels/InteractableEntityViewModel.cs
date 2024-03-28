@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Core.Enums;
 using Interfaces.Interactions;
 using Interfaces.Services;
@@ -18,6 +18,11 @@ namespace Core.ViewModels
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService)
         {
             InteractableEntitiesLocatorService = interactableEntitiesLocatorService;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
 
             Model.InteractableEntityType
                 .Subscribe(_ => { InteractableEntitiesLocatorService.RegisterEntity(this); })
