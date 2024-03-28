@@ -1,7 +1,7 @@
 using Interfaces.Core;
 using UnityEngine;
 
-namespace Core.StateMachine
+namespace Core.StateMachine.States
 {
     public class MoveToPositionState : State<IMovableEntityViewModel>
     {
@@ -15,7 +15,8 @@ namespace Core.StateMachine
             base.Update();
 
             if ((Context.TargetPosition.Value - (Vector2)Context.Transform.Value.position).sqrMagnitude <
-                Context.DistanceThreshold * Context.DistanceThreshold || (Context.IsMoving.Value == false && Context.IsMovingToDirection))
+                Context.DistanceThreshold * Context.DistanceThreshold ||
+                (Context.IsMoving.Value == false && Context.IsMovingToDirection))
                 ChangeState<IdleState>();
         }
 

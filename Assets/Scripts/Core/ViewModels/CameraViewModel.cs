@@ -1,4 +1,4 @@
-﻿using Core.Enums;
+﻿using Core.Models;
 using Interfaces.Services.DataServices;
 using UnityEngine;
 
@@ -24,7 +24,7 @@ namespace Core.ViewModels
         {
             Model.Offset = offset;
         }
-        
+
         public Vector3 CalculateDesiredPosition()
         {
             return Model.TargetPosition.Value + Model.Offset;

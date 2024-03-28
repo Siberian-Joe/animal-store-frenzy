@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Core.Enums;
-using Core.StateMachine;
+using Core.Models;
+using Core.StateMachine.States;
 using Interfaces.Core;
+using Interfaces.Core.StateMachine;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
 using UniRx;
@@ -34,18 +35,18 @@ namespace Core.ViewModels
             _stateMachine = new StateMachine.StateMachine(loggingService, states);
             _stateMachine.ChangeState<IdleState>();
         }
-        
+
         public override void Update()
         {
             base.Update();
-            
+
             _stateMachine.Update();
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            
+
             _stateMachine.FixedUpdate();
         }
 

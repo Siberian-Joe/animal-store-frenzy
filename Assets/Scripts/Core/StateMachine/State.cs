@@ -1,4 +1,5 @@
 using System;
+using Interfaces.Core.StateMachine;
 using UniRx;
 
 namespace Core.StateMachine
@@ -8,7 +9,7 @@ namespace Core.StateMachine
         public event Action<Type> StateChangeRequested;
 
         protected readonly T Context;
-        protected readonly CompositeDisposable CompositeDisposable = new();
+        protected readonly CompositeDisposable Disposable = new();
 
         protected State(T context)
         {
@@ -29,7 +30,10 @@ namespace Core.StateMachine
 
         public virtual void Exit()
         {
-            CompositeDisposable.Clear();
+            foreach (var disposable in Disposable)
+                disposable.Dispose();
+
+            Disposable.Clear();
         }
 
         protected void ChangeState<TState>() where TState : IState

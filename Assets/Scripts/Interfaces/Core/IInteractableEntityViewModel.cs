@@ -1,9 +1,8 @@
 ﻿using Core.Enums;
-using Interfaces.Core;
 using Interfaces.Interactions;
 using UniRx;
 
-namespace Core.ViewModels
+namespace Interfaces.Core
 {
     public interface IInteractableEntityViewModel : IEntityViewModel, IInteractable
     {

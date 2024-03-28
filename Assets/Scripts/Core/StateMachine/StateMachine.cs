@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Interfaces.Core.StateMachine;
 using Interfaces.Services;
 
 namespace Core.StateMachine

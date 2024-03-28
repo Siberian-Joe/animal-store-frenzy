@@ -1,4 +1,4 @@
-﻿namespace Core.Enums
+﻿namespace Core.Models
 {
     public class CustomerModel : MovableEntityModel
     {
