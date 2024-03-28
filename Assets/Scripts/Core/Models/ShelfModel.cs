@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace Core.Enums
+namespace Core.Models
 {
     public class ShelfModel : InteractableEntityModel
     {

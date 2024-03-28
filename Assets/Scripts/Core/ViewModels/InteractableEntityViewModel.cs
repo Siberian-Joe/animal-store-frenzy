@@ -1,5 +1,7 @@
 using System;
 using Core.Enums;
+using Core.Models;
+using Interfaces.Core;
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;

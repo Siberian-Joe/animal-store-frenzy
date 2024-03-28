@@ -1,4 +1,4 @@
-﻿using Core.Enums;
+﻿using Core.Models;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
 using UniRx;
@@ -20,11 +20,8 @@ namespace Core.ViewModels
             inputService.Interact
                 .Subscribe(_ => Interact.Execute())
                 .AddTo(Disposable);
-            
-            Direction.Subscribe(direction =>
-            {
-                Model.TargetPosition.Value = direction;
-            }).AddTo(Disposable);
+
+            Direction.Subscribe(direction => { Model.TargetPosition.Value = direction; }).AddTo(Disposable);
 
             DistanceThreshold = 0f;
             IsMovingToDirection = true;

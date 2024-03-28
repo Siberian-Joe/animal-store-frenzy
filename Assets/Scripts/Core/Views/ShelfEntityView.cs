@@ -8,7 +8,7 @@ namespace Core.Views
 {
     public class ShelfEntityView : InteractableEntityView<ShelfEntityViewModel>
     {
-        [SerializeField] private InteractableEntityType interactableEntityType;
+        [SerializeField] private InteractableEntityType _interactableEntityType;
         [SerializeField] private List<Sprite> _shelfSprites;
 
         private SpriteRenderer _spriteRenderer;
@@ -19,7 +19,7 @@ namespace Core.Views
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
             ViewModel.CurrentCapacity.Subscribe(UpdateShelfSprite).AddTo(Disposable);
-            ViewModel.SetInteractableEntityType(interactableEntityType);
+            ViewModel.SetInteractableEntityType(_interactableEntityType);
         }
 
         private void UpdateShelfSprite(int capacity)

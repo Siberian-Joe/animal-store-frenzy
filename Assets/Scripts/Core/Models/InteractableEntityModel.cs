@@ -1,6 +1,7 @@
-﻿using UniRx;
+﻿using Core.Enums;
+using UniRx;
 
-namespace Core.Enums
+namespace Core.Models
 {
     public abstract class InteractableEntityModel : EntityModel
     {

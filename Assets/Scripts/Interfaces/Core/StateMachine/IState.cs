@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.StateMachine
+namespace Interfaces.Core.StateMachine
 {
     public interface IState
     {

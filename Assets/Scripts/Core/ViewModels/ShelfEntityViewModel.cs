@@ -1,16 +1,14 @@
-﻿using Core.Enums;
+﻿using Core.Models;
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using Services;
 using UniRx;
 
 namespace Core.ViewModels
 {
     public class ShelfEntityViewModel : InteractableEntityViewModel<ShelfModel>, IShelfInteraction
     {
-        public ReactiveProperty<int> CurrentCapacity => Model.CurrentCapacity;
-
+        public IReadOnlyReactiveProperty<int> CurrentCapacity => Model.CurrentCapacity;
 
         public ShelfEntityViewModel(IDataService dataService,
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService,

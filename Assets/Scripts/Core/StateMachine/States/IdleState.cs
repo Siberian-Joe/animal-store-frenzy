@@ -1,7 +1,7 @@
 using Interfaces.Core;
 using UnityEngine;
 
-namespace Core.StateMachine
+namespace Core.StateMachine.States
 {
     public class IdleState : State<IMovableEntityViewModel>
     {

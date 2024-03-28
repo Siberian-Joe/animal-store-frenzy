@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Interfaces.Services;
+using UnityEngine;
 
-namespace Interfaces.Services
+namespace Services
 {
     public class LoggingService : ILoggingService
     {

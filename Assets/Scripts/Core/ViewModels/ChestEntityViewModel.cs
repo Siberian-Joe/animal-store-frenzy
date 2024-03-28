@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Core.Enums;
+using Core.Models;
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
@@ -9,7 +9,7 @@ namespace Core.ViewModels
 {
     public class ChestEntityViewModel : InteractableEntityViewModel<ChestModel>, IInteraction
     {
-        public ReactiveProperty<bool> Opened => Model.Opened;
+        public IReadOnlyReactiveProperty<bool> Opened => Model.Opened;
 
         public ChestEntityViewModel(IDataService dataService,
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService,

@@ -1,5 +1,5 @@
 ﻿using Core.Enums;
-using Core.ViewModels;
+using Interfaces.Core;
 using UnityEngine;
 
 namespace Interfaces.Services
@@ -8,6 +8,8 @@ namespace Interfaces.Services
     {
         void RegisterEntity(IInteractableEntityViewModel interactableEntityViewModel);
         void UnregisterEntity(IInteractableEntityViewModel interactableEntityViewModel);
-        Vector2 FindPositionNearestObjectByType(InteractableEntityType interactableEntityType, Vector2 customerPosition);
+
+        Vector2 FindPositionNearestObjectByType(InteractableEntityType interactableEntityType,
+            Vector2 customerPosition);
     }
 }
