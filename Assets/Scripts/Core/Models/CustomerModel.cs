@@ -1,6 +1,6 @@
 ﻿namespace Core.Models
 {
-    public class CustomerModel : MovableEntityModel
+    public class CustomerModel : MovableAndInteractableEntityModel
     {
     }
 }

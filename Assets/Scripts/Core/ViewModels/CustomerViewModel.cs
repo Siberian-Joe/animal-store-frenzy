@@ -1,5 +1,6 @@
 ﻿using Core.Enums;
 using Core.Models;
+using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
 using UnityEngine;
@@ -7,16 +8,14 @@ using UnityEngine.AI;
 
 namespace Core.ViewModels
 {
-    public class CustomerViewModel : MovableEntityViewModel<CustomerModel>
+    public class CustomerViewModel : MovableAndInteractableEntityViewModel<CustomerModel>, IInteraction
     {
-        private readonly IInteractableEntitiesLocatorService _interactableEntitiesLocatorService;
-
         private NavMeshAgent _agent = new();
 
         public CustomerViewModel(IDataService dataService, ILoggingService loggingService,
-            IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService, loggingService)
+            IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService, loggingService,
+            interactableEntitiesLocatorService)
         {
-            _interactableEntitiesLocatorService = interactableEntitiesLocatorService;
         }
 
         public override void Update()
@@ -30,6 +29,7 @@ namespace Core.ViewModels
         }
 
         //TODO: Extract to a common implementation for automatic determination of the type of walking animation
+
         public int CalculateDirectionIndex(Vector2 direction)
         {
             return direction.x < 0 - 0.1f ? 3 : direction.x > 0 + 0.1f ? 2 : direction.y > 0 + 0.1f ? 1 : 0;
@@ -38,7 +38,7 @@ namespace Core.ViewModels
         public void SetInteractableObjectType(InteractableEntityType interactableEntityType)
         {
             Model.TargetPosition.Value =
-                _interactableEntitiesLocatorService
+                InteractableEntitiesLocatorService
                     .FindPositionNearestObjectByType(interactableEntityType, Transform.Value.position);
         }
 
@@ -50,6 +50,10 @@ namespace Core.ViewModels
         protected override CustomerModel CreateDefaultModel()
         {
             return new CustomerModel();
+        }
+
+        public void Interact()
+        {
         }
     }
 }

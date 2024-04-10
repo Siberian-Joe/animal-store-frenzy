@@ -1,16 +1,14 @@
-﻿using Core.Enums;
-using Core.ViewModels;
+﻿using Core.ViewModels;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Core.Views
 {
-    public class CustomerView : MovableEntityView<CustomerViewModel>
+    public class CustomerView : MovableAndInteractableEntityView<CustomerViewModel>
     {
         [SerializeField] private float _speed = 3.0f;
         [SerializeField] private Vector3 _targetPosition;
-        [SerializeField] private InteractableEntityType _interactableEntityType;
 
         private readonly int _isMoving = Animator.StringToHash("IsMoving");
         private readonly int _direction = Animator.StringToHash("Direction");
@@ -35,12 +33,6 @@ namespace Core.Views
 
             ViewModel.IsMoving
                 .Subscribe(isMoving => { _animator.SetBool(_isMoving, isMoving); })
-                .AddTo(Disposable);
-
-            Observable.EveryUpdate().Subscribe(_ =>
-                {
-                    ViewModel.SetInteractableObjectType(_interactableEntityType);
-                })
                 .AddTo(Disposable);
         }
 
