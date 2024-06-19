@@ -2222,7 +2222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1836067998121897792, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2440,6 +2440,407 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8397782551110579032, guid: 1294c6a4eef23374a9d15c246d929391, type: 3}
   m_PrefabInstance: {fileID: 638207939}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1731663122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1836067998121897792, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Name
+      value: Customer (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1836067998121897792, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792477375194500124, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747190099691048355, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747190099691048355, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: _interactableEntityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368519107317227569, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7080812
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368519107317227569, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368519107317227569, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7167494
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708629964261828839, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_Height
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708629964261828839, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_BaseOffset
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708629964261828839, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      propertyPath: m_AgentTypeID
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6747190099691048355, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1836067998121897792, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1731663124}
+  m_SourcePrefab: {fileID: 100100000, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+--- !u!1 &1731663123 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1836067998121897792, guid: 81252a4972b26ff419c9aff4f9fdd2b0, type: 3}
+  m_PrefabInstance: {fileID: 1731663122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1731663124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731663123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7f0b25433a4366903d8da478082d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _utilityActions:
+  - rid: 4125074245964791811
+  - rid: 4125074245964791813
+  - rid: 4125074245964791819
+  - rid: 4125074245964791832
+  <StatCollection>k__BackingField:
+    _stats:
+    - rid: 4125074245964791808
+    - rid: 4125074245964791809
+    - rid: 4125074245964791810
+    - rid: 4125074245964791835
+  references:
+    version: 2
+    RefIds:
+    - rid: 4125074245964791808
+      type: {class: Hunger, ns: , asm: Assembly-CSharp}
+      data:
+        _value: 10
+    - rid: 4125074245964791809
+      type: {class: DesireForSweets, ns: , asm: Assembly-CSharp}
+      data:
+        _value: 60
+    - rid: 4125074245964791810
+      type: {class: DesireForSalty, ns: , asm: Assembly-CSharp}
+      data:
+        _value: 20
+    - rid: 4125074245964791811
+      type: {class: TakeSweetsAction, ns: , asm: Assembly-CSharp}
+      data:
+        _considerations:
+        - rid: 4125074245964791820
+        - rid: 4125074245964791822
+        _weight: 1
+        _destination: {fileID: 685274038}
+    - rid: 4125074245964791813
+      type: {class: TakeSaltyAction, ns: , asm: Assembly-CSharp}
+      data:
+        _considerations:
+        - rid: 4125074245964791823
+        - rid: 4125074245964791825
+        _weight: 1
+        _destination: {fileID: 1821825553}
+    - rid: 4125074245964791819
+      type: {class: LeaveAction, ns: , asm: Assembly-CSharp}
+      data:
+        _considerations:
+        - rid: 4125074245964791839
+        _weight: 1
+        _destination: {fileID: 1553468723}
+    - rid: 4125074245964791820
+      type: {class: HungerConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _hungerCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 3.3254716
+            outSlope: 3.3254716
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.033333335
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791822
+      type: {class: DesireForSweetsConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireForSweetsCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791823
+      type: {class: HungerConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _hungerCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 3.3254716
+            outSlope: 3.3254716
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.033333335
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791825
+      type: {class: DesireForSaltyConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireForSaltyCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791832
+      type: {class: CheckoutAction, ns: , asm: Assembly-CSharp}
+      data:
+        _considerations:
+        - rid: 4125074245964791850
+        - rid: 4125074245964791865
+        - rid: 4125074245964791866
+        _weight: 1
+        _destination: {fileID: 1821825553}
+    - rid: 4125074245964791835
+      type: {class: DesireToCheckout, ns: , asm: Assembly-CSharp}
+      data:
+        _value: 1
+    - rid: 4125074245964791839
+      type: {class: DesireToCheckoutConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireToCheckoutCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -Infinity
+            outSlope: -Infinity
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.01
+            value: 1
+            inSlope: -Infinity
+            outSlope: -Infinity
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.039228722
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -Infinity
+            outSlope: -Infinity
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791850
+      type: {class: DesireToCheckoutConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireToCheckoutCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791865
+      type: {class: DesireForSweetsConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireForSweetsCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -3.1446536
+            outSlope: -3.1446536
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.0375
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 4125074245964791866
+      type: {class: DesireForSaltyConsideration, ns: , asm: Assembly-CSharp}
+      data:
+        _desireForSaltyCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -3.1446536
+            outSlope: -3.1446536
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.0375
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
 --- !u!4 &1821825553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7066932156093605288, guid: 3356552e9a4a7994f9ef16f8701960d9, type: 3}
@@ -2539,7 +2940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5628018141983903104, guid: ef67ba864d1ecc042b5f4cf48455c0a6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5628018141983903106, guid: ef67ba864d1ecc042b5f4cf48455c0a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2596,3 +2997,4 @@ SceneRoots:
   - {fileID: 1940504418}
   - {fileID: 1990800293}
   - {fileID: 791195407}
+  - {fileID: 1731663122}
