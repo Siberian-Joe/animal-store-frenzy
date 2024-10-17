@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 [Serializable]
 public class LeaveAction : UtilityAction
@@ -17,5 +18,6 @@ public class LeaveAction : UtilityAction
             !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance);
 
         Debug.Log("Left the store");
+        Object.Destroy(utilityBehaviour.gameObject);
     }
 }
