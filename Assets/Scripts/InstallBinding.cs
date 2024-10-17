@@ -28,6 +28,8 @@ public class InstallBinding : MonoInstaller
         Container.Bind<IStorageStrategy>().To<PlayerPrefsStorageStrategy>().AsSingle();
         Container.Bind<IDataService>().To<DataService>().AsSingle();
 
+        Container.BindInterfacesTo<InteractiveObjectLocationService>().AsSingle();
+
         Container.Bind<CharacterViewModel>().AsTransient();
         Container.Bind<CameraViewModel>().AsTransient();
         Container.Bind<ChestEntityViewModel>().AsTransient();
