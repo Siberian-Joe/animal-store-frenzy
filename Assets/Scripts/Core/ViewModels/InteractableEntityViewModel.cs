@@ -5,7 +5,7 @@ using Interfaces.Core;
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 
 namespace Core.ViewModels
 {
@@ -14,7 +14,7 @@ namespace Core.ViewModels
     {
         protected readonly IInteractableEntitiesLocatorService InteractableEntitiesLocatorService;
 
-        public IReadOnlyReactiveProperty<InteractableEntityType> InteractableEntityType => Model.InteractableEntityType;
+        public ReadOnlyReactiveProperty<InteractableEntityType> InteractableEntityType => Model.InteractableEntityType;
 
         protected InteractableEntityViewModel(IDataService dataService,
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService)

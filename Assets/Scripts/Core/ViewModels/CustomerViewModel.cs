@@ -39,7 +39,7 @@ namespace Core.ViewModels
         {
             Model.TargetPosition.Value =
                 InteractableEntitiesLocatorService
-                    .FindPositionNearestObjectByType(interactableEntityType, Transform.Value.position);
+                    .FindPositionNearestObjectByType(interactableEntityType, Transform.CurrentValue.position);
         }
 
         public void SetAgent(NavMeshAgent agent)

@@ -1,14 +1,14 @@
 ﻿using Core.Models;
 using Interfaces.Core;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.ViewModels
 {
     public abstract class EntityViewModel<TModel> : ViewModel<TModel>, IEntityViewModel where TModel : EntityModel
     {
-        public IReadOnlyReactiveProperty<Transform> Transform => Model.Transform;
+        public ReadOnlyReactiveProperty<Transform> Transform => Model.Transform;
 
         protected EntityViewModel(IDataService dataService) : base(dataService)
         {

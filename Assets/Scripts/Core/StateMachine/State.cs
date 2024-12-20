@@ -1,6 +1,6 @@
 using System;
 using Interfaces.Core.StateMachine;
-using UniRx;
+using R3;
 
 namespace Core.StateMachine
 {

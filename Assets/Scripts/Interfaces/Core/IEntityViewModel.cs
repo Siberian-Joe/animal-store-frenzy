@@ -1,11 +1,11 @@
-﻿using UniRx;
+﻿using R3;
 using UnityEngine;
 
 namespace Interfaces.Core
 {
     public interface IEntityViewModel : IViewModel
     {
-        IReadOnlyReactiveProperty<Transform> Transform { get; }
+        ReadOnlyReactiveProperty<Transform> Transform { get; }
         void SetTransform(Transform transform);
     }
 }

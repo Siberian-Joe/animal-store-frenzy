@@ -1,7 +1,7 @@
 ﻿using Core.ViewModels;
 using Core.ViewModels.MovementStrategies;
 using Interfaces.Interactions;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.Views

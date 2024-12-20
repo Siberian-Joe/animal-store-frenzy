@@ -14,9 +14,9 @@ namespace Core.StateMachine.States
         {
             base.Update();
 
-            if ((Context.TargetPosition.Value - (Vector2)Context.Transform.Value.position).sqrMagnitude <
+            if ((Context.TargetPosition.CurrentValue - (Vector2)Context.Transform.CurrentValue.position).sqrMagnitude <
                 Context.DistanceThreshold * Context.DistanceThreshold ||
-                (Context.IsMoving.Value == false && Context.IsMovingToDirection))
+                (Context.IsMoving.CurrentValue == false && Context.IsMovingToDirection))
                 ChangeState<IdleState>();
         }
 
@@ -24,7 +24,7 @@ namespace Core.StateMachine.States
         {
             base.FixedUpdate();
 
-            Context.MovementStrategy.Move(Context.TargetPosition.Value);
+            Context.MovementStrategy.Move(Context.TargetPosition.CurrentValue);
         }
     }
 }

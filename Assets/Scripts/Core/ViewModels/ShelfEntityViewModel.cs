@@ -2,13 +2,13 @@
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 
 namespace Core.ViewModels
 {
     public class ShelfEntityViewModel : InteractableEntityViewModel<ShelfModel>, IShelfInteraction
     {
-        public IReadOnlyReactiveProperty<int> CurrentCapacity => Model.CurrentCapacity;
+        public ReadOnlyReactiveProperty<int> CurrentCapacity => Model.CurrentCapacity;
 
         public ShelfEntityViewModel(IDataService dataService,
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService,

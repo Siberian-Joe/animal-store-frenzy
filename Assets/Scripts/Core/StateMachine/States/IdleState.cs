@@ -15,8 +15,8 @@ namespace Core.StateMachine.States
             base.Update();
 
             if ((Context.IsMovingToDirection == false &&
-                 (Context.TargetPosition.Value - (Vector2)Context.Transform.Value.position).sqrMagnitude >
-                 Context.DistanceThreshold * Context.DistanceThreshold) || Context.IsMoving.Value)
+                 (Context.TargetPosition.CurrentValue - (Vector2)Context.Transform.CurrentValue.position).sqrMagnitude >
+                 Context.DistanceThreshold * Context.DistanceThreshold) || Context.IsMoving.CurrentValue)
                 ChangeState<MoveToPositionState>();
         }
     }

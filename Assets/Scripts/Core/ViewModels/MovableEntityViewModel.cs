@@ -5,7 +5,7 @@ using Interfaces.Core;
 using Interfaces.Core.StateMachine;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.ViewModels
@@ -13,10 +13,10 @@ namespace Core.ViewModels
     public abstract class MovableEntityViewModel<TModel> : EntityViewModel<TModel>, IMovableEntityViewModel
         where TModel : MovableEntityModel
     {
-        public IReadOnlyReactiveProperty<float> Speed => Model.Speed;
-        public IReadOnlyReactiveProperty<Vector2> Direction => Model.Direction;
-        public IReadOnlyReactiveProperty<Vector2> TargetPosition => Model.TargetPosition;
-        public IReadOnlyReactiveProperty<bool> IsMoving => Model.IsMoving;
+        public ReadOnlyReactiveProperty<float> Speed => Model.Speed;
+        public ReadOnlyReactiveProperty<Vector2> Direction => Model.Direction;
+        public ReadOnlyReactiveProperty<Vector2> TargetPosition => Model.TargetPosition;
+        public ReadOnlyReactiveProperty<bool> IsMoving => Model.IsMoving;
         public IMovementStrategy MovementStrategy { get; private set; }
         public float DistanceThreshold { get; protected set; } = 0.45f;
         public bool IsMovingToDirection { get; protected set; } = false;

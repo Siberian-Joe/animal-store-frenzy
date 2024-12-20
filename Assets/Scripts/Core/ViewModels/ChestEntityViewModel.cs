@@ -3,13 +3,13 @@ using Core.Models;
 using Interfaces.Interactions;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 
 namespace Core.ViewModels
 {
     public class ChestEntityViewModel : InteractableEntityViewModel<ChestModel>, IInteraction
     {
-        public IReadOnlyReactiveProperty<bool> Opened => Model.Opened;
+        public ReadOnlyReactiveProperty<bool> Opened => Model.Opened;
 
         public ChestEntityViewModel(IDataService dataService,
             IInteractableEntitiesLocatorService interactableEntitiesLocatorService) : base(dataService,

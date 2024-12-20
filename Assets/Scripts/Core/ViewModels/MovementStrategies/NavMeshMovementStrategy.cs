@@ -1,5 +1,5 @@
 ﻿using Interfaces.Core;
-using UniRx;
+using R3;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +10,7 @@ namespace Core.ViewModels.MovementStrategies
         private readonly NavMeshAgent _agent;
         private readonly CompositeDisposable _disposable = new();
 
-        public NavMeshMovementStrategy(NavMeshAgent agent, IReadOnlyReactiveProperty<float> speed)
+        public NavMeshMovementStrategy(NavMeshAgent agent, ReadOnlyReactiveProperty<float> speed)
         {
             _agent = agent;
 

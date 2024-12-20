@@ -1,5 +1,5 @@
 ﻿using Interfaces.Core;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.ViewModels.MovementStrategies
@@ -11,7 +11,7 @@ namespace Core.ViewModels.MovementStrategies
 
         private float _speed;
 
-        public PlayerInputMovementStrategy(Transform transform, IReadOnlyReactiveProperty<float> speed)
+        public PlayerInputMovementStrategy(Transform transform, ReadOnlyReactiveProperty<float> speed)
         {
             _transform = transform;
 

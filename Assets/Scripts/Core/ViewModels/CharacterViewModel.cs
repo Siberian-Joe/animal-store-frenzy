@@ -1,7 +1,7 @@
 ﻿using Core.Models;
 using Interfaces.Services;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.ViewModels
@@ -18,7 +18,7 @@ namespace Core.ViewModels
                 .AddTo(Disposable);
 
             inputService.Interact
-                .Subscribe(_ => Interact.Execute())
+                .Subscribe(_ => Interact.Execute(Unit.Default))
                 .AddTo(Disposable);
 
             Direction.Subscribe(direction => { Model.TargetPosition.Value = direction; }).AddTo(Disposable);

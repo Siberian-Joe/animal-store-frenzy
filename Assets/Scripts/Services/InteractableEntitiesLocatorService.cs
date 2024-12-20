@@ -19,13 +19,13 @@ namespace Services
 
         public void RegisterEntity(IInteractableEntityViewModel interactableEntityViewModel)
         {
-            if (interactableEntityViewModel.Transform.Value == null)
+            if (interactableEntityViewModel.Transform.CurrentValue == null)
             {
                 _loggingService.LogError("Transform is null");
                 return;
             }
 
-            var entityType = interactableEntityViewModel.InteractableEntityType.Value;
+            var entityType = interactableEntityViewModel.InteractableEntityType.CurrentValue;
             if (_entities.ContainsKey(entityType) == false)
             {
                 _entities[entityType] = new List<IInteractableEntityViewModel>();
@@ -36,7 +36,7 @@ namespace Services
 
         public void UnregisterEntity(IInteractableEntityViewModel interactableEntityViewModel)
         {
-            var entityType = interactableEntityViewModel.InteractableEntityType.Value;
+            var entityType = interactableEntityViewModel.InteractableEntityType.CurrentValue;
             if (_entities.TryGetValue(entityType, out var entityList) == false)
             {
                 _loggingService.LogError($"No entities of type {entityType} registered");
@@ -80,12 +80,12 @@ namespace Services
 
             foreach (var entity in entities)
             {
-                if (entity.Transform.Value == null)
+                if (entity.Transform.CurrentValue == null)
                 {
                     continue;
                 }
 
-                var distance = Vector2.Distance(customerPosition, entity.Transform.Value.position);
+                var distance = Vector2.Distance(customerPosition, entity.Transform.CurrentValue.position);
                 if (distance < nearestDistance)
                 {
                     nearestEntity = entity;
@@ -100,7 +100,7 @@ namespace Services
             Vector2 customerPosition)
         {
             var nearestEntity = FindNearestEntity(entities, customerPosition);
-            return nearestEntity?.Transform.Value?.position ?? Vector2.zero;
+            return nearestEntity?.Transform.CurrentValue?.position ?? Vector2.zero;
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Core.Enums;
 using Interfaces.Interactions;
-using UniRx;
+using R3;
 
 namespace Interfaces.Core
 {
     public interface IInteractableEntityViewModel : IEntityViewModel, IInteractable
     {
-        IReadOnlyReactiveProperty<InteractableEntityType> InteractableEntityType { get; }
+        ReadOnlyReactiveProperty<InteractableEntityType> InteractableEntityType { get; }
         void SetInteractableEntityType(InteractableEntityType interactableEntityType);
     }
 }

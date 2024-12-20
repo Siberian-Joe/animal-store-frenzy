@@ -1,6 +1,6 @@
 using Interfaces.Core;
 using Interfaces.Services.DataServices;
-using UniRx;
+using R3;
 
 namespace Core.ViewModels
 {

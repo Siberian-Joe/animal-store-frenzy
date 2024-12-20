@@ -1,13 +1,13 @@
-﻿using UniRx;
+﻿using R3;
 using UnityEngine;
 
 namespace Interfaces.Core
 {
     public interface IMovableEntityViewModel : IEntityViewModel
     {
-        IReadOnlyReactiveProperty<float> Speed { get; }
-        IReadOnlyReactiveProperty<Vector2> TargetPosition { get; }
-        IReadOnlyReactiveProperty<bool> IsMoving { get; }
+        ReadOnlyReactiveProperty<float> Speed { get; }
+        ReadOnlyReactiveProperty<Vector2> TargetPosition { get; }
+        ReadOnlyReactiveProperty<bool> IsMoving { get; }
         IMovementStrategy MovementStrategy { get; }
         float DistanceThreshold{ get; }
         bool IsMovingToDirection { get; }

@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.ViewModels;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.Views
@@ -27,7 +27,7 @@ namespace Core.Views
         {
             base.Interact(action);
 
-            if (ViewModel.Opened.Value)
+            if (ViewModel.Opened.CurrentValue)
             {
                 ShowChestItems();
             }

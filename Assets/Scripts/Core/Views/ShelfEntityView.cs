@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Enums;
 using Core.ViewModels;
-using UniRx;
+using R3;
 using UnityEngine;
 
 namespace Core.Views
