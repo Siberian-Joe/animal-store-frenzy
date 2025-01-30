@@ -9,16 +9,12 @@ public class InstallBinding : MonoInstaller
 {
     public override void InstallBindings()
     {
-        // // Регистрация модели
         // Container.Bind<MainMenuModel>().AsTransient();
         //
-        // // Регистрация ViewModel
         // Container.Bind<IViewModel<IModel>>().To<MainMenuViewModel>().AsTransient();
         //
-        // // Регистрация ViewModelFactory
         // Container.Bind<IViewModelFactory>().To<ViewModelFactory>().AsCached();
         //
-        // // Регистрация UIManager
         // Container.Bind<IUIManager>().To<UIManager>().AsSingle();
 
         Container.Bind<IInputService>().To<InputService>().AsSingle();
@@ -27,7 +23,7 @@ public class InstallBinding : MonoInstaller
 
         Container.Bind<IStorageStrategy>().To<PlayerPrefsStorageStrategy>().AsSingle();
         Container.Bind<IDataService>().To<DataService>().AsSingle();
-
+    
         Container.BindInterfacesTo<InteractiveObjectLocationService>().AsSingle();
 
         Container.Bind<CharacterViewModel>().AsTransient();
