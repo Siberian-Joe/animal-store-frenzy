@@ -9,8 +9,8 @@ using R3;
 namespace NewCore.Data
 {
     public class ProxyCollection<TModel, TProxy> : ObservableList<TProxy>, IDisposable
-        where TProxy : EntityProxy<TModel>, new()
         where TModel : Entity
+        where TProxy : EntityProxy<TModel>, new()
     {
         private readonly CompositeDisposable _disposables = new();
 

@@ -37,7 +37,7 @@ namespace NewCore.Bootstrap
                 var mainMenu = _uiRoot.EnableCore();
                 var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
 
-                _customerLifecycle.Initialize(gameState);
+                _customerLifecycle.Initialize(gameState.Customers);
                 _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
 
                 mainMenu.Clicked
@@ -47,9 +47,7 @@ namespace NewCore.Bootstrap
                     .AddTo(_disposables);
 
                 gameState.Customers.ObserveAdd().Subscribe(change =>
-                {
-                    Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}");
-                });
+                    Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}"));
 
                 await _customerLifecycle.TrySpawnCustomer("FirstCustomer",
                     new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));

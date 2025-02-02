@@ -4,8 +4,8 @@ using NewCore.Domain;
 namespace NewCore.ViewModels
 {
     public abstract class EntityViewModel<TModel, TProxy> : ViewModel<TModel, TProxy>
-        where TProxy : EntityProxy<TModel>
         where TModel : Entity
+        where TProxy : EntityProxy<TModel>
     {
         public string Id => Proxy.Id;
 

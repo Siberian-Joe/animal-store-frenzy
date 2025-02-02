@@ -2,7 +2,7 @@
 
 namespace NewCore.Data
 {
-    public abstract class EntityProxy<TModel> : IEntityProxy<TModel> where TModel : Entity
+    public abstract class EntityProxy<TModel> : IProxy<TModel> where TModel : Entity
     {
         public string Id { get; private set; }
 

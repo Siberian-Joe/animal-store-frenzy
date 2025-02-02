@@ -1,3 +1,6 @@
-﻿public class Customer : UtilityBehaviour
+﻿namespace Core
 {
+    public class Customer : UtilityBehaviour
+    {
+    }
 }

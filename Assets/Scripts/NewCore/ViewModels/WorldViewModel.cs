@@ -7,6 +7,6 @@ namespace NewCore.ViewModels
     {
         public readonly IObservableCollection<CustomerViewModel> Customers; // TODO: Move to proxy
 
-        public WorldViewModel(ICustomerLifecycle customerLifecycle) => Customers = customerLifecycle.Customers;
+        public WorldViewModel(ICustomerLifecycle customerLifecycle) => Customers = customerLifecycle.Entities;
     }
 }
