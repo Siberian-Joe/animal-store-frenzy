@@ -1,6 +1,7 @@
-﻿using Zenject;
+﻿using NewCore.ViewModels;
+using Zenject;
 
-namespace NewCore.ViewModels
+namespace NewCore.Factories
 {
     public class ViewModelFactory : IViewModelFactory
     {

@@ -1,6 +1,6 @@
 using NewCore.Bootstrap;
 using NewCore.Commands;
-using NewCore.Lifecycle;
+using NewCore.Services.Lifecycle;
 using NewCore.ViewModels;
 using NewCore.Views.World;
 using UnityEngine;

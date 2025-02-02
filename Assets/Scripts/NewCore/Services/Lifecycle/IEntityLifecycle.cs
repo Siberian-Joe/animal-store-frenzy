@@ -4,7 +4,7 @@ using NewCore.Domain;
 using NewCore.ViewModels;
 using ObservableCollections;
 
-namespace NewCore.Lifecycle
+namespace NewCore.Services.Lifecycle
 {
     public interface IEntityLifecycle<TModel, TProxy, TViewModel> : IDisposable
         where TModel : Entity

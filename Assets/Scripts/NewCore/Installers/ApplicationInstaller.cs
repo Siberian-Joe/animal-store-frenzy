@@ -1,4 +1,5 @@
 ﻿using NewCore.Bootstrap;
+using NewCore.Factories;
 using NewCore.Services;
 using NewCore.ViewModels;
 using NewCore.Views.UI;

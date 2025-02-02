@@ -1,8 +1,8 @@
 using System;
 using NewCore.Commands;
 using NewCore.Data;
-using NewCore.Lifecycle;
 using NewCore.Services;
+using NewCore.Services.Lifecycle;
 using NewCore.Views.UI;
 using ObservableCollections;
 using R3;

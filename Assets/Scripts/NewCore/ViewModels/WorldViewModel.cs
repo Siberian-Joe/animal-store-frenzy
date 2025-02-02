@@ -1,4 +1,4 @@
-﻿using NewCore.Lifecycle;
+﻿using NewCore.Services.Lifecycle;
 using ObservableCollections;
 
 namespace NewCore.ViewModels

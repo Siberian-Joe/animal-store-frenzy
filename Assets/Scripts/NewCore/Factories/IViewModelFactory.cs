@@ -1,4 +1,6 @@
-﻿namespace NewCore.ViewModels
+﻿using NewCore.ViewModels;
+
+namespace NewCore.Factories
 {
     public interface IViewModelFactory
     {

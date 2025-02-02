@@ -2,10 +2,11 @@
 using NewCore.Commands;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Factories;
 using NewCore.ViewModels;
 using UnityEngine;
 
-namespace NewCore.Lifecycle
+namespace NewCore.Services.Lifecycle
 {
     public class CustomerLifecycle : EntityLifecycle<Customer, CustomerProxy, CustomerViewModel>, ICustomerLifecycle
     {

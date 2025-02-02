@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Factories;
 using NewCore.ViewModels;
 using ObservableCollections;
 using R3;
 
-namespace NewCore.Lifecycle
+namespace NewCore.Services.Lifecycle
 {
     public abstract class EntityLifecycle<TModel, TProxy, TViewModel> : IDisposable
         where TModel : Entity
