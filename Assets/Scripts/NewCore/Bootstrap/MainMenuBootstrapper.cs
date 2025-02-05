@@ -1,30 +1,40 @@
+using System;
+using NewCore.Installers;
 using NewCore.Services;
-using NewCore.Views.UI;
+using NewCore.Services.UI;
 using R3;
+using UnityEngine;
 
 namespace NewCore.Bootstrap
 {
     public sealed class MainMenuBootstrapper : IBootstrapper
     {
-        private readonly UIRoot _uiRoot;
+        private readonly IUIRootLoader _uiRootLoader;
         private readonly ISceneLoader _sceneLoader;
         private readonly CompositeDisposable _disposables = new();
 
-        public MainMenuBootstrapper(UIRoot uiRoot, ISceneLoader sceneLoader)
+        public MainMenuBootstrapper(IUIRootLoader uiRootLoader, ISceneLoader sceneLoader)
         {
-            _uiRoot = uiRoot;
+            _uiRootLoader = uiRootLoader;
             _sceneLoader = sceneLoader;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
-            var mainMenu = _uiRoot.EnableMainMenu();
+            try
+            {
+                var uiRoot = await _uiRootLoader.GetUIRootAsync();
+                var mainMenu = uiRoot.EnableMainMenu();
 
-            mainMenu.Clicked
-                .Subscribe(async _ =>
-                    await _sceneLoader.LoadSceneAsync(SceneIdentifier
-                        .Core)) // TODO: English: This is only used to switch between scenes. Just a placeholder.
-                .AddTo(_disposables);
+                // TODO: This is only used to switch between scenes. Just a placeholder
+                mainMenu.Clicked
+                    .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
+                    .AddTo(_disposables);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError("Failed to load main menu scene. Exception: " + exception);
+            }
         }
 
         public void Dispose() => _disposables.Dispose();

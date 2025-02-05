@@ -1,9 +1,10 @@
 using System;
 using NewCore.Commands;
 using NewCore.Data;
+using NewCore.Installers;
 using NewCore.Services;
 using NewCore.Services.Lifecycle;
-using NewCore.Views.UI;
+using NewCore.Services.UI;
 using ObservableCollections;
 using R3;
 using UnityEngine;
@@ -13,17 +14,17 @@ namespace NewCore.Bootstrap
 {
     public sealed class CoreBootstrapper : IBootstrapper
     {
-        private readonly UIRoot _uiRoot;
+        private readonly IUIRootLoader _uiRootLoader;
         private readonly ISceneLoader _sceneLoader;
         private readonly IGameDataService _gameDataService;
         private readonly ICustomerLifecycle _customerLifecycle;
         private readonly ICommandProcessor _commandProcessor;
         private readonly CompositeDisposable _disposables = new();
 
-        public CoreBootstrapper(UIRoot uiRoot, ISceneLoader sceneLoader, IGameDataService gameDataService,
+        public CoreBootstrapper(IUIRootLoader uiRootLoader, ISceneLoader sceneLoader, IGameDataService gameDataService,
             ICustomerLifecycle customerLifecycle, ICommandProcessor commandProcessor)
         {
-            _uiRoot = uiRoot;
+            _uiRootLoader = uiRootLoader;
             _sceneLoader = sceneLoader;
             _gameDataService = gameDataService;
             _customerLifecycle = customerLifecycle;
@@ -34,16 +35,16 @@ namespace NewCore.Bootstrap
         {
             try
             {
-                var mainMenu = _uiRoot.EnableCore();
+                var uiRoot = await _uiRootLoader.GetUIRootAsync();
+                var mainMenu = uiRoot.EnableCore();
                 var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
 
                 _customerLifecycle.Initialize(gameState.Customers);
                 _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
 
+                // TODO: This is only used to switch between scenes. Just a placeholder
                 mainMenu.Clicked
-                    .Subscribe(async _ =>
-                        await _sceneLoader.LoadSceneAsync(SceneIdentifier
-                            .MainMenu)) // TODO: English: This is only used to switch between scenes. Just a placeholder.
+                    .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu))
                     .AddTo(_disposables);
 
                 gameState.Customers.ObserveAdd().Subscribe(change =>

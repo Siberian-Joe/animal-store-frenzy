@@ -1,24 +1,24 @@
 ﻿using NewCore.Bootstrap;
 using NewCore.Factories;
 using NewCore.Services;
-using NewCore.ViewModels;
-using NewCore.Views.UI;
+using NewCore.Services.Addressables;
+using NewCore.Services.UI;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace NewCore.Installers
 {
     public sealed class ApplicationInstaller : MonoInstaller
     {
+        [SerializeField] private AssetReference _uiRootPrefab;
+
         public override void InstallBindings()
         {
-            var prefabUIRoot =
-                Resources.Load<UIRoot>("UIRoot"); // TODO: Implement loading from resources using Addressables
-            var uiRoot = Instantiate(prefabUIRoot); // TODO: Implement UI management using a separate service
+            Container.Bind<IAddressableResourceLoader>().To<AddressableResourceLoader>().AsSingle();
 
-            DontDestroyOnLoad(uiRoot.gameObject);
+            Container.Bind<IUIRootLoader>().To<UIRootLoader>().AsSingle();
 
-            Container.Bind<UIRoot>().FromInstance(uiRoot).AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
             Container.Bind<IDataStorage>().To<PlayerPrefsDataStorage>().AsSingle();
             Container.Bind<IViewModelFactory>().To<ViewModelFactory>().AsSingle();

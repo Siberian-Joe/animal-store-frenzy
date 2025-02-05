@@ -1,6 +1,7 @@
 using System;
+using NewCore.Installers;
 using NewCore.Services;
-using NewCore.Views.UI;
+using NewCore.Services.UI;
 using UnityEngine;
 
 namespace NewCore.Bootstrap
@@ -8,20 +9,22 @@ namespace NewCore.Bootstrap
     public sealed class ApplicationBootstrapper : IBootstrapper
     {
         private readonly ISceneLoader _sceneLoader;
-        private readonly UIRoot _uiRoot;
+        private readonly IUIRootLoader _uiRootLoader;
 
-        public ApplicationBootstrapper(ISceneLoader sceneLoader, UIRoot uiRoot)
+        public ApplicationBootstrapper(ISceneLoader sceneLoader, IUIRootLoader uiRootLoader)
         {
             _sceneLoader = sceneLoader;
-            _uiRoot = uiRoot;
+            _uiRootLoader = uiRootLoader;
         }
 
         public async void Initialize()
         {
             try
             {
+                var uiRoot = await _uiRootLoader.GetUIRootAsync();
+
                 await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu);
-                _uiRoot.EnableMainMenu();
+                uiRoot.EnableMainMenu();
             }
             catch (Exception exception)
             {

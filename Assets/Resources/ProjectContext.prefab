@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e5ca2a5eae45b19c275b07bf774044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabUIRoot:
-    m_AssetGUID: 
+  _uiRootPrefab:
+    m_AssetGUID: 403483270aa96ce48b3f583aa604d091
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
