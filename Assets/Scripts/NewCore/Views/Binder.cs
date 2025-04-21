@@ -16,7 +16,9 @@ namespace NewCore.Views
             OnBind();
         }
 
-        protected abstract void OnBind();
+        protected virtual void OnBind()
+        {
+        }
 
         protected virtual void OnDestroy() => Dispose();
 

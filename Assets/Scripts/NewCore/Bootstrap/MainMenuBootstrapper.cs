@@ -1,42 +1,35 @@
-using System;
-using NewCore.Installers;
+using Cysharp.Threading.Tasks;
+using NewCore.Data.UI;
 using NewCore.Services;
 using NewCore.Services.UI;
+using NewCore.ViewModels.UI;
+using NewCore.Views.UI;
 using R3;
-using UnityEngine;
 
 namespace NewCore.Bootstrap
 {
-    public sealed class MainMenuBootstrapper : IBootstrapper
+    public sealed class MainMenuBootstrapper : Bootstrapper
     {
-        private readonly IUIRootLoader _uiRootLoader;
+        private readonly IPanelService _panelService;
         private readonly ISceneLoader _sceneLoader;
-        private readonly CompositeDisposable _disposables = new();
 
-        public MainMenuBootstrapper(IUIRootLoader uiRootLoader, ISceneLoader sceneLoader)
+        public MainMenuBootstrapper(IPanelService panelService, ISceneLoader sceneLoader)
         {
-            _uiRootLoader = uiRootLoader;
+            _panelService = panelService;
             _sceneLoader = sceneLoader;
         }
 
-        public async void Initialize()
+        protected override async UniTask InitializeInternalAsync()
         {
-            try
-            {
-                var uiRoot = await _uiRootLoader.GetUIRootAsync();
-                var mainMenu = uiRoot.EnableMainMenu();
+            var mainMenu =
+                await _panelService.LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>();
 
-                // TODO: This is only used to switch between scenes. Just a placeholder
-                mainMenu.Clicked
-                    .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
-                    .AddTo(_disposables);
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError("Failed to load main menu scene. Exception: " + exception);
-            }
+            mainMenu.Open();
+
+            // TODO: This is only used to switch between scenes. Just a placeholder
+            mainMenu.Context.Clicked
+                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
+                .AddTo(Disposables);
         }
-
-        public void Dispose() => _disposables.Dispose();
     }
 }

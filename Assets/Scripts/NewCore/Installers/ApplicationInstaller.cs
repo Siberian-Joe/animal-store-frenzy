@@ -1,7 +1,7 @@
 ﻿using NewCore.Bootstrap;
 using NewCore.Factories;
 using NewCore.Services;
-using NewCore.Services.Addressables;
+using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -15,9 +15,9 @@ namespace NewCore.Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<IAddressableResourceLoader>().To<AddressableResourceLoader>().AsSingle();
+            Container.Bind<IResourceLoader>().To<ResourceLoader>().AsSingle();
 
-            Container.Bind<IUIRootLoader>().To<UIRootLoader>().AsSingle();
+            Container.Bind<IPanelService>().To<PanelService>().AsSingle();
 
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
             Container.Bind<IDataStorage>().To<PlayerPrefsDataStorage>().AsSingle();

@@ -1,16 +1,17 @@
 ﻿using System;
+using NewCore.Domain;
 using R3;
 using UnityEngine;
 
 namespace NewCore.Data
 {
     [Serializable]
-    public class CustomerProxy : EntityProxy<Domain.Customer>
+    public class CustomerProxy : EntityProxy<Customer>
     {
         public string Type;
         public ReactiveProperty<Vector3Int> Position { get; private set; }
 
-        public override void Initialize(Domain.Customer model)
+        public override void Initialize(Customer model)
         {
             base.Initialize(model);
 
@@ -20,9 +21,9 @@ namespace NewCore.Data
             Position.Skip(1).Subscribe(position => model.Position = position);
         }
 
-        public override Domain.Customer ToModel()
+        public override Customer ToModel()
         {
-            return new Domain.Customer
+            return new Customer
             {
                 Id = Id,
                 Type = Type,

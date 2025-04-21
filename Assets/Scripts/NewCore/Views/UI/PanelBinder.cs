@@ -1,14 +1,13 @@
-using R3;
-using UnityEngine;
+﻿using NewCore.Services.UI;
+using NewCore.ViewModels;
 
 namespace NewCore.Views.UI
 {
-    public abstract class PanelBinder : MonoBehaviour
+    public abstract class PanelBinder<TViewModel> : Binder<TViewModel>, IPanel
+        where TViewModel : IViewModel
     {
-        public Observable<Unit> Clicked => _clicked;
+        public virtual void Open() => gameObject.SetActive(true);
 
-        private readonly Subject<Unit> _clicked = new();
-
-        public void OnClick() => _clicked?.OnNext(Unit.Default);
+        public virtual void Close() => gameObject.SetActive(false);
     }
 }

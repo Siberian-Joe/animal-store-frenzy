@@ -1,10 +1,13 @@
-using System;
+using Cysharp.Threading.Tasks;
 using NewCore.Commands;
 using NewCore.Data;
+using NewCore.Data.UI;
 using NewCore.Installers;
 using NewCore.Services;
 using NewCore.Services.Lifecycle;
 using NewCore.Services.UI;
+using NewCore.ViewModels.UI;
+using NewCore.Views.UI;
 using ObservableCollections;
 using R3;
 using UnityEngine;
@@ -12,59 +15,50 @@ using Random = UnityEngine.Random;
 
 namespace NewCore.Bootstrap
 {
-    public sealed class CoreBootstrapper : IBootstrapper
+    public sealed class CoreBootstrapper : Bootstrapper
     {
-        private readonly IUIRootLoader _uiRootLoader;
+        private readonly IPanelService _panelService;
         private readonly ISceneLoader _sceneLoader;
         private readonly IGameDataService _gameDataService;
         private readonly ICustomerLifecycle _customerLifecycle;
         private readonly ICommandProcessor _commandProcessor;
-        private readonly CompositeDisposable _disposables = new();
 
-        public CoreBootstrapper(IUIRootLoader uiRootLoader, ISceneLoader sceneLoader, IGameDataService gameDataService,
+        public CoreBootstrapper(IPanelService panelService, ISceneLoader sceneLoader, IGameDataService gameDataService,
             ICustomerLifecycle customerLifecycle, ICommandProcessor commandProcessor)
         {
-            _uiRootLoader = uiRootLoader;
+            _panelService = panelService;
             _sceneLoader = sceneLoader;
             _gameDataService = gameDataService;
             _customerLifecycle = customerLifecycle;
             _commandProcessor = commandProcessor;
         }
 
-        public async void Initialize()
+        protected override async UniTask InitializeInternalAsync()
         {
-            try
-            {
-                var uiRoot = await _uiRootLoader.GetUIRootAsync();
-                var mainMenu = uiRoot.EnableCore();
-                var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
+            var coreScreen = await _panelService.LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>();
+            coreScreen.Open();
 
-                _customerLifecycle.Initialize(gameState.Customers);
-                _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
+            var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
 
-                // TODO: This is only used to switch between scenes. Just a placeholder
-                mainMenu.Clicked
-                    .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu))
-                    .AddTo(_disposables);
+            _customerLifecycle.Initialize(gameState.Customers);
+            _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
 
-                gameState.Customers.ObserveAdd().Subscribe(change =>
-                    Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}"));
+            // TODO: This is only used to switch between scenes. Just a placeholder
+            coreScreen.Context.Clicked
+                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu))
+                .AddTo(Disposables);
 
-                await _customerLifecycle.TrySpawnCustomer("FirstCustomer",
-                    new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-                await _customerLifecycle.TrySpawnCustomer("SecondCustomer",
-                    new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-                await _customerLifecycle.TrySpawnCustomer("ThirdCustomer",
-                    new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-                await _customerLifecycle.TrySpawnCustomer("FourthCustomer",
-                    new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError("Failed to initialize core: " + exception.Message);
-            }
+            gameState.Customers.ObserveAdd().Subscribe(change =>
+                Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}"));
+
+            await _customerLifecycle.TrySpawnCustomer("FirstCustomer",
+                new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
+            await _customerLifecycle.TrySpawnCustomer("SecondCustomer",
+                new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
+            await _customerLifecycle.TrySpawnCustomer("ThirdCustomer",
+                new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
+            await _customerLifecycle.TrySpawnCustomer("FourthCustomer",
+                new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
         }
-
-        public void Dispose() => _disposables.Dispose();
     }
 }

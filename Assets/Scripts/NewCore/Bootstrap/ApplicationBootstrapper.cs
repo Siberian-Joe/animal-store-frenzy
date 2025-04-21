@@ -1,39 +1,15 @@
-using System;
-using NewCore.Installers;
+using Cysharp.Threading.Tasks;
 using NewCore.Services;
-using NewCore.Services.UI;
-using UnityEngine;
+using Zenject;
 
 namespace NewCore.Bootstrap
 {
-    public sealed class ApplicationBootstrapper : IBootstrapper
+    public sealed class ApplicationBootstrapper : IInitializable
     {
         private readonly ISceneLoader _sceneLoader;
-        private readonly IUIRootLoader _uiRootLoader;
 
-        public ApplicationBootstrapper(ISceneLoader sceneLoader, IUIRootLoader uiRootLoader)
-        {
-            _sceneLoader = sceneLoader;
-            _uiRootLoader = uiRootLoader;
-        }
+        public ApplicationBootstrapper(ISceneLoader sceneLoader) => _sceneLoader = sceneLoader;
 
-        public async void Initialize()
-        {
-            try
-            {
-                var uiRoot = await _uiRootLoader.GetUIRootAsync();
-
-                await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu);
-                uiRoot.EnableMainMenu();
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError("Failed to load main menu scene. Exception: " + exception);
-            }
-        }
-
-        public void Dispose()
-        {
-        }
+        public void Initialize() => _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu).Forget();
     }
 }
