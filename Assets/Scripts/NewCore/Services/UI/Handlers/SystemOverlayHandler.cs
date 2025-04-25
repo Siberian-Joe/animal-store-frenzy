@@ -1,34 +1,23 @@
-﻿using NewCore.ViewModels;
+﻿using NewCore.Services.UI.Registries;
+using NewCore.ViewModels;
 using NewCore.Views.UI;
 
 namespace NewCore.Services.UI.Handlers
 {
-    public class SystemOverlayHandler<TPanel, TViewModel> : BaseHandler<TPanel, TViewModel>
+    public class SystemOverlayHandler<TPanel, TViewModel> : PanelHandler<TPanel, TViewModel>
         where TPanel : PanelBinder<TViewModel>, ISystemOverlay
         where TViewModel : IViewModel
     {
-        public SystemOverlayHandler(TPanel panel, TViewModel context, PanelService owner)
-            : base(panel, context, owner)
-        {
-        }
+        private readonly ISystemOverlayRegistry _registry;
+
+        public SystemOverlayHandler(TPanel panel, TViewModel context, IUIContainerRoot uiRoots,
+            ISystemOverlayRegistry registry) : base(panel, context, uiRoots) => _registry = registry;
 
         public override void Open()
         {
-            if (Owner.ActiveSystemOverlay != this)
-            {
-                Owner.ActiveSystemOverlay?.Close();
-                Owner.ActiveSystemOverlay = this;
-            }
-
-            Panel.transform.SetParent(Owner.SystemOverlayRoot, false);
+            _registry.RegisterSystemOverlay(this);
+            Panel.transform.SetParent(UIRoots.SystemOverlayContainer, false);
             Panel.Open();
-        }
-
-        public override void Close()
-        {
-            base.Close();
-            if (Owner.ActiveSystemOverlay == this)
-                Owner.ActiveSystemOverlay = null;
         }
     }
 }

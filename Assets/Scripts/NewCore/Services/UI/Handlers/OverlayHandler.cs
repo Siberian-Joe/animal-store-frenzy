@@ -1,33 +1,29 @@
-﻿using NewCore.ViewModels;
+﻿using NewCore.Services.UI.Registries;
+using NewCore.ViewModels;
 using NewCore.Views.UI;
 
 namespace NewCore.Services.UI.Handlers
 {
-    public class OverlayHandler<TPanel, TViewModel> : BaseHandler<TPanel, TViewModel>
+    public class OverlayHandler<TPanel, TViewModel> : PanelHandler<TPanel, TViewModel>
         where TPanel : PanelBinder<TViewModel>, IOverlay
         where TViewModel : IViewModel
     {
-        public OverlayHandler(TPanel panel, TViewModel context, PanelService owner)
-            : base(panel, context, owner)
-        {
-        }
+        private readonly IOverlayRegistry _registry;
+
+        public OverlayHandler(TPanel panel, TViewModel context, IUIContainerRoot uiRoots, IOverlayRegistry registry) :
+            base(panel, context, uiRoots) => _registry = registry;
 
         public override void Open()
         {
-            Owner.OverlayStack.Push(this);
-            Panel.transform.SetParent(Owner.OverlayRoot, false);
-            Panel.transform.SetSiblingIndex((Panel as IOverlay).Order);
+            _registry.RegisterOverlay(this);
+            Panel.transform.SetParent(UIRoots.OverlayContainer, false);
+            Panel.transform.SetSiblingIndex(Panel.Order);
             Panel.Open();
         }
 
         public override void Close()
         {
-            if (Owner.OverlayStack.Count > 0 &&
-                Owner.OverlayStack.Peek() == this)
-            {
-                Owner.OverlayStack.Pop();
-            }
-
+            _registry.UnregisterOverlay(this);
             base.Close();
         }
     }

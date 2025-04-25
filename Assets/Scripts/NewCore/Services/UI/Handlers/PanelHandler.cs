@@ -1,35 +1,34 @@
 ﻿using NewCore.ViewModels;
 using NewCore.Views.UI;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace NewCore.Services.UI.Handlers
 {
-    public class BaseHandler<TPanel, TViewModel> : IPanelHandler<TViewModel>
+    public class PanelHandler<TPanel, TViewModel> : IPanelHandler<TViewModel>
         where TPanel : PanelBinder<TViewModel>
         where TViewModel : IViewModel
     {
         protected readonly TPanel Panel;
-        protected readonly PanelService Owner;
-
         public TViewModel Context { get; }
+        protected readonly IUIContainerRoot UIRoots;
 
-        public BaseHandler(TPanel panel, TViewModel context, PanelService owner)
+        public PanelHandler(TPanel panel, TViewModel context, IUIContainerRoot uiRoots)
         {
             Panel = panel;
             Context = context;
-            Owner = owner;
+            UIRoots = uiRoots;
         }
 
         public virtual void Open()
         {
-            Panel.transform.SetParent(Owner.CacheRoot, false);
+            Panel.transform.SetParent(UIRoots.PanelsCache, false);
             Panel.Open();
         }
 
         public virtual void Close()
         {
             Panel.Close();
-            Panel.transform.SetParent(Owner.CacheRoot, false);
+            Panel.transform.SetParent(UIRoots.PanelsCache, false);
         }
 
         public void Dispose()

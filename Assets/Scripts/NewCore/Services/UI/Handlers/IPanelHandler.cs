@@ -6,8 +6,7 @@ namespace NewCore.Services.UI.Handlers
     {
     }
 
-    public interface IPanelHandler<out TViewModel> : IPanelHandler
-        where TViewModel : IViewModel
+    public interface IPanelHandler<out TViewModel> : IPanelHandler where TViewModel : IViewModel
     {
         TViewModel Context { get; }
     }

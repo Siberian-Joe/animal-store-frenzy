@@ -30,6 +30,8 @@ namespace NewCore.Bootstrap
             mainMenu.Context.Clicked
                 .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
                 .AddTo(Disposables);
+            
+            await UniTask.Delay(1000);
         }
     }
 }

@@ -3,6 +3,9 @@ using NewCore.Factories;
 using NewCore.Services;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI;
+using NewCore.Services.UI.Factories;
+using NewCore.Services.UI.Handlers;
+using NewCore.Services.UI.Registries;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
@@ -17,6 +20,17 @@ namespace NewCore.Installers
         {
             Container.Bind<IResourceLoader>().To<ResourceLoader>().AsSingle();
 
+            Container.Bind<IPanelCache>().To<PanelCache>().AsSingle();
+            Container.Bind<IScreenRegistry>().To<ScreenRegistry>().AsSingle();
+            Container.Bind<IOverlayRegistry>().To<OverlayRegistry>().AsSingle();
+            Container.Bind<ISystemOverlayRegistry>().To<SystemOverlayRegistry>().AsSingle();
+
+            Container.Bind<IPanelHandlerResolver>().To<ScreenHandlerResolver>().AsSingle();
+            Container.Bind<IPanelHandlerResolver>().To<OverlayHandlerResolver>().AsSingle();
+            Container.Bind<IPanelHandlerResolver>().To<SystemOverlayHandlerResolver>().AsSingle();
+            Container.Bind<IPanelHandlerResolver>().To<DefaultHandlerResolver>().AsSingle();
+
+            Container.Bind<IPanelHandlerProvider>().To<PanelHandlerProvider>().AsSingle();
             Container.Bind<IPanelService>().To<PanelService>().AsSingle();
 
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();

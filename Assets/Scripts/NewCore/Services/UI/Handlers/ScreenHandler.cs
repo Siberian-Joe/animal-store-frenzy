@@ -1,34 +1,23 @@
-﻿using NewCore.ViewModels;
+﻿using NewCore.Services.UI.Registries;
+using NewCore.ViewModels;
 using NewCore.Views.UI;
 
 namespace NewCore.Services.UI.Handlers
 {
-    public class ScreenHandler<TPanel, TViewModel> : BaseHandler<TPanel, TViewModel>
+    public class ScreenHandler<TPanel, TViewModel> : PanelHandler<TPanel, TViewModel>
         where TPanel : PanelBinder<TViewModel>, IScreen
         where TViewModel : IViewModel
     {
-        public ScreenHandler(TPanel panel, TViewModel context, PanelService owner)
-            : base(panel, context, owner)
-        {
-        }
+        private readonly IScreenRegistry _registry;
+
+        public ScreenHandler(TPanel panel, TViewModel context, IUIContainerRoot uiRoots, IScreenRegistry registry) :
+            base(panel, context, uiRoots) => _registry = registry;
 
         public override void Open()
         {
-            if (Owner.ActiveScreen != this)
-            {
-                Owner.ActiveScreen?.Close();
-                Owner.ActiveScreen = this;
-            }
-
-            Panel.transform.SetParent(Owner.ScreensRoot, false);
+            _registry.RegisterScreen(this);
+            Panel.transform.SetParent(UIRoots.ScreensContainer, false);
             Panel.Open();
-        }
-
-        public override void Close()
-        {
-            base.Close();
-            if (Owner.ActiveScreen == this)
-                Owner.ActiveScreen = null;
         }
     }
 }
