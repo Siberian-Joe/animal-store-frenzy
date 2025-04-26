@@ -1,4 +1,6 @@
-﻿using NewCore.Services.UI.Handlers;
+﻿using Cysharp.Threading.Tasks;
+using NewCore.Data;
+using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels;
 using NewCore.Views.UI;
 
@@ -6,7 +8,9 @@ namespace NewCore.Services.UI.Factories
 {
     public interface IPanelHandlerFactory
     {
-        IPanelHandler<TViewModel> Create<TPanel, TViewModel>(TPanel panel, TViewModel viewModel,
-            IUIContainerRoot uiRoots) where TPanel : PanelBinder<TViewModel> where TViewModel : class, IViewModel;
+        UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots)
+            where TPanel : PanelBinder<TViewModel>
+            where TProxy : IProxy, new()
+            where TViewModel : class, IViewModel;
     }
 }

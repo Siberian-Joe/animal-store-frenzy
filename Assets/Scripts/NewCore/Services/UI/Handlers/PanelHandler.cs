@@ -44,6 +44,10 @@ namespace NewCore.Services.UI.Handlers
         public virtual void Dispose()
         {
             Close();
+
+            if (Panel == null)
+                return;
+
             Panel.Dispose();
             Object.Destroy(Panel.gameObject);
         }

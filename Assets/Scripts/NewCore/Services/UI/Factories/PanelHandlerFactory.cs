@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Cysharp.Threading.Tasks;
+using NewCore.Data;
+using NewCore.Factories;
+using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI.Handlers;
 using NewCore.Services.UI.Handlers.Decorators;
 using NewCore.Services.UI.Registries;
@@ -10,22 +13,40 @@ namespace NewCore.Services.UI.Factories
 {
     public sealed class PanelHandlerFactory : IPanelHandlerFactory
     {
-        private readonly List<IPanelHandlerResolver> _resolvers;
-        private readonly IPanelCache _panelCache;
+        private readonly IResourceLoader _resourceLoader;
+        private readonly IViewModelFactory _viewModelFactory;
+        private readonly IPanelCache _cache;
+        private readonly IPanelHandlerResolver[] _resolvers;
 
-        public PanelHandlerFactory(IEnumerable<IPanelHandlerResolver> resolvers, IPanelCache panelCache)
+        public PanelHandlerFactory(IResourceLoader resourceLoader, IViewModelFactory viewModelFactory,
+            IPanelCache cache, IPanelHandlerResolver[] resolvers)
         {
-            _resolvers = resolvers.ToList();
-            _panelCache = panelCache;
+            _resourceLoader = resourceLoader;
+            _viewModelFactory = viewModelFactory;
+            _cache = cache;
+            _resolvers = resolvers;
         }
 
-        public IPanelHandler<TViewModel> Create<TPanel, TViewModel>(TPanel panel, TViewModel viewModel,
-            IUIContainerRoot uiRoots) where TPanel : PanelBinder<TViewModel> where TViewModel : class, IViewModel
+        public async UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots)
+            where TPanel : PanelBinder<TViewModel>
+            where TProxy : IProxy, new()
+            where TViewModel : class, IViewModel
         {
-            var resolver = _resolvers.First(handlerResolver => handlerResolver.CanResolve(typeof(TPanel)));
-            var baseHandler = resolver.Resolve<TPanel, TViewModel>(panel, viewModel, uiRoots);
+            var panelType = typeof(TPanel);
+            if (_cache.TryGetHandler(panelType, out var existing))
+                return (IPanelHandler<TViewModel>)existing;
 
-            return new CachingDecorator<TViewModel>(baseHandler, _panelCache, typeof(TPanel));
+            var view = await _resourceLoader.InstantiateResourceAsync<TPanel>();
+            var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(new TProxy());
+
+            view.Bind(viewModel);
+            view.Close();
+
+            var resolver = _resolvers.First(handlerResolver => handlerResolver.CanResolve(typeof(TPanel)));
+            var handler = resolver.Resolve(view, viewModel, roots);
+
+            _cache.StoreHandler(panelType, handler);
+            return new CachingDecorator<TViewModel>(handler, _cache, typeof(TPanel));
         }
     }
 }

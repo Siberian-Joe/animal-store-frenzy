@@ -5,16 +5,12 @@ using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Factories;
 using NewCore.Services.UI.Registries;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace NewCore.Installers
 {
     public sealed class ApplicationInstaller : MonoInstaller
     {
-        [SerializeField] private AssetReference _uiRootPrefab;
-
         public override void InstallBindings()
         {
             Container.Bind<IResourceLoader>().To<ResourceLoader>().AsSingle();
