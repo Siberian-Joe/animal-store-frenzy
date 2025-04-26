@@ -3,11 +3,8 @@ using NewCore.Services.UI.Handlers;
 
 namespace NewCore.Services.UI.Registries
 {
-    public interface IOverlayRegistry
+    public interface IOverlayRegistry : IPanelRegistry
     {
         IReadOnlyCollection<IPanelHandler> ActiveOverlays { get; }
-
-        void RegisterOverlay(IPanelHandler handler);
-        void UnregisterOverlay(IPanelHandler handler);
     }
 }

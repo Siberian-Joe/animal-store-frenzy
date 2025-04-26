@@ -1,6 +1,8 @@
-﻿namespace NewCore.Services.UI
+﻿using System;
+
+namespace NewCore.Services.UI
 {
-    public interface IPanel
+    public interface IPanel : IDisposable
     {
         void Open();
         void Close();

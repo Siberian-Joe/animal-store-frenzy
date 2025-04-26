@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using NewCore.Commands;
 using NewCore.Data;
 using NewCore.Data.UI;
-using NewCore.Installers;
+using NewCore.Extensions;
 using NewCore.Services;
 using NewCore.Services.Lifecycle;
 using NewCore.Services.UI;
@@ -35,7 +35,10 @@ namespace NewCore.Bootstrap
 
         protected override async UniTask InitializeInternalAsync()
         {
-            var coreScreen = await _panelService.LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>();
+            var coreScreen = await _panelService
+                .LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>()
+                .AddTo(Disposables);
+
             coreScreen.Open();
 
             var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();

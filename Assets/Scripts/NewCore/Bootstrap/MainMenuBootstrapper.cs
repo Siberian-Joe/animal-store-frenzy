@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using NewCore.Data.UI;
+using NewCore.Extensions;
 using NewCore.Services;
 using NewCore.Services.UI;
 using NewCore.ViewModels.UI;
@@ -21,8 +22,9 @@ namespace NewCore.Bootstrap
 
         protected override async UniTask InitializeInternalAsync()
         {
-            var mainMenu =
-                await _panelService.LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>();
+            var mainMenu = await _panelService
+                .LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>()
+                .AddTo(Disposables);
 
             mainMenu.Open();
 
@@ -30,7 +32,7 @@ namespace NewCore.Bootstrap
             mainMenu.Context.Clicked
                 .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
                 .AddTo(Disposables);
-            
+
             await UniTask.Delay(1000);
         }
     }

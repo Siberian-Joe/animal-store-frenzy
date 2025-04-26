@@ -1,11 +1,6 @@
-﻿using NewCore.Services.UI.Handlers;
-
-namespace NewCore.Services.UI.Registries
+﻿namespace NewCore.Services.UI.Registries
 {
-    public interface ISystemOverlayRegistry
+    public interface ISystemOverlayRegistry : ISingleActiveRegistry
     {
-        IPanelHandler ActiveSystemOverlay { get; }
-
-        void RegisterSystemOverlay(IPanelHandler handler);
     }
 }

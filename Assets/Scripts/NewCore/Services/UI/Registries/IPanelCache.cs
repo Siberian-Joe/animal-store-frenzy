@@ -10,5 +10,6 @@ namespace NewCore.Services.UI.Registries
 
         bool TryGetHandler(Type panelType, out IPanelHandler handler);
         void StoreHandler(Type panelType, IPanelHandler handler);
+        void RemoveHandler(Type panelType);
     }
 }

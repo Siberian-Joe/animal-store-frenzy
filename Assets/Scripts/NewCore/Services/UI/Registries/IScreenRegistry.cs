@@ -1,11 +1,6 @@
-﻿using NewCore.Services.UI.Handlers;
-
-namespace NewCore.Services.UI.Registries
+﻿namespace NewCore.Services.UI.Registries
 {
-    public interface IScreenRegistry
+    public interface IScreenRegistry : ISingleActiveRegistry
     {
-        IPanelHandler ActiveScreen { get; }
-
-        void RegisterScreen(IPanelHandler handler);
     }
 }

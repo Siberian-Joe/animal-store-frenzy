@@ -2,16 +2,22 @@
 
 namespace NewCore.Services.UI.Registries
 {
-    public abstract class SingleActiveRegistry
+    public abstract class SingleActiveRegistry : ISingleActiveRegistry
     {
-        protected IPanelHandler Active { get; private set; }
+        public IPanelHandler Active { get; private set; }
 
-        protected void Register(IPanelHandler handler)
+        public void Register(IPanelHandler handler)
         {
             if (Active != null && Active != handler)
                 Active.Close();
 
             Active = handler;
+        }
+
+        public void Unregister(IPanelHandler handler)
+        {
+            if (Active == handler)
+                Active = null;
         }
     }
 }

@@ -11,8 +11,13 @@ namespace NewCore.Services.UI.Registries
         public bool TryGetHandler(Type panelType, out IPanelHandler handler)
             => _handlers.TryGetValue(panelType, out handler!);
 
-        public void StoreHandler(Type panelType, IPanelHandler handler)
-            => _handlers[panelType] = handler;
+        public void StoreHandler(Type panelType, IPanelHandler handler) => _handlers[panelType] = handler;
+
+        public void RemoveHandler(Type panelType)
+        {
+            if (_handlers.ContainsKey(panelType))
+                _handlers.Remove(panelType);
+        }
 
         public IReadOnlyDictionary<Type, IPanelHandler> Handlers => _handlers;
     }

@@ -6,17 +6,17 @@ namespace NewCore.Services.UI.Registries
 {
     public class OverlayRegistry : IOverlayRegistry
     {
-        private readonly Stack<IPanelHandler> _stack = new();
-
         public IReadOnlyCollection<IPanelHandler> ActiveOverlays => _stack.Reverse().ToList();
 
-        public void RegisterOverlay(IPanelHandler handler)
+        private readonly Stack<IPanelHandler> _stack = new();
+
+        public void Register(IPanelHandler handler)
         {
             if (_stack.Count == 0 || _stack.Peek() != handler)
                 _stack.Push(handler);
         }
 
-        public void UnregisterOverlay(IPanelHandler handler)
+        public void Unregister(IPanelHandler handler)
         {
             if (_stack.Count > 0 && _stack.Peek() == handler)
                 _stack.Pop();

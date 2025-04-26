@@ -16,17 +16,17 @@ namespace NewCore.Services.UI
         private readonly IResourceLoader _resourceLoader;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IPanelCache _cache;
-        private readonly IPanelHandlerProvider _handlerProvider;
+        private readonly IPanelHandlerFactory _handlerFactory;
 
         private IUIContainerRoot _roots;
 
         public PanelService(IResourceLoader resourceLoader, IViewModelFactory viewModelFactory, IPanelCache cache,
-            IPanelHandlerProvider handlerProvider)
+            IPanelHandlerFactory handlerFactory)
         {
             _resourceLoader = resourceLoader;
             _viewModelFactory = viewModelFactory;
             _cache = cache;
-            _handlerProvider = handlerProvider;
+            _handlerFactory = handlerFactory;
         }
 
         public async UniTask<IPanelHandler<TViewModel>> LoadPanelAsync<TPanel, TProxy, TViewModel>()
@@ -51,9 +51,8 @@ namespace NewCore.Services.UI
             view.Bind(viewModel);
             view.Close();
 
-            var handler = (IPanelHandler<TViewModel>)_handlerProvider.Provide(view, viewModel, _roots);
+            var handler = _handlerFactory.Create(view, viewModel, _roots);
 
-            _cache.StoreHandler(key, handler);
             return handler;
         }
     }

@@ -4,7 +4,6 @@ using NewCore.Services;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Factories;
-using NewCore.Services.UI.Handlers;
 using NewCore.Services.UI.Registries;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -30,7 +29,7 @@ namespace NewCore.Installers
             Container.Bind<IPanelHandlerResolver>().To<SystemOverlayHandlerResolver>().AsSingle();
             Container.Bind<IPanelHandlerResolver>().To<DefaultHandlerResolver>().AsSingle();
 
-            Container.Bind<IPanelHandlerProvider>().To<PanelHandlerProvider>().AsSingle();
+            Container.Bind<IPanelHandlerFactory>().To<PanelHandlerFactory>().AsSingle();
             Container.Bind<IPanelService>().To<PanelService>().AsSingle();
 
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();

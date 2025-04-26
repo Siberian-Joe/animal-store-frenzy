@@ -16,18 +16,20 @@ namespace NewCore.Services.UI.Factories
         protected PanelHandlerResolver(DiContainer container, Type markerInterface, Type handlerGenericType)
         {
             Container = container;
+
             _markerInterface = markerInterface;
             _handlerGenericType = handlerGenericType;
         }
 
-        public bool CanResolve(Type panelType)
-            => _markerInterface.IsAssignableFrom(panelType);
+        public bool CanResolve(Type panelType) => _markerInterface.IsAssignableFrom(panelType);
 
-        public IPanelHandler Resolve(IPanel panel, IViewModel viewModel, IUIContainerRoot uiRoots)
+        public virtual IPanelHandler<TViewModel> Resolve<TPanel, TViewModel>(TPanel panel, TViewModel viewModel,
+            IUIContainerRoot uiRoots) where TPanel : PanelBinder<TViewModel> where TViewModel : class, IViewModel
         {
-            var closedHandlerType = _handlerGenericType.MakeGenericType(panel.GetType(), viewModel.GetType());
+            var handlerType = _handlerGenericType.MakeGenericType(typeof(TPanel), typeof(TViewModel));
 
-            return (IPanelHandler)Container.Instantiate(closedHandlerType, new object[] { panel, viewModel, uiRoots });
+            return (IPanelHandler<TViewModel>)Container.Instantiate(handlerType,
+                new object[] { panel, viewModel, uiRoots });
         }
     }
 }

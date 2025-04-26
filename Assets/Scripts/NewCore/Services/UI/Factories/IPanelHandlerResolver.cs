@@ -9,6 +9,7 @@ namespace NewCore.Services.UI.Factories
     {
         bool CanResolve(Type panelType);
 
-        IPanelHandler Resolve(IPanel panel, IViewModel viewModel, IUIContainerRoot uiRoots);
+        IPanelHandler<TViewModel> Resolve<TPanel, TViewModel>(TPanel panel, TViewModel viewModel,
+            IUIContainerRoot uiRoots) where TPanel : PanelBinder<TViewModel> where TViewModel : class, IViewModel;
     }
 }

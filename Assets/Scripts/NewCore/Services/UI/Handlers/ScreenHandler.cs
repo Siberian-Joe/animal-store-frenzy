@@ -1,23 +1,19 @@
 ﻿using NewCore.Services.UI.Registries;
 using NewCore.ViewModels;
 using NewCore.Views.UI;
+using UnityEngine;
 
 namespace NewCore.Services.UI.Handlers
 {
-    public class ScreenHandler<TPanel, TViewModel> : PanelHandler<TPanel, TViewModel>
+    public class ScreenHandler<TPanel, TViewModel> : RegistryPanelHandler<TPanel, TViewModel>
         where TPanel : PanelBinder<TViewModel>, IScreen
         where TViewModel : IViewModel
     {
-        private readonly IScreenRegistry _registry;
+        protected override Transform Container => UIRoots.ScreensContainer;
 
         public ScreenHandler(TPanel panel, TViewModel context, IUIContainerRoot uiRoots, IScreenRegistry registry) :
-            base(panel, context, uiRoots) => _registry = registry;
-
-        public override void Open()
+            base(panel, context, uiRoots, registry)
         {
-            _registry.RegisterScreen(this);
-            Panel.transform.SetParent(UIRoots.ScreensContainer, false);
-            Panel.Open();
         }
     }
 }
