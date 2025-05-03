@@ -2,6 +2,8 @@
 using NewCore.Factories;
 using NewCore.Services;
 using NewCore.Services.ResourceLoaders;
+using NewCore.Services.Scenes;
+using NewCore.Services.Storage;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Factories;
 using NewCore.Services.UI.Registries;
@@ -29,9 +31,9 @@ namespace NewCore.Installers
             Container.Bind<IPanelService>().To<PanelService>().AsSingle();
 
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-            Container.Bind<IDataStorage>().To<PlayerPrefsDataStorage>().AsSingle();
             Container.Bind<IViewModelFactory>().To<ViewModelFactory>().AsSingle();
 
+            Container.Bind<IStorage>().To<PlayerPrefsStorage>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameDataService>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<ApplicationBootstrapper>().AsSingle();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
+using NewCore.Domain;
 using NewCore.Services;
 using UnityEngine;
 
@@ -24,12 +25,15 @@ namespace NewCore.Commands
 
         public SpawnCustomerCommandHandler(IGameDataService gameDataService) => _gameDataService = gameDataService;
 
-        public UniTask<bool> HandleAsync(SpawnCustomerCommand command)
+        public async UniTask<bool> HandleAsync(SpawnCustomerCommand command)
         {
-            if (!_gameDataService.TryRetrieveCachedData<GameState, GameStateProxy>(out var gameStateProxy))
-                return UniTask.FromResult(false);
+            var result = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
+            if (!result.IsSuccess)
+                return await UniTask.FromResult(false);
 
-            var newCustomer = new Domain.Customer
+            var gameStateProxy = result.Value;
+
+            var newCustomer = new Customer
             {
                 Id = Guid.NewGuid().ToString(),
                 Type = command.Type,
@@ -37,7 +41,7 @@ namespace NewCore.Commands
             };
 
             gameStateProxy.Customers.AddModel(newCustomer);
-            return UniTask.FromResult(true);
+            return await UniTask.FromResult(true);
         }
     }
 }

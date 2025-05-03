@@ -1,16 +1,15 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Bootstrap;
 using NewCore.Data.UI;
-using NewCore.Installers;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels.UI;
 using NewCore.Views.UI;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace NewCore.Services
+namespace NewCore.Services.Scenes
 {
     public class SceneLoader : ISceneLoader
     {
@@ -25,32 +24,36 @@ namespace NewCore.Services
             _panelService = panelService;
         }
 
-        public async UniTask LoadSceneAsync(string sceneName)
+        public async UniTask LoadSceneAsync(string sceneName, CancellationToken cancellationToken = default)
         {
-            _loadingHandler = await _panelService
-                .LoadPanelAsync<LoadingSystemOverlay, LoadingSystemOverlayProxy, LoadingSystemOverlayViewModel>();
+            _loadingHandler =
+                await _panelService
+                    .LoadPanelAsync<LoadingSystemOverlay, LoadingSystemOverlayProxy, LoadingSystemOverlayViewModel>(
+                        cancellationToken);
 
             _loadingHandler.Open();
 
             DiContainer container = null;
 
-            await _zenjectLoader.LoadSceneAsync(
-                sceneName,
-                LoadSceneMode.Single,
-                diContainer => container = diContainer);
+            await _zenjectLoader
+                .LoadSceneAsync(
+                    sceneName,
+                    LoadSceneMode.Single,
+                    diContainer => container = diContainer)
+                .WithCancellation(cancellationToken);
 
             var bootstrapper = container.Resolve<IAsyncSceneBootstrapper>();
-            await bootstrapper.InitializeAsync();
+            await bootstrapper.InitializeAsync(cancellationToken);
 
             _loadingHandler.Close();
         }
 
-        public async UniTask UnloadSceneAsync(string sceneName)
+        public async UniTask UnloadSceneAsync(string sceneName, CancellationToken cancellationToken = default)
         {
             _loadingHandler.Open();
 
             var unloadOperation = SceneManager.UnloadSceneAsync(sceneName);
-            await unloadOperation.ToUniTask();
+            await unloadOperation.ToUniTask(cancellationToken: cancellationToken);
 
             _loadingHandler.Close();
         }

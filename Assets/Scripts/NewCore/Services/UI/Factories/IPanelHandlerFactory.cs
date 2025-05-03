@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using NewCore.Data;
 using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels;
@@ -8,7 +9,8 @@ namespace NewCore.Services.UI.Factories
 {
     public interface IPanelHandlerFactory
     {
-        UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots)
+        UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots,
+            CancellationToken cancellationToken = default)
             where TPanel : PanelBinder<TViewModel>
             where TProxy : IProxy, new()
             where TViewModel : class, IViewModel;

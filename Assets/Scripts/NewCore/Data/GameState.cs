@@ -5,9 +5,9 @@ using NewCore.Domain;
 namespace NewCore.Data
 {
     [Serializable]
-    public class GameState
+    public class GameState : IModel
     {
         public List<Shelf> Shelves;
-        public List<Domain.Customer> Customers;
+        public List<Customer> Customers;
     }
 }

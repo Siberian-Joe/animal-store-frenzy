@@ -1,28 +1,34 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace NewCore.Services.ResourceLoaders
 {
     public class ResourceLoader : IResourceLoader
     {
-        public async UniTask<TResource> LoadResourceAsync<TResource>() where TResource : class =>
-            await ExecuteAsync<TResource>(UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<GameObject>);
-
-        public async UniTask<TResource> InstantiateResourceAsync<TResource>(Transform parent = null)
+        public async UniTask<TResource> LoadResourceAsync<TResource>(CancellationToken cancellationToken)
             where TResource : class =>
-            await ExecuteAsync<TResource>(key => UnityEngine.AddressableAssets.Addressables.InstantiateAsync(key, parent, false, false));
+            await ExecuteAsync<TResource>(Addressables.LoadAssetAsync<GameObject>, cancellationToken);
+
+        public async UniTask<TResource> InstantiateResourceAsync<TResource>(Transform parent = null,
+            CancellationToken cancellationToken = default)
+            where TResource : class =>
+            await ExecuteAsync<TResource>(key => Addressables.InstantiateAsync(key, parent, false, false),
+                cancellationToken);
 
         private static async UniTask<TResource> ExecuteAsync<TResource>(
-            Func<string, AsyncOperationHandle<GameObject>> operation)
+            Func<string, AsyncOperationHandle<GameObject>> operation,
+            CancellationToken cancellationToken = default)
             where TResource : class
         {
             var key = typeof(TResource).Name;
             try
             {
                 var handle = operation(key);
-                await handle.ToUniTask();
+                await handle.ToUniTask(cancellationToken: cancellationToken);
 
                 if (handle.Status != AsyncOperationStatus.Succeeded)
                 {
@@ -39,9 +45,9 @@ namespace NewCore.Services.ResourceLoaders
 
                 return component;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Debug.LogError($"Exception while executing operation for resource with key {key}: {ex}");
+                Debug.LogError($"Exception while executing operation for resource with key {key}: {exception}");
                 return null;
             }
         }

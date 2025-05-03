@@ -1,4 +1,4 @@
-namespace NewCore.Services
+namespace NewCore.Services.Scenes
 {
     // TODO: Make a system to switch scenes
     public static class SceneIdentifier

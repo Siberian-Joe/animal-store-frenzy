@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
@@ -9,11 +10,11 @@ namespace NewCore.Bootstrap
     {
         protected CompositeDisposable Disposables { get; } = new();
 
-        public async UniTask InitializeAsync()
+        public async UniTask InitializeAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await InitializeInternalAsync();
+                await InitializeInternalAsync(cancellationToken);
             }
             catch (Exception exception)
             {
@@ -22,7 +23,7 @@ namespace NewCore.Bootstrap
             }
         }
 
-        protected abstract UniTask InitializeInternalAsync();
+        protected abstract UniTask InitializeInternalAsync(CancellationToken cancellationToken = default);
 
         public virtual void Dispose() => Disposables.Dispose();
     }

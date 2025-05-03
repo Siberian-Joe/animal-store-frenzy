@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Commands;
 using NewCore.Data;
@@ -5,6 +6,7 @@ using NewCore.Data.UI;
 using NewCore.Extensions;
 using NewCore.Services;
 using NewCore.Services.Lifecycle;
+using NewCore.Services.Scenes;
 using NewCore.Services.UI;
 using NewCore.ViewModels.UI;
 using NewCore.Views.UI;
@@ -33,25 +35,29 @@ namespace NewCore.Bootstrap
             _commandProcessor = commandProcessor;
         }
 
-        protected override async UniTask InitializeInternalAsync()
+        protected override async UniTask InitializeInternalAsync(CancellationToken cancellationToken = default)
         {
             var coreScreen = await _panelService
-                .LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>()
+                .LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>(cancellationToken)
                 .AddTo(Disposables);
 
             coreScreen.Open();
 
-            var gameState = await _gameDataService.LoadAsync<GameState, GameStateProxy>();
+            var result = await _gameDataService.LoadAsync<GameState, GameStateProxy>(cancellationToken);
+            if(!result.IsSuccess)
+                return;
+            
+            var gameStateProxy = result.Value;
 
-            _customerLifecycle.Initialize(gameState.Customers);
+            _customerLifecycle.Initialize(gameStateProxy.Customers);
             _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
 
             // TODO: This is only used to switch between scenes. Just a placeholder
             coreScreen.Context.Clicked
-                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu))
+                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.MainMenu, cancellationToken))
                 .AddTo(Disposables);
 
-            gameState.Customers.ObserveAdd().Subscribe(change =>
+            gameStateProxy.Customers.ObserveAdd().Subscribe(change =>
                 Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}"));
 
             await _customerLifecycle.TrySpawnCustomer("FirstCustomer",

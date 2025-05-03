@@ -8,8 +8,8 @@ namespace NewCore.Extensions
     public static class ProxyExtensions
     {
         public static TProxy ToProxy<TModel, TProxy>(this TModel model)
-            where TModel : Entity
-            where TProxy : EntityProxy<TModel>, new()
+            where TModel : IModel
+            where TProxy : Proxy<TModel>, new()
         {
             var proxy = new TProxy();
             proxy.Initialize(model);

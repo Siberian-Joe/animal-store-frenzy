@@ -1,22 +1,27 @@
-﻿using NewCore.Domain;
+﻿using System.Linq;
+using NewCore.Domain;
+using R3;
 
 namespace NewCore.Data
 {
-    public class GameStateProxy : IProxy
+    public class GameStateProxy : Proxy<GameState>
     {
-        public ProxyCollection<Shelf, ShelfProxy> Shelves { get; }
-        public ProxyCollection<Domain.Customer, CustomerProxy> Customers { get; }
+        public ProxyCollection<Shelf, ShelfProxy> Shelves { get; private set; }
+        public ProxyCollection<Customer, CustomerProxy> Customers { get; private set; }
 
-        public GameStateProxy(GameState gameState)
+        public override void Initialize(GameState model)
         {
-            Shelves = new(gameState.Shelves);
-            Customers = new(gameState.Customers);
+            Shelves = new ProxyCollection<Shelf, ShelfProxy>(model.Shelves).AddTo(Disposables);
+            Customers = new ProxyCollection<Customer, CustomerProxy>(model.Customers).AddTo(Disposables);
         }
 
-        public void Dispose()
+        public override GameState ToModel()
         {
-            Shelves?.Dispose();
-            Customers?.Dispose();
+            return new GameState
+            {
+                Shelves = Shelves.Select(proxy => proxy.ToModel()).ToList(),
+                Customers = Customers.Select(proxy => proxy.ToModel()).ToList()
+            };
         }
     }
 }

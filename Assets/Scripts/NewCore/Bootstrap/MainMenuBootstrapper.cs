@@ -1,7 +1,8 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data.UI;
 using NewCore.Extensions;
-using NewCore.Services;
+using NewCore.Services.Scenes;
 using NewCore.Services.UI;
 using NewCore.ViewModels.UI;
 using NewCore.Views.UI;
@@ -20,20 +21,20 @@ namespace NewCore.Bootstrap
             _sceneLoader = sceneLoader;
         }
 
-        protected override async UniTask InitializeInternalAsync()
+        protected override async UniTask InitializeInternalAsync(CancellationToken cancellationToken = default)
         {
             var mainMenu = await _panelService
-                .LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>()
+                .LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>(cancellationToken)
                 .AddTo(Disposables);
 
             mainMenu.Open();
 
             // TODO: This is only used to switch between scenes. Just a placeholder
             mainMenu.Context.Clicked
-                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core))
+                .Subscribe(async _ => await _sceneLoader.LoadSceneAsync(SceneIdentifier.Core, cancellationToken))
                 .AddTo(Disposables);
 
-            await UniTask.Delay(1000);
+            await UniTask.Delay(1000, cancellationToken: cancellationToken);
         }
     }
 }

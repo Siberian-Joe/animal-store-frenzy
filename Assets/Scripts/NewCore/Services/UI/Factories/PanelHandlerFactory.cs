@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
 using NewCore.Factories;
@@ -27,7 +28,8 @@ namespace NewCore.Services.UI.Factories
             _resolvers = resolvers;
         }
 
-        public async UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots)
+        public async UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots,
+            CancellationToken cancellationToken = default)
             where TPanel : PanelBinder<TViewModel>
             where TProxy : IProxy, new()
             where TViewModel : class, IViewModel
@@ -36,7 +38,7 @@ namespace NewCore.Services.UI.Factories
             if (_cache.TryGetHandler(panelType, out var existing))
                 return (IPanelHandler<TViewModel>)existing;
 
-            var view = await _resourceLoader.InstantiateResourceAsync<TPanel>();
+            var view = await _resourceLoader.InstantiateResourceAsync<TPanel>(cancellationToken: cancellationToken);
             var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(new TProxy());
 
             view.Bind(viewModel);

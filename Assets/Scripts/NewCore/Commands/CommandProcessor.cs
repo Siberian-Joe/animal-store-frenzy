@@ -24,10 +24,9 @@ namespace NewCore.Commands
                 var typedHandler = (ICommandHandler<TCommand>)handler;
                 var result = await typedHandler.HandleAsync(command);
 
+                // TODO: Move save logic to a separate handler or external service to adhere to SRP
                 if (result)
-                    await _gameDataService
-                        .TrySaveAsync<GameState,
-                            GameStateProxy>(); // TODO: Move save logic to a separate handler or external service to adhere to SRP.
+                    await _gameDataService.SaveAsync<GameState, GameStateProxy>();
 
                 return result;
             }

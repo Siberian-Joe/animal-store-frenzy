@@ -4,23 +4,32 @@ using R3;
 namespace NewCore.Data
 {
     [Serializable]
-    public class GameSettingsProxy : Proxy
+    public class GameSettingsProxy : Proxy<GameSettingsState>
     {
-        public ReactiveProperty<int> MusicVolume { get; }
-        public ReactiveProperty<int> SfxVolume { get; }
+        public ReactiveProperty<int> MusicVolume { get; private set; }
+        public ReactiveProperty<int> SfxVolume { get; private set; }
 
-        public GameSettingsProxy(GameSettingsState gameSettingsState)
+        public override void Initialize(GameSettingsState model)
         {
-            MusicVolume = new ReactiveProperty<int>(gameSettingsState.MusicVolume);
-            SfxVolume = new ReactiveProperty<int>(gameSettingsState.SfxVolume);
+            MusicVolume = new ReactiveProperty<int>(model.MusicVolume);
+            SfxVolume = new ReactiveProperty<int>(model.SfxVolume);
 
             MusicVolume
-                .Subscribe(value => gameSettingsState.MusicVolume = value)
+                .Subscribe(value => model.MusicVolume = value)
                 .AddTo(Disposables);
 
             SfxVolume
-                .Subscribe(value => gameSettingsState.SfxVolume = value)
+                .Subscribe(value => model.SfxVolume = value)
                 .AddTo(Disposables);
+        }
+
+        public override GameSettingsState ToModel()
+        {
+            return new GameSettingsState
+            {
+                MusicVolume = MusicVolume.Value,
+                SfxVolume = SfxVolume.Value
+            };
         }
 
         public override void Dispose()
