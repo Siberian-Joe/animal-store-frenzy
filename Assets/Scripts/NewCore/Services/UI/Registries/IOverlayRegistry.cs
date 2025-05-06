@@ -6,5 +6,6 @@ namespace NewCore.Services.UI.Registries
     public interface IOverlayRegistry : IPanelRegistry
     {
         IReadOnlyCollection<IPanelHandler> ActiveOverlays { get; }
+        IPanelHandler TopOverlay { get; }
     }
 }
