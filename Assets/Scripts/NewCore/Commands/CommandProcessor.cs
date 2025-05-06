@@ -17,16 +17,16 @@ namespace NewCore.Commands
         public void RegisterHandler<TCommand>(ICommandHandler<TCommand> handler) where TCommand : ICommand =>
             _handlers[typeof(TCommand)] = handler;
 
-        public async UniTask<bool> TryProcessAsync<TCommand>(TCommand command) where TCommand : ICommand
+        public bool TryProcess<TCommand>(TCommand command) where TCommand : ICommand
         {
             if (_handlers.TryGetValue(typeof(TCommand), out var handler))
             {
                 var typedHandler = (ICommandHandler<TCommand>)handler;
-                var result = await typedHandler.HandleAsync(command);
+                var result = typedHandler.Handle(command);
 
                 // TODO: Move save logic to a separate handler or external service to adhere to SRP
                 if (result)
-                    await _gameDataService.SaveAsync<GameState, GameStateProxy>();
+                    _gameDataService.SaveAsync<GameState, GameStateProxy>().Forget();
 
                 return result;
             }

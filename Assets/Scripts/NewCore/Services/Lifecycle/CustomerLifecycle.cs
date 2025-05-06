@@ -15,7 +15,7 @@ namespace NewCore.Services.Lifecycle
         public CustomerLifecycle(IViewModelFactory viewModelFactory, ICommandProcessor commandProcessor) :
             base(viewModelFactory) => _commandProcessor = commandProcessor;
 
-        public UniTask<bool> TrySpawnCustomer(string customerType, Vector3Int position) =>
-            _commandProcessor.TryProcessAsync(new SpawnCustomerCommand(customerType, position));
+        public bool TrySpawnCustomer(string customerType, Vector3Int position) =>
+            _commandProcessor.TryProcess(new SpawnCustomerCommand(customerType, position));
     }
 }

@@ -20,6 +20,20 @@ namespace NewCore.Services
         public GameDataService(IStorage storage) =>
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
 
+        public bool TryResolve<TModel, TProxy>(out TProxy proxy)
+            where TModel : IModel
+            where TProxy : IProxy
+        {
+            if (_proxyCache.TryGetValue(typeof(TModel), out var value) && value is TProxy cast)
+            {
+                proxy = cast;
+                return true;
+            }
+
+            proxy = default;
+            return false;
+        }
+
         public void Register<TModel, TProxy>(string key, Func<TModel> createDefault, Func<TModel, TProxy> createProxy)
             where TModel : IModel
             where TProxy : IProxy =>

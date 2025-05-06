@@ -44,9 +44,9 @@ namespace NewCore.Bootstrap
             coreScreen.Open();
 
             var result = await _gameDataService.LoadAsync<GameState, GameStateProxy>(cancellationToken);
-            if(!result.IsSuccess)
+            if (!result.IsSuccess)
                 return;
-            
+
             var gameStateProxy = result.Value;
 
             _customerLifecycle.Initialize(gameStateProxy.Customers);
@@ -60,13 +60,13 @@ namespace NewCore.Bootstrap
             gameStateProxy.Customers.ObserveAdd().Subscribe(change =>
                 Debug.Log($"Customer {change.Value.Id} spawned at {change.Value.Position}"));
 
-            await _customerLifecycle.TrySpawnCustomer("FirstCustomer",
+            _customerLifecycle.TrySpawnCustomer("FirstCustomer",
                 new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-            await _customerLifecycle.TrySpawnCustomer("SecondCustomer",
+            _customerLifecycle.TrySpawnCustomer("SecondCustomer",
                 new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-            await _customerLifecycle.TrySpawnCustomer("ThirdCustomer",
+            _customerLifecycle.TrySpawnCustomer("ThirdCustomer",
                 new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
-            await _customerLifecycle.TrySpawnCustomer("FourthCustomer",
+            _customerLifecycle.TrySpawnCustomer("FourthCustomer",
                 new Vector3Int(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
         }
     }

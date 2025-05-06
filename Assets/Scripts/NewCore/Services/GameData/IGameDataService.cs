@@ -7,7 +7,7 @@ using R3;
 
 namespace NewCore.Services
 {
-    public interface IGameDataService
+    public interface IGameDataService : IGameDataResolver
     {
         void Register<TModel, TProxy>(string key, Func<TModel> createDefault, Func<TModel, TProxy> createProxy)
             where TModel : IModel
