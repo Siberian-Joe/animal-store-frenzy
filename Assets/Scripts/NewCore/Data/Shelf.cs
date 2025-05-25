@@ -3,13 +3,13 @@ using R3;
 
 namespace NewCore.Data
 {
-    public class ShelfProxy : EntityProxy<Shelf>
+    public class Shelf : Entity<ShelfData>
     {
         public string Name { get; private set; }
         public ReactiveProperty<int> Capacity { get; private set; }
         public ReactiveProperty<int> Level { get; private set; }
 
-        public override void Initialize(Shelf model)
+        public override void Initialize(ShelfData model)
         {
             base.Initialize(model);
 
@@ -17,13 +17,17 @@ namespace NewCore.Data
             Capacity = new ReactiveProperty<int>(model.Capacity);
             Level = new ReactiveProperty<int>(model.Level);
 
-            Capacity.Skip(1).Subscribe(capacity => model.Capacity = capacity);
-            Level.Skip(1).Subscribe(level => model.Level = level);
+            Capacity
+                .Skip(1)
+                .Subscribe(capacity => model.Capacity = capacity);
+            Level
+                .Skip(1)
+                .Subscribe(level => model.Level = level);
         }
 
-        public override Shelf ToModel()
+        public override ShelfData ToModel()
         {
-            return new Shelf
+            return new ShelfData
             {
                 Id = Id,
                 Name = Name,

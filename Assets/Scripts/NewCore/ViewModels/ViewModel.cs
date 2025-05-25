@@ -1,5 +1,4 @@
 ﻿using NewCore.Data;
-using NewCore.Domain;
 using R3;
 
 namespace NewCore.ViewModels
@@ -11,7 +10,8 @@ namespace NewCore.ViewModels
         public virtual void Dispose() => Disposables?.Dispose();
     }
 
-    public abstract class ViewModel<TModel, TProxy> : ViewModel where TProxy : Proxy<TModel> where TModel : IModel
+    public abstract class ViewModel<TProxy> : ViewModel
+        where TProxy : IProxy
     {
         public TProxy Proxy { get; }
 

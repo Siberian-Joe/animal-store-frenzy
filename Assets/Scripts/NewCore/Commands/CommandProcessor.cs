@@ -26,7 +26,7 @@ namespace NewCore.Commands
 
                 // TODO: Move save logic to a separate handler or external service to adhere to SRP
                 if (result)
-                    _gameDataService.SaveAsync<GameState, GameStateProxy>().Forget();
+                    _gameDataService.SaveAsync<GameStateData, GameState>().Forget();
 
                 return result;
             }

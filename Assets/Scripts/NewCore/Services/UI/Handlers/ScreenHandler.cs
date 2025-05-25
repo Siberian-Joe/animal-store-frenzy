@@ -6,7 +6,7 @@ using UnityEngine;
 namespace NewCore.Services.UI.Handlers
 {
     public class ScreenHandler<TPanel, TViewModel> : RegistryPanelHandler<TPanel, TViewModel>
-        where TPanel : PanelBinder<TViewModel>, IScreen
+        where TPanel : PanelView<TViewModel>, IScreen
         where TViewModel : IViewModel
     {
         protected override Transform Container => UIRoots.ScreensContainer;

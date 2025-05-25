@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ee3a27e5634f339c64b49e7f1b308f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _customerBinderPrefab: {fileID: 8178178035059631277, guid: df0818af852db0e409ab7b931510bdb1, type: 3}
+  _customerViewPrefab: {fileID: 8178178035059631277, guid: df0818af852db0e409ab7b931510bdb1, type: 3}
 --- !u!4 &525703132
 Transform:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a09366f4c7d34f0fab7e661d96b50d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _worldBinder: {fileID: 525703131}
+  _worldView: {fileID: 525703131}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

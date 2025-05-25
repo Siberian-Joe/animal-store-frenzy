@@ -2,7 +2,7 @@ using NewCore.ViewModels;
 
 namespace NewCore.Views.World
 {
-    public class CustomerBinder : Binder<CustomerViewModel>
+    public class CustomerView : View<CustomerViewModel>
     {
         protected override void OnBind()
         {

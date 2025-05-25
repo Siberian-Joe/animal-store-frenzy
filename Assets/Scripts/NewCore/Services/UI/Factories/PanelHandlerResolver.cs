@@ -24,7 +24,7 @@ namespace NewCore.Services.UI.Factories
         public bool CanResolve(Type panelType) => _markerInterface.IsAssignableFrom(panelType);
 
         public virtual IPanelHandler<TViewModel> Resolve<TPanel, TViewModel>(TPanel panel, TViewModel viewModel,
-            IUIContainerRoot uiRoots) where TPanel : PanelBinder<TViewModel> where TViewModel : class, IViewModel
+            IUIContainerRoot uiRoots) where TPanel : PanelView<TViewModel> where TViewModel : class, IViewModel
         {
             var handlerType = _handlerGenericType.MakeGenericType(typeof(TPanel), typeof(TViewModel));
 

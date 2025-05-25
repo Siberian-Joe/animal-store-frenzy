@@ -124,10 +124,10 @@ namespace NewCore.Services
         public void Initialize()
         {
             Register(
-                nameof(GameState),
-                () => new GameState
+                nameof(GameStateData),
+                () => new GameStateData
                 {
-                    Customers = new List<Customer>
+                    Customers = new List<CustomerData>
                     {
                         new()
                         {
@@ -145,7 +145,7 @@ namespace NewCore.Services
                 },
                 state =>
                 {
-                    var proxy = new GameStateProxy();
+                    var proxy = new GameState();
                     proxy.Initialize(state);
                     return proxy;
                 });

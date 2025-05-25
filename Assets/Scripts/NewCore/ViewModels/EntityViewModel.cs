@@ -1,16 +1,12 @@
 ﻿using NewCore.Data;
-using NewCore.Domain;
 
 namespace NewCore.ViewModels
 {
-    public abstract class EntityViewModel<TModel, TProxy> : ViewModel<TModel, TProxy>
-        where TModel : Entity
-        where TProxy : EntityProxy<TModel>
+    public abstract class EntityViewModel<TProxy> : ViewModel<TProxy>
+        where TProxy : IEntityProxy
     {
         public string Id => Proxy.Id;
 
-        protected EntityViewModel(TProxy proxy) : base(proxy)
-        {
-        }
+        protected EntityViewModel(TProxy proxy) : base(proxy) { }
     }
 }

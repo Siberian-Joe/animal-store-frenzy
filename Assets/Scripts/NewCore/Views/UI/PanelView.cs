@@ -3,7 +3,7 @@ using NewCore.ViewModels;
 
 namespace NewCore.Views.UI
 {
-    public abstract class PanelBinder<TViewModel> : Binder<TViewModel>, IPanel
+    public abstract class PanelView<TViewModel> : View<TViewModel>, IPanel
         where TViewModel : IViewModel
     {
         public virtual void Open() => gameObject.SetActive(true);

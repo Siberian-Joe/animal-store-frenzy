@@ -1,11 +1,13 @@
-﻿using NewCore.ViewModels.UI;
+﻿using NewCore.Attributes;
+using NewCore.ViewModels.UI;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace NewCore.Views.UI
 {
-    public class CoreScreen : ScreenBinder<CoreScreenViewModel>
+    [ResourceKey("CoreScreen")]
+    public class CoreScreenView : ScreenView<CoreScreenViewModel>
     {
         [SerializeField] private Button _button;
 

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Reflection;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using NewCore.Attributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,6 +12,8 @@ namespace NewCore.Services.ResourceLoaders
 {
     public class ResourceLoader : IResourceLoader
     {
+        private readonly ConcurrentDictionary<Type, string> _keyCache = new();
+
         public async UniTask<TResource> LoadResourceAsync<TResource>(CancellationToken cancellationToken)
             where TResource : class =>
             await ExecuteAsync<TResource>(Addressables.LoadAssetAsync<GameObject>, cancellationToken);
@@ -19,12 +24,17 @@ namespace NewCore.Services.ResourceLoaders
             await ExecuteAsync<TResource>(key => Addressables.InstantiateAsync(key, parent, false, false),
                 cancellationToken);
 
-        private static async UniTask<TResource> ExecuteAsync<TResource>(
+        private async UniTask<TResource> ExecuteAsync<TResource>(
             Func<string, AsyncOperationHandle<GameObject>> operation,
             CancellationToken cancellationToken = default)
             where TResource : class
         {
-            var key = typeof(TResource).Name;
+            var key = _keyCache.GetOrAdd(typeof(TResource), type =>
+            {
+                var attribute = type.GetCustomAttribute<ResourceKeyAttribute>(false);
+                return attribute?.Key ?? type.Name;
+            });
+
             try
             {
                 var handle = operation(key);

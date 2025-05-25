@@ -17,13 +17,13 @@ namespace NewCore.Extensions
         }
 
         public static List<TProxy> ToProxies<TModel, TProxy>(this IEnumerable<TModel> models)
-            where TModel : Entity
-            where TProxy : EntityProxy<TModel>, new() =>
+            where TModel : EntityData
+            where TProxy : Entity<TModel>, new() =>
             models.Select(ToProxy<TModel, TProxy>).ToList();
 
         public static List<TModel> ToModels<TModel, TProxy>(this IEnumerable<TProxy> proxies)
-            where TModel : Entity
-            where TProxy : EntityProxy<TModel> =>
+            where TModel : EntityData
+            where TProxy : Entity<TModel> =>
             proxies.Select(proxy => proxy.ToModel()).ToList();
     }
 }

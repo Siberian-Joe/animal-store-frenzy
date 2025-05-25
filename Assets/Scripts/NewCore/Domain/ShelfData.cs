@@ -3,7 +3,7 @@
 namespace NewCore.Domain
 {
     [Serializable]
-    public class Shelf : Entity
+    public class ShelfData : EntityData
     {
         public string Name;
         public int Capacity;

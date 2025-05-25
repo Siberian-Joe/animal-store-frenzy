@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NewCore.Data;
-using NewCore.Domain;
 using NewCore.Factories;
 using NewCore.ViewModels;
 using ObservableCollections;
@@ -9,34 +8,33 @@ using R3;
 
 namespace NewCore.Services.Lifecycle
 {
-    public abstract class EntityLifecycle<TModel, TProxy, TViewModel> : IDisposable
-        where TModel : Entity
-        where TViewModel : EntityViewModel<TModel, TProxy>
-        where TProxy : EntityProxy<TModel>, new()
+    public abstract class EntityLifecycle<TProxy, TViewModel> : IDisposable
+        where TProxy : IEntityProxy, new()
+        where TViewModel : EntityViewModel<TProxy>
     {
         public IObservableCollection<TViewModel> Entities => _viewModels;
 
         protected readonly CompositeDisposable Disposables = new();
-
+        
         private readonly ObservableList<TViewModel> _viewModels = new();
         private readonly Dictionary<string, TViewModel> _map = new();
         private readonly IViewModelFactory _viewModelFactory;
 
         protected EntityLifecycle(IViewModelFactory viewModelFactory) => _viewModelFactory = viewModelFactory;
 
-        public virtual void Initialize(ProxyCollection<TModel, TProxy> proxies)
+        public virtual void Initialize(IReadOnlyObservableList<TProxy> proxies)
         {
             foreach (var proxy in proxies)
                 Add(proxy);
 
             proxies
                 .ObserveAdd()
-                .Subscribe(proxy => Add(proxy.Value))
+                .Subscribe(addEvent => Add(addEvent.Value))
                 .AddTo(Disposables);
 
             proxies
                 .ObserveRemove()
-                .Subscribe(proxy => Remove(proxy.Value))
+                .Subscribe(removeEvent => Remove(removeEvent.Value))
                 .AddTo(Disposables);
         }
 

@@ -11,7 +11,7 @@ namespace NewCore.Services.UI.Factories
     {
         UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots,
             CancellationToken cancellationToken = default)
-            where TPanel : PanelBinder<TViewModel>
+            where TPanel : PanelView<TViewModel>
             where TProxy : IProxy, new()
             where TViewModel : class, IViewModel;
     }

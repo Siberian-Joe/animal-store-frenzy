@@ -2,7 +2,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Commands;
 using NewCore.Data;
-using NewCore.Data.UI;
 using NewCore.Extensions;
 using NewCore.Services;
 using NewCore.Services.Lifecycle;
@@ -13,6 +12,7 @@ using NewCore.Views.UI;
 using ObservableCollections;
 using R3;
 using UnityEngine;
+using CoreScreen = NewCore.Data.UI.CoreScreen;
 using Random = UnityEngine.Random;
 
 namespace NewCore.Bootstrap
@@ -38,12 +38,12 @@ namespace NewCore.Bootstrap
         protected override async UniTask InitializeInternalAsync(CancellationToken cancellationToken = default)
         {
             var coreScreen = await _panelService
-                .LoadPanelAsync<CoreScreen, CoreScreenProxy, CoreScreenViewModel>(cancellationToken)
+                .LoadPanelAsync<CoreScreenView, CoreScreen, CoreScreenViewModel>(cancellationToken)
                 .AddTo(Disposables);
 
             coreScreen.Open();
 
-            var result = await _gameDataService.LoadAsync<GameState, GameStateProxy>(cancellationToken);
+            var result = await _gameDataService.LoadAsync<GameStateData, GameState>(cancellationToken);
             if (!result.IsSuccess)
                 return;
 

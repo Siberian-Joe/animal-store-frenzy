@@ -1,12 +1,11 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using NewCore.Data.UI;
 using NewCore.Extensions;
 using NewCore.Services.Scenes;
 using NewCore.Services.UI;
 using NewCore.ViewModels.UI;
-using NewCore.Views.UI;
 using R3;
+using MainMenuScreen = NewCore.Data.UI.MainMenuScreen;
 
 namespace NewCore.Bootstrap
 {
@@ -24,7 +23,7 @@ namespace NewCore.Bootstrap
         protected override async UniTask InitializeInternalAsync(CancellationToken cancellationToken = default)
         {
             var mainMenu = await _panelService
-                .LoadPanelAsync<MainMenuScreen, MainMenuScreenProxy, MainMenuScreenViewModel>(cancellationToken)
+                .LoadPanelAsync<Views.UI.MainMenuScreenView, MainMenuScreen, MainMenuScreenViewModel>(cancellationToken)
                 .AddTo(Disposables);
 
             mainMenu.Open();

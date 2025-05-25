@@ -1,14 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
-using NewCore.Commands;
+﻿using NewCore.Commands;
 using NewCore.Data;
-using NewCore.Domain;
 using NewCore.Factories;
 using NewCore.ViewModels;
 using UnityEngine;
 
 namespace NewCore.Services.Lifecycle
 {
-    public class CustomerLifecycle : EntityLifecycle<Customer, CustomerProxy, CustomerViewModel>, ICustomerLifecycle
+    public class CustomerLifecycle : EntityLifecycle<Customer, CustomerViewModel>, ICustomerLifecycle
     {
         private readonly ICommandProcessor _commandProcessor;
 

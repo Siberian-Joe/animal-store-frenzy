@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace NewCore.Views.World
 {
-    public class WorldBinder : Binder<WorldViewModel>
+    public class WorldView : View<WorldViewModel>
     {
-        [SerializeField] private CustomerBinder _customerBinderPrefab;
+        [SerializeField] private CustomerView _customerViewPrefab;
 
-        private readonly Dictionary<string, CustomerBinder> _customers = new();
+        private readonly Dictionary<string, CustomerView> _customers = new();
 
         protected override void OnBind()
         {
@@ -30,7 +30,7 @@ namespace NewCore.Views.World
 
         private void CreateCustomer(CustomerViewModel viewModel)
         {
-            var customer = Instantiate(_customerBinderPrefab, transform);
+            var customer = Instantiate(_customerViewPrefab, transform);
 
             customer.Bind(viewModel);
             _customers.Add(viewModel.Id, customer);
@@ -40,7 +40,8 @@ namespace NewCore.Views.World
         {
             if (_customers.TryGetValue(viewModel.Id, out var customer))
             {
-                Destroy(customer.gameObject); // TODO: Need to use pooling
+                // TODO: Need to use pooling
+                Destroy(customer.gameObject);
                 _customers.Remove(viewModel.Id);
             }
         }
@@ -50,7 +51,11 @@ namespace NewCore.Views.World
             base.Dispose();
 
             foreach (var customer in _customers.Values)
+            {
                 Destroy(customer.gameObject);
+            }
+
+            _customers.Clear();
         }
     }
 }

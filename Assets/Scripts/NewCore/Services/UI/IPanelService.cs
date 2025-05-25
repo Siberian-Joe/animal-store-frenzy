@@ -11,7 +11,7 @@ namespace NewCore.Services.UI
     {
         UniTask<IPanelHandler<TViewModel>> LoadPanelAsync<TPanel, TProxy, TViewModel>(
             CancellationToken cancellationToken = default)
-            where TPanel : PanelBinder<TViewModel>
+            where TPanel : PanelView<TViewModel>
             where TProxy : IProxy, new()
             where TViewModel : class, IViewModel;
     }

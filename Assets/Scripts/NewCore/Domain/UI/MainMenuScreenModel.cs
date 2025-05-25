@@ -1,6 +1,6 @@
 ﻿namespace NewCore.Domain.UI
 {
-    public class MainMenuScreenModel : Entity
+    public class MainMenuScreenModel : EntityData
     {
     }
 }

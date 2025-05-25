@@ -1,6 +1,7 @@
 ﻿using System;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Extensions;
 using NewCore.Services;
 
 namespace NewCore.Commands
@@ -13,10 +14,10 @@ namespace NewCore.Commands
 
         public bool Handle(SpawnCustomerCommand command)
         {
-            if (!_gameDataResolver.TryResolve<GameState, GameStateProxy>(out var gameStateProxy))
+            if (!_gameDataResolver.TryResolve<GameStateData, GameState>(out var gameStateProxy))
                 return false;
 
-            gameStateProxy.Customers.AddModel(new Customer
+            gameStateProxy.Customers.AddModel(new CustomerData
             {
                 Id = Guid.NewGuid().ToString(),
                 Type = command.Type,

@@ -3,7 +3,7 @@ using System;
 namespace NewCore.Domain
 {
     [Serializable]
-    public class Entity : IModel
+    public class EntityData : IModel
     {
         public string Id;
     }

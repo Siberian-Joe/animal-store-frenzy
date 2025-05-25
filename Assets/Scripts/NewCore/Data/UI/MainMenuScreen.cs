@@ -2,7 +2,7 @@
 
 namespace NewCore.Data.UI
 {
-    public class MainMenuScreenProxy : EntityProxy<MainMenuScreenModel>
+    public class MainMenuScreen : Entity<MainMenuScreenModel>
     {
         public override MainMenuScreenModel ToModel() => new();
     }

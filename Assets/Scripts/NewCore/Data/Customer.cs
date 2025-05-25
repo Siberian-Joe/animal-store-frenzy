@@ -6,12 +6,12 @@ using UnityEngine;
 namespace NewCore.Data
 {
     [Serializable]
-    public class CustomerProxy : EntityProxy<Customer>
+    public class Customer : Entity<CustomerData>
     {
         public string Type;
         public ReactiveProperty<Vector3Int> Position { get; private set; }
 
-        public override void Initialize(Customer model)
+        public override void Initialize(CustomerData model)
         {
             base.Initialize(model);
 
@@ -21,9 +21,9 @@ namespace NewCore.Data
             Position.Skip(1).Subscribe(position => model.Position = position);
         }
 
-        public override Customer ToModel()
+        public override CustomerData ToModel()
         {
-            return new Customer
+            return new CustomerData
             {
                 Id = Id,
                 Type = Type,

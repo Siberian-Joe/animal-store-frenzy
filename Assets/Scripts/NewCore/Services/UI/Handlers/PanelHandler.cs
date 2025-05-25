@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 namespace NewCore.Services.UI.Handlers
 {
     public abstract class PanelHandler<TPanel, TViewModel> : IPanelHandler<TViewModel>
-        where TPanel : PanelBinder<TViewModel>
+        where TPanel : PanelView<TViewModel>
         where TViewModel : IViewModel
     {
         public TViewModel Context { get; }

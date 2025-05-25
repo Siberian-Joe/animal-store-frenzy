@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NewCore.Views
 {
-    public abstract class Binder<TViewModel> : MonoBehaviour, IDisposable where TViewModel : IViewModel
+    public abstract class View<TViewModel> : MonoBehaviour, IDisposable where TViewModel : IViewModel
     {
         protected TViewModel ViewModel { get; private set; }
         protected readonly CompositeDisposable Disposables = new();

@@ -1,11 +1,10 @@
 ﻿using NewCore.Data.UI;
-using NewCore.Domain.UI;
 
 namespace NewCore.ViewModels.UI
 {
-    public class LoadingSystemOverlayViewModel : ViewModel<LoadingSystemOverlayModel, LoadingSystemOverlayProxy>
+    public class LoadingSystemOverlayViewModel : ViewModel<LoadingSystemOverlay>
     {
-        public LoadingSystemOverlayViewModel(LoadingSystemOverlayProxy proxy) : base(proxy)
+        public LoadingSystemOverlayViewModel(LoadingSystemOverlay proxy) : base(proxy)
         {
         }
     }

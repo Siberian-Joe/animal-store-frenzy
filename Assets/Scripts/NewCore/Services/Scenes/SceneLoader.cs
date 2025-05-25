@@ -1,13 +1,13 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Bootstrap;
-using NewCore.Data.UI;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels.UI;
 using NewCore.Views.UI;
 using UnityEngine.SceneManagement;
 using Zenject;
+using LoadingSystemOverlay = NewCore.Data.UI.LoadingSystemOverlay;
 
 namespace NewCore.Services.Scenes
 {
@@ -28,7 +28,7 @@ namespace NewCore.Services.Scenes
         {
             _loadingHandler =
                 await _panelService
-                    .LoadPanelAsync<LoadingSystemOverlay, LoadingSystemOverlayProxy, LoadingSystemOverlayViewModel>(
+                    .LoadPanelAsync<LoadingSystemOverlayView, LoadingSystemOverlay, LoadingSystemOverlayViewModel>(
                         cancellationToken);
 
             _loadingHandler.Open();

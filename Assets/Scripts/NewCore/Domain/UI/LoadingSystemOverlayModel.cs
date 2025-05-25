@@ -1,6 +1,6 @@
 ﻿namespace NewCore.Domain.UI
 {
-    public class LoadingSystemOverlayModel : Entity
+    public class LoadingSystemOverlayModel : EntityData
     {
     }
 }

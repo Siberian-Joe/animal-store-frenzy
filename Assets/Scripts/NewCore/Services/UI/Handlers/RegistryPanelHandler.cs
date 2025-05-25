@@ -5,7 +5,7 @@ using NewCore.Views.UI;
 namespace NewCore.Services.UI.Handlers
 {
     public abstract class RegistryPanelHandler<TPanel, TViewModel> : PanelHandler<TPanel, TViewModel>
-        where TPanel : PanelBinder<TViewModel>
+        where TPanel : PanelView<TViewModel>
         where TViewModel : IViewModel
     {
         private readonly IPanelRegistry _registry;

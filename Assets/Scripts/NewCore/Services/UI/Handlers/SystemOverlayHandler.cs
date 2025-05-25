@@ -6,7 +6,7 @@ using UnityEngine;
 namespace NewCore.Services.UI.Handlers
 {
     public class SystemOverlayHandler<TPanel, TViewModel> : RegistryPanelHandler<TPanel, TViewModel>
-        where TPanel : PanelBinder<TViewModel>, ISystemOverlay
+        where TPanel : PanelView<TViewModel>, ISystemOverlay
         where TViewModel : IViewModel
     {
         protected override Transform Container => UIRoots.SystemOverlayContainer;

@@ -3,9 +3,9 @@ using NewCore.Domain;
 
 namespace NewCore.Extensions
 {
-    public static class EntityProxyExtensions
+    public static class EntityExtensions
     {
-        public static bool IsEquivalentTo<TModel>(this EntityProxy<TModel> proxy, TModel model) where TModel : Entity
+        public static bool IsEquivalentTo<TModel>(this Entity<TModel> proxy, TModel model) where TModel : EntityData
         {
             if (proxy == null || model == null)
                 return false;

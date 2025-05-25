@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace NewCore.ViewModels
 {
-    public class CustomerViewModel : EntityViewModel<Domain.Customer, CustomerProxy>
+    public class CustomerViewModel : EntityViewModel<Customer>
     {
         public ReadOnlyReactiveProperty<Vector3Int> Position => Proxy.Position;
 
-        public CustomerViewModel(CustomerProxy proxy) : base(proxy)
+        public CustomerViewModel(Customer proxy) : base(proxy)
         {
         }
 

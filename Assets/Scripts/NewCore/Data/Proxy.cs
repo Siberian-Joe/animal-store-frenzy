@@ -12,7 +12,10 @@ namespace NewCore.Data
 
     public abstract class Proxy<TModel> : Proxy where TModel : IModel
     {
-        public abstract void Initialize(TModel model);
         public abstract TModel ToModel();
+
+        public virtual void Initialize(TModel model)
+        {
+        }
     }
 }
