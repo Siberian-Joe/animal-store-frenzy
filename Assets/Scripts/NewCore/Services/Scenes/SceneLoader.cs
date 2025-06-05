@@ -1,61 +1,85 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Bootstrap;
+using NewCore.Data.UI;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels.UI;
 using NewCore.Views.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using Zenject;
-using LoadingSystemOverlay = NewCore.Data.UI.LoadingSystemOverlay;
+using Object = UnityEngine.Object;
 
 namespace NewCore.Services.Scenes
 {
-    public class SceneLoader : ISceneLoader
+    public sealed class SceneLoader : ISceneLoader, IDisposable
     {
-        private readonly ZenjectSceneLoader _zenjectLoader;
         private readonly IPanelService _panelService;
-
+        private AsyncOperationHandle<SceneInstance>? _activeSceneHandle;
         private IPanelHandler _loadingHandler;
 
-        public SceneLoader(ZenjectSceneLoader zenjectLoader, IPanelService panelService)
-        {
-            _zenjectLoader = zenjectLoader;
-            _panelService = panelService;
-        }
+        public SceneLoader(IPanelService panelService) => _panelService = panelService;
 
-        public async UniTask LoadSceneAsync(string sceneName, CancellationToken cancellationToken = default)
+        public async UniTask LoadSceneAsync(string addressableKey, CancellationToken cancellationToken = default)
         {
-            _loadingHandler =
-                await _panelService
-                    .LoadPanelAsync<LoadingSystemOverlayView, LoadingSystemOverlay, LoadingSystemOverlayViewModel>(
-                        cancellationToken);
-
+            _loadingHandler = await LoadLoadingPanelAsync(cancellationToken);
             _loadingHandler.Open();
 
-            DiContainer container = null;
+            try
+            {
+                var newSceneHandle = Addressables.LoadSceneAsync(addressableKey);
+                await newSceneHandle.ToUniTask(cancellationToken: cancellationToken);
 
-            await _zenjectLoader
-                .LoadSceneAsync(
-                    sceneName,
-                    LoadSceneMode.Single,
-                    diContainer => container = diContainer)
-                .WithCancellation(cancellationToken);
+                ReleaseActiveScene();
+                _activeSceneHandle = newSceneHandle;
 
+                var sceneContext = Object.FindAnyObjectByType<SceneContext>();
+
+                if (sceneContext == null)
+                {
+                    Debug.LogError($"SceneContext not found in loaded scene: {addressableKey}");
+                    return;
+                }
+
+                await InitializeSceneBootstrapper(sceneContext.Container, cancellationToken);
+            }
+            finally
+            {
+                _loadingHandler.Close();
+            }
+        }
+
+        private async UniTask<IPanelHandler> LoadLoadingPanelAsync(CancellationToken cancellationToken)
+        {
+            return await _panelService
+                .LoadPanelAsync<
+                    LoadingSystemOverlayView,
+                    LoadingSystemOverlay,
+                    LoadingSystemOverlayViewModel>(cancellationToken);
+        }
+
+        private static async UniTask InitializeSceneBootstrapper(DiContainer container,
+            CancellationToken cancellationToken)
+        {
             var bootstrapper = container.Resolve<IAsyncSceneBootstrapper>();
             await bootstrapper.InitializeAsync(cancellationToken);
-
-            _loadingHandler.Close();
         }
 
-        public async UniTask UnloadSceneAsync(string sceneName, CancellationToken cancellationToken = default)
+        private void ReleaseActiveScene()
         {
-            _loadingHandler.Open();
+            if (!_activeSceneHandle.HasValue)
+                return;
 
-            var unloadOperation = SceneManager.UnloadSceneAsync(sceneName);
-            await unloadOperation.ToUniTask(cancellationToken: cancellationToken);
+            if (_activeSceneHandle.Value.IsValid())
+                Addressables.Release(_activeSceneHandle.Value);
 
-            _loadingHandler.Close();
+            _activeSceneHandle = null;
         }
+
+        public void Dispose() => ReleaseActiveScene();
     }
 }
