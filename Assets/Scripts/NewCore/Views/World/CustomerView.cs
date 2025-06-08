@@ -6,9 +6,8 @@ namespace NewCore.Views.World
     {
         protected override void OnBind()
         {
-            transform.position =
-                ViewModel.Position
-                    .CurrentValue; // TODO: Need to make dynamic assignment, now this is just a placeholder
+            // TODO: Need to make dynamic assignment, now this is just a placeholder
+            transform.position = ViewModel.Position.CurrentValue;
         }
     }
 }

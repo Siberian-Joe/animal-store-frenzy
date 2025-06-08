@@ -10,7 +10,8 @@ namespace NewCore.Data
         public virtual void Dispose() => Disposables.Dispose();
     }
 
-    public abstract class Proxy<TModel> : Proxy where TModel : IModel
+    public abstract class Proxy<TModel> : Proxy, IProxy<TModel>
+        where TModel : IModel
     {
         public abstract TModel ToModel();
 
