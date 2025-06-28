@@ -8,7 +8,7 @@ using R3;
 
 namespace NewCore.Extensions
 {
-    public static class ObservableListProxyExtensions
+    public static class ObservableListExtensions
     {
         public static void InitializeFromModels<TModel, TProxy>(
             this ObservableList<TProxy> list,
@@ -71,5 +71,13 @@ namespace NewCore.Extensions
             where TModel : EntityData
             where TProxy : Entity<TModel> =>
             proxies.Select(proxy => proxy.ToModel()).ToList();
+
+        public static void ClearAndDispose<T>(this ICollection<T> items) where T : IDisposable
+        {
+            foreach (var item in items)
+                item.Dispose();
+
+            items.Clear();
+        }
     }
 }

@@ -7,6 +7,6 @@ namespace NewCore.Domain
     public class CustomerData : EntityData
     {
         public string Type;
-        public Vector3Int Position;
+        public Vector2 Position;
     }
 }

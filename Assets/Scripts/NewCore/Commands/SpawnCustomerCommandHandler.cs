@@ -19,7 +19,7 @@ namespace NewCore.Commands
 
             gameStateProxy.Customers.AddModel(new CustomerData
             {
-                Id = Guid.NewGuid().ToString(),
+                ID = Guid.NewGuid().ToString(),
                 Type = command.Type,
                 Position = command.Position
             });

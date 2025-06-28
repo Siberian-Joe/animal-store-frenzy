@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 0
@@ -269,7 +265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86721882}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -277,7 +273,7 @@ Transform:
   - {fileID: 416561071}
   - {fileID: 660540668}
   - {fileID: 462868923}
-  m_Father: {fileID: 1940504418}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &142501410 stripped
 GameObject:
@@ -414,6 +410,9 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1373,6 +1372,7 @@ TilemapCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462868922}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1396,7 +1396,8 @@ TilemapCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
@@ -1409,6 +1410,7 @@ CompositeCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462868922}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1432,7 +1434,8 @@ CompositeCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 0
   m_GenerationType: 0
@@ -1446,7 +1449,7 @@ CompositeCollider2D:
   m_CompositeGameObject: {fileID: 462868922}
 --- !u!50 &462868926
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1457,8 +1460,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1488,6 +1491,9 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1804,6 +1810,7 @@ TilemapCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660540667}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1827,7 +1834,8 @@ TilemapCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_CompositeOperation: 1
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
@@ -1849,6 +1857,9 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2097,6 +2108,7 @@ CompositeCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660540667}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -2120,7 +2132,8 @@ CompositeCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 0
   m_GenerationType: 0
@@ -2129,62 +2142,62 @@ CompositeCollider2D:
   - m_Collider: {fileID: 660540669}
     m_ColliderPaths:
     - - X: 50000000
-        Y: 60000016
+        Y: 60000000
       - X: -50000000
-        Y: 60000016
+        Y: 60000000
       - X: -50000000
-        Y: 40000008
+        Y: 40000000
       - X: 50000000
-        Y: 40000008
+        Y: 40000000
     - - X: 30000000
-        Y: 11899998
+        Y: 11899996
       - X: 40000000
-        Y: 11899998
+        Y: 11899996
       - X: 40000000
-        Y: 10400002
+        Y: 10400000
       - X: 50000000
-        Y: 10400002
+        Y: 10400000
       - X: 50000000
-        Y: 17587504
+        Y: 17587500
       - X: 40000000
-        Y: 17587504
+        Y: 17587500
       - X: 40000000
-        Y: 16587499
+        Y: 16587496
       - X: 30000000
-        Y: 16587499
+        Y: 16587496
       - X: 30000000
-        Y: 17587504
+        Y: 17587500
       - X: 20000000
-        Y: 17587504
+        Y: 17587500
       - X: 20000000
-        Y: 10400002
+        Y: 10400000
       - X: 30000000
-        Y: 10400002
+        Y: 10400000
   m_CompositePaths:
     m_Paths:
-    - - {x: 4.999971, y: 4.000001}
-      - {x: 4.999971, y: 6.000002}
-      - {x: -5, y: 5.9999723}
-      - {x: -4.999971, y: 4.000001}
-    - - {x: 2.999971, y: 1.0400002}
-      - {x: 3.0000293, y: 1.1899998}
-      - {x: 4, y: 1.1899704}
-      - {x: 4.000029, y: 1.0400002}
-      - {x: 5, y: 1.0400295}
-      - {x: 4.999971, y: 1.7587504}
-      - {x: 4, y: 1.7587212}
-      - {x: 3.9999704, y: 1.6587499}
-      - {x: 3, y: 1.6587793}
-      - {x: 2.999971, y: 1.7587504}
-      - {x: 2, y: 1.7587212}
-      - {x: 2.0000293, y: 1.0400002}
+    - - {x: 4.999971, y: 4}
+      - {x: 4.999971, y: 6}
+      - {x: -5, y: 5.999971}
+      - {x: -4.999971, y: 4}
+    - - {x: 2.999971, y: 1.04}
+      - {x: 3.0000293, y: 1.1899996}
+      - {x: 4, y: 1.1899703}
+      - {x: 4.000029, y: 1.04}
+      - {x: 5, y: 1.0400293}
+      - {x: 4.999971, y: 1.75875}
+      - {x: 4, y: 1.7587209}
+      - {x: 3.9999704, y: 1.6587496}
+      - {x: 3, y: 1.658779}
+      - {x: 2.999971, y: 1.75875}
+      - {x: 2, y: 1.7587209}
+      - {x: 2.0000293, y: 1.04}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 660540667}
 --- !u!50 &660540673
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2195,8 +2208,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -2396,87 +2409,87 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: _utilityActions.Array.data[0]
+      propertyPath: '_utilityActions.Array.data[0]'
       value: 8431928440231297025
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: _utilityActions.Array.data[1]
+      propertyPath: '_utilityActions.Array.data[1]'
       value: 8431928440231297028
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: _utilityActions.Array.data[2]
+      propertyPath: '_utilityActions.Array.data[2]'
       value: 8431928440231297031
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: _utilityActions.Array.data[3]
+      propertyPath: '_utilityActions.Array.data[3]'
       value: 8431928440231297033
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297024]
+      propertyPath: 'managedReferences[8431928440231297024]'
       value: Assembly-CSharp CheckoutAction
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297025]
+      propertyPath: 'managedReferences[8431928440231297025]'
       value: Assembly-CSharp TakeSweetsAction
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297026]
+      propertyPath: 'managedReferences[8431928440231297026]'
       value: Assembly-CSharp HungerConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297027]
+      propertyPath: 'managedReferences[8431928440231297027]'
       value: Assembly-CSharp DesireForSweetsConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297028]
+      propertyPath: 'managedReferences[8431928440231297028]'
       value: Assembly-CSharp TakeSaltyAction
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297029]
+      propertyPath: 'managedReferences[8431928440231297029]'
       value: Assembly-CSharp HungerConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297030]
+      propertyPath: 'managedReferences[8431928440231297030]'
       value: Assembly-CSharp DesireForSaltyConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297031]
+      propertyPath: 'managedReferences[8431928440231297031]'
       value: Assembly-CSharp LeaveAction
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297032]
+      propertyPath: 'managedReferences[8431928440231297032]'
       value: Assembly-CSharp DesireToCheckoutConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297033]
+      propertyPath: 'managedReferences[8431928440231297033]'
       value: Assembly-CSharp CheckoutAction
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297034]
+      propertyPath: 'managedReferences[8431928440231297034]'
       value: Assembly-CSharp DesireToCheckoutConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297035]
+      propertyPath: 'managedReferences[8431928440231297035]'
       value: Assembly-CSharp DesireForSweetsConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297036]
+      propertyPath: 'managedReferences[8431928440231297036]'
       value: Assembly-CSharp DesireForSaltyConsideration
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297037]
+      propertyPath: 'managedReferences[8431928440231297037]'
       value: Assembly-CSharp DesireForSalty
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297038]
+      propertyPath: 'managedReferences[8431928440231297038]'
       value: Assembly-CSharp DesireForSweets
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297039]
+      propertyPath: 'managedReferences[8431928440231297039]'
       value: Assembly-CSharp DesireToCheckout
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297040]
+      propertyPath: 'managedReferences[8431928440231297040]'
       value: Assembly-CSharp Hunger
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
@@ -2576,19 +2589,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1821825553}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: <StatCollection>k__BackingField._stats.Array.data[0]
+      propertyPath: '<StatCollection>k__BackingField._stats.Array.data[0]'
       value: 8431928440231297037
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: <StatCollection>k__BackingField._stats.Array.data[1]
+      propertyPath: '<StatCollection>k__BackingField._stats.Array.data[1]'
       value: 8431928440231297038
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: <StatCollection>k__BackingField._stats.Array.data[2]
+      propertyPath: '<StatCollection>k__BackingField._stats.Array.data[2]'
       value: 8431928440231297039
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: <StatCollection>k__BackingField._stats.Array.data[3]
+      propertyPath: '<StatCollection>k__BackingField._stats.Array.data[3]'
       value: 8431928440231297040
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
@@ -2636,35 +2649,35 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297025]._considerations.Array.data[0]
+      propertyPath: 'managedReferences[8431928440231297025]._considerations.Array.data[0]'
       value: 8431928440231297026
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297025]._considerations.Array.data[1]
+      propertyPath: 'managedReferences[8431928440231297025]._considerations.Array.data[1]'
       value: 8431928440231297027
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297028]._considerations.Array.data[0]
+      propertyPath: 'managedReferences[8431928440231297028]._considerations.Array.data[0]'
       value: 8431928440231297029
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297028]._considerations.Array.data[1]
+      propertyPath: 'managedReferences[8431928440231297028]._considerations.Array.data[1]'
       value: 8431928440231297030
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297031]._considerations.Array.data[0]
+      propertyPath: 'managedReferences[8431928440231297031]._considerations.Array.data[0]'
       value: 8431928440231297032
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297033]._considerations.Array.data[0]
+      propertyPath: 'managedReferences[8431928440231297033]._considerations.Array.data[0]'
       value: 8431928440231297034
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297033]._considerations.Array.data[1]
+      propertyPath: 'managedReferences[8431928440231297033]._considerations.Array.data[1]'
       value: 8431928440231297035
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
-      propertyPath: managedReferences[8431928440231297033]._considerations.Array.data[2]
+      propertyPath: 'managedReferences[8431928440231297033]._considerations.Array.data[2]'
       value: 8431928440231297036
       objectReference: {fileID: 0}
     - target: {fileID: 2213243154635307547, guid: 1ce5ced71ef634d449bd4619249f1027, type: 3}
@@ -3493,6 +3506,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1278985918}
   _installerPrefabs: []
+  _findSiblingMonoInstallers: 0
   _autoRun: 1
   OnPreInstall:
     m_PersistentCalls:
@@ -3670,7 +3684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 2
+  m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
@@ -3699,10 +3713,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 86721884}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1001 &1990800293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3771,6 +3784,7 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1278985920}
   - {fileID: 1178072212}
+  - {fileID: 86721884}
   - {fileID: 1940504418}
   - {fileID: 1990800293}
   - {fileID: 1017984870}

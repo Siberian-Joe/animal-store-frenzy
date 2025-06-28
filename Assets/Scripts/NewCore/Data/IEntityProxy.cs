@@ -2,6 +2,6 @@
 {
     public interface IEntityProxy : IProxy
     {
-        string Id { get; }
+        string ID { get; }
     }
 }

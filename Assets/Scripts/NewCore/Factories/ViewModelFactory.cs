@@ -1,4 +1,5 @@
-﻿using NewCore.ViewModels;
+﻿using NewCore.Data;
+using NewCore.ViewModels;
 using Zenject;
 
 namespace NewCore.Factories
@@ -9,7 +10,13 @@ namespace NewCore.Factories
 
         public ViewModelFactory(DiContainer container) => _container = container;
 
-        public TViewModel Create<TProxy, TViewModel>(TProxy proxy) where TViewModel : IViewModel =>
+        public TViewModel Create<TViewModel>()
+            where TViewModel : IViewModel =>
+            _container.Instantiate<TViewModel>();
+
+        public TViewModel Create<TProxy, TViewModel>(TProxy proxy)
+            where TProxy : IProxy
+            where TViewModel : IViewModel =>
             _container.Instantiate<TViewModel>(new object[] { proxy });
     }
 }

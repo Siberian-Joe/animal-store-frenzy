@@ -13,6 +13,7 @@ namespace NewCore.Views.UI
 
         protected override void OnBind()
         {
+            base.OnBind();
             _button.OnClickAsObservable()
                 .Subscribe(_ => ViewModel.OnClick())
                 .AddTo(this);

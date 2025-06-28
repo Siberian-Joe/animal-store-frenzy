@@ -7,6 +7,7 @@ using NewCore.Attributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Object = UnityEngine.Object;
 
 namespace NewCore.Services.ResourceLoaders
 {
@@ -14,20 +15,22 @@ namespace NewCore.Services.ResourceLoaders
     {
         private readonly ConcurrentDictionary<Type, string> _keyCache = new();
 
-        public async UniTask<TResource> LoadResourceAsync<TResource>(CancellationToken cancellationToken)
-            where TResource : class =>
+        public async UniTask<TResource> LoadResourceAsync<TResource>(
+            CancellationToken cancellationToken)
+            where TResource : Object =>
             await ExecuteAsync<TResource>(Addressables.LoadAssetAsync<GameObject>, cancellationToken);
 
-        public async UniTask<TResource> InstantiateResourceAsync<TResource>(Transform parent = null,
+        public async UniTask<TResource> InstantiateResourceAsync<TResource>(
+            Transform parent = null,
             CancellationToken cancellationToken = default)
-            where TResource : class =>
+            where TResource : Object =>
             await ExecuteAsync<TResource>(key => Addressables.InstantiateAsync(key, parent, false, false),
                 cancellationToken);
 
         private async UniTask<TResource> ExecuteAsync<TResource>(
             Func<string, AsyncOperationHandle<GameObject>> operation,
             CancellationToken cancellationToken = default)
-            where TResource : class
+            where TResource : Object
         {
             var key = _keyCache.GetOrAdd(typeof(TResource), type =>
             {

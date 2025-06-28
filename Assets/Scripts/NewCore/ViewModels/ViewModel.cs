@@ -17,6 +17,10 @@ namespace NewCore.ViewModels
 
         protected ViewModel(TProxy proxy) => Proxy = proxy;
 
-        public override void Dispose() => Proxy?.Dispose();
+        public override void Dispose()
+        {
+            base.Dispose();
+            Proxy?.Dispose();
+        }
     }
 }

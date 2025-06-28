@@ -1,12 +1,12 @@
 ﻿using NewCore.Services.Lifecycle;
-using ObservableCollections;
+using R3;
 
 namespace NewCore.ViewModels
 {
     public class WorldViewModel : ViewModel
     {
-        public readonly IObservableCollection<CustomerViewModel> Customers; // TODO: Move to proxy
+        public readonly Observable<PlayerViewModel> Player;
 
-        public WorldViewModel(ICustomerLifecycle customerLifecycle) => Customers = customerLifecycle.Entities;
+        public WorldViewModel(IPlayerService playerService) => Player = playerService.Player;
     }
 }

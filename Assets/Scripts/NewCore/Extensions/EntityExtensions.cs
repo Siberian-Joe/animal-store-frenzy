@@ -10,7 +10,7 @@ namespace NewCore.Extensions
             if (proxy == null || model == null)
                 return false;
 
-            return proxy.Id == model.Id;
+            return proxy.ID == model.ID;
         }
     }
 }

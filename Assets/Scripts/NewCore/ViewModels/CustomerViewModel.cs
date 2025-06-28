@@ -6,7 +6,7 @@ namespace NewCore.ViewModels
 {
     public class CustomerViewModel : EntityViewModel<Customer>
     {
-        public ReadOnlyReactiveProperty<Vector3Int> Position => Proxy.Position;
+        public ReadOnlyReactiveProperty<Vector2> Position => Proxy.Position;
 
         public CustomerViewModel(Customer proxy) : base(proxy)
         {
@@ -15,8 +15,7 @@ namespace NewCore.ViewModels
         public override void Dispose()
         {
             base.Dispose();
-
-            Proxy?.Dispose();
+            Position.Dispose();
         }
     }
 }

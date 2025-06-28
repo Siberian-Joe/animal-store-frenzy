@@ -2,11 +2,13 @@
 
 namespace NewCore.ViewModels
 {
-    public abstract class EntityViewModel<TProxy> : ViewModel<TProxy>
+    public abstract class EntityViewModel<TProxy> : ViewModel<TProxy>, IEntityViewModel
         where TProxy : IEntityProxy
     {
-        public string Id => Proxy.Id;
+        public string ID => Proxy.ID;
 
-        protected EntityViewModel(TProxy proxy) : base(proxy) { }
+        protected EntityViewModel(TProxy proxy) : base(proxy)
+        {
+        }
     }
 }

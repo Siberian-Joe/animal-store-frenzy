@@ -9,27 +9,27 @@ namespace NewCore.Data
         public ReactiveProperty<int> Capacity { get; private set; }
         public ReactiveProperty<int> Level { get; private set; }
 
-        public override void Initialize(ShelfData model)
+        public override void Initialize(ShelfData data)
         {
-            base.Initialize(model);
+            base.Initialize(data);
 
-            Name = model.Name;
-            Capacity = new ReactiveProperty<int>(model.Capacity);
-            Level = new ReactiveProperty<int>(model.Level);
+            Name = data.Name;
+            Capacity = new ReactiveProperty<int>(data.Capacity);
+            Level = new ReactiveProperty<int>(data.Level);
 
             Capacity
                 .Skip(1)
-                .Subscribe(capacity => model.Capacity = capacity);
+                .Subscribe(capacity => data.Capacity = capacity);
             Level
                 .Skip(1)
-                .Subscribe(level => model.Level = level);
+                .Subscribe(level => data.Level = level);
         }
 
         public override ShelfData ToModel()
         {
             return new ShelfData
             {
-                Id = Id,
+                ID = ID,
                 Name = Name,
                 Capacity = Capacity.Value,
                 Level = Level.Value

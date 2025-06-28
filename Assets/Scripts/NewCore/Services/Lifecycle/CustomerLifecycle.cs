@@ -13,7 +13,7 @@ namespace NewCore.Services.Lifecycle
         public CustomerLifecycle(IViewModelFactory viewModelFactory, ICommandProcessor commandProcessor) :
             base(viewModelFactory) => _commandProcessor = commandProcessor;
 
-        public bool TrySpawnCustomer(string customerType, Vector3Int position) =>
+        public bool TrySpawnCustomer(string customerType, Vector2 position) =>
             _commandProcessor.TryProcess(new SpawnCustomerCommand(customerType, position));
     }
 }

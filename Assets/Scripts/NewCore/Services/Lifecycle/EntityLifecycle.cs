@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NewCore.Data;
+using NewCore.Extensions;
 using NewCore.Factories;
 using NewCore.ViewModels;
 using ObservableCollections;
@@ -15,7 +16,7 @@ namespace NewCore.Services.Lifecycle
         public IObservableCollection<TViewModel> Entities => _viewModels;
 
         protected readonly CompositeDisposable Disposables = new();
-        
+
         private readonly ObservableList<TViewModel> _viewModels = new();
         private readonly Dictionary<string, TViewModel> _map = new();
         private readonly IViewModelFactory _viewModelFactory;
@@ -40,24 +41,28 @@ namespace NewCore.Services.Lifecycle
 
         private void Add(TProxy proxy)
         {
-            if (_map.ContainsKey(proxy.Id))
+            if (_map.ContainsKey(proxy.ID))
                 return;
 
             var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(proxy);
-            _map.Add(proxy.Id, viewModel);
+            _map.Add(proxy.ID, viewModel);
             _viewModels.Add(viewModel);
         }
 
         private void Remove(TProxy proxy)
         {
-            if (!_map.TryGetValue(proxy.Id, out var viewModel))
+            if (!_map.TryGetValue(proxy.ID, out var viewModel))
                 return;
 
             _viewModels.Remove(viewModel);
-            _map.Remove(proxy.Id);
+            _map.Remove(proxy.ID);
             viewModel.Dispose();
         }
 
-        public virtual void Dispose() => Disposables.Dispose();
+        public virtual void Dispose()
+        {
+            Disposables.Dispose();
+            _viewModels.ClearAndDispose();
+        }
     }
 }

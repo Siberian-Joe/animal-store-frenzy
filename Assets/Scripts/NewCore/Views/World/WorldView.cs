@@ -1,61 +1,33 @@
-using System.Collections.Generic;
+using NewCore.ViewBinders;
 using NewCore.ViewModels;
-using ObservableCollections;
 using R3;
 using UnityEngine;
+using Zenject;
 
 namespace NewCore.Views.World
 {
-    public class WorldView : View<WorldViewModel>
+    public class WorldView : NodeView<WorldViewModel>
     {
-        [SerializeField] private CustomerView _customerViewPrefab;
+        [SerializeField] private PlayerView _playerViewPrefab;
 
-        private readonly Dictionary<string, CustomerView> _customers = new();
+        [Inject] private IViewBinder _binder;
+
+        private PlayerView _playerViewInstance;
 
         protected override void OnBind()
         {
-            foreach (var customer in ViewModel.Customers)
-                CreateCustomer(customer);
+            base.OnBind();
 
-            ViewModel.Customers
-                .ObserveAdd()
-                .Subscribe(customer => CreateCustomer(customer.Value))
+            ViewModel.Player?
+                .Where(player => player != null)
+                .Subscribe(viewModel =>
+                {
+                    _binder.BindSingle(
+                        viewModel,
+                        _playerViewPrefab,
+                        transform);
+                })
                 .AddTo(Disposables);
-
-            ViewModel.Customers
-                .ObserveRemove()
-                .Subscribe(customer => RemoveCustomer(customer.Value))
-                .AddTo(Disposables);
-        }
-
-        private void CreateCustomer(CustomerViewModel viewModel)
-        {
-            var customer = Instantiate(_customerViewPrefab, transform);
-
-            customer.Bind(viewModel);
-            _customers.Add(viewModel.Id, customer);
-        }
-
-        private void RemoveCustomer(CustomerViewModel viewModel)
-        {
-            if (_customers.TryGetValue(viewModel.Id, out var customer))
-            {
-                // TODO: Need to use pooling
-                Destroy(customer.gameObject);
-                _customers.Remove(viewModel.Id);
-            }
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            foreach (var customer in _customers.Values)
-            {
-                Destroy(customer.gameObject);
-            }
-
-            _customers.Clear();
         }
     }
 }

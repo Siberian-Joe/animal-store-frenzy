@@ -10,6 +10,6 @@ namespace NewCore.Data
     public interface IProxy<TModel> : IProxy where TModel : IModel
     {
         TModel ToModel();
-        void Initialize(TModel model);
+        void Initialize(TModel data);
     }
 }

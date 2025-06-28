@@ -48,7 +48,6 @@ namespace NewCore.Services.UI.Handlers
             if (Panel == null)
                 return;
 
-            Panel.Dispose();
             Object.Destroy(Panel.gameObject);
         }
     }

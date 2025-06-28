@@ -15,7 +15,7 @@ namespace NewCore.Data
     {
         public abstract TModel ToModel();
 
-        public virtual void Initialize(TModel model)
+        public virtual void Initialize(TModel data)
         {
         }
     }

@@ -6,7 +6,7 @@ namespace NewCore.Services.ResourceLoaders
 {
     public interface IResourceLoader
     {
-        UniTask<TResource> LoadResourceAsync<TResource>(CancellationToken cancellationToken = default) where TResource : class;
-        UniTask<TResource> InstantiateResourceAsync<TResource>(Transform parent = null, CancellationToken cancellationToken = default) where TResource : class;
+        UniTask<TResource> LoadResourceAsync<TResource>(CancellationToken cancellationToken = default) where TResource : Object;
+        UniTask<TResource> InstantiateResourceAsync<TResource>(Transform parent = null, CancellationToken cancellationToken = default) where TResource : Object;
     }
 }

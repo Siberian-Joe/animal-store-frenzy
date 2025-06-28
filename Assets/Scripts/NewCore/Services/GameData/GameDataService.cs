@@ -131,15 +131,15 @@ namespace NewCore.Services
                     {
                         new()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            ID = Guid.NewGuid().ToString(),
                             Type = "FirstCustomer",
-                            Position = new Vector3Int(0, 0, 0)
+                            Position = new Vector2(0, 0)
                         },
                         new()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            ID = Guid.NewGuid().ToString(),
                             Type = "SecondCustomer",
-                            Position = new Vector3Int(1, 0, 0)
+                            Position = new Vector2(1, 0)
                         }
                     }
                 },

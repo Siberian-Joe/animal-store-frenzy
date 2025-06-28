@@ -9,17 +9,17 @@ namespace NewCore.Data
         public ReactiveProperty<int> MusicVolume { get; private set; }
         public ReactiveProperty<int> SfxVolume { get; private set; }
 
-        public override void Initialize(GameSettingsState model)
+        public override void Initialize(GameSettingsState data)
         {
-            MusicVolume = new ReactiveProperty<int>(model.MusicVolume);
-            SfxVolume = new ReactiveProperty<int>(model.SfxVolume);
+            MusicVolume = new ReactiveProperty<int>(data.MusicVolume);
+            SfxVolume = new ReactiveProperty<int>(data.SfxVolume);
 
             MusicVolume
-                .Subscribe(value => model.MusicVolume = value)
+                .Subscribe(value => data.MusicVolume = value)
                 .AddTo(Disposables);
 
             SfxVolume
-                .Subscribe(value => model.SfxVolume = value)
+                .Subscribe(value => data.SfxVolume = value)
                 .AddTo(Disposables);
         }
 
