@@ -1,6 +1,7 @@
 ﻿using NewCore.Bootstrap;
 using NewCore.Factories;
 using NewCore.Services;
+using NewCore.Services.Input;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.Scenes;
 using NewCore.Services.Storage;
@@ -9,12 +10,16 @@ using NewCore.Services.UI.Factories;
 using NewCore.Services.UI.Registries;
 using NewCore.ViewModels;
 using NewCore.ViewModels.UI;
+using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace NewCore.Installers
 {
     public sealed class ApplicationInstaller : MonoInstaller
     {
+        [SerializeField] private CameraProvider _cameraProviderPrefab;
+
         public override void InstallBindings()
         {
             Container
@@ -108,6 +113,15 @@ namespace NewCore.Installers
             Container
                 .Bind<WorldViewModel>()
                 .AsTransient();
+
+            Container.Bind<ICameraProvider>()
+                .FromComponentInNewPrefab(_cameraProviderPrefab)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<PlayerInputService>()
+                .AsSingle();
 
             Container
                 .BindInterfacesAndSelfTo<ApplicationBootstrapper>()

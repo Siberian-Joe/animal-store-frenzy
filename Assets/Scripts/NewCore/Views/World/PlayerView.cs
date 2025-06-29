@@ -24,10 +24,6 @@ namespace NewCore.Views.World
                 .Subscribe(targetPosition => _agent.SetDestination(targetPosition))
                 .AddTo(Disposables);
 
-            ViewModel.Position
-                .Subscribe(position => _agent.Warp(position))
-                .AddTo(Disposables);
-
             Observable.EveryUpdate()
                 .Subscribe(_ =>
                 {

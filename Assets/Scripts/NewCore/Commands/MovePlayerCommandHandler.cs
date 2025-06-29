@@ -19,7 +19,7 @@ namespace NewCore.Commands
             if (gameState.Player == null)
                 return false;
 
-            player.Position.Value = command.TargetPosition;
+            player.TargetPosition.Value = command.TargetPosition;
             return true;
         }
     }

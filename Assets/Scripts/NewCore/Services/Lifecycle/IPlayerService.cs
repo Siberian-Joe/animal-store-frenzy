@@ -7,6 +7,6 @@ namespace NewCore.Services.Lifecycle
     public interface IPlayerService
     {
         ReactiveProperty<PlayerViewModel> Player { get; }
-        bool TryMovePlayer(Vector3 targetPosition);
+        bool TryMovePlayer(Vector2 targetPosition);
     }
 }

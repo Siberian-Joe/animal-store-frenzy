@@ -72,6 +72,7 @@ namespace NewCore.Bootstrap
 
             _customerLifecycle.Initialize(state.Customers);
             _commandProcessor.RegisterHandler(new InitializePlayerCommandHandler(_playerService, _viewModelFactory));
+            _commandProcessor.RegisterHandler(new MovePlayerCommandHandler(_gameDataService));
             _commandProcessor.RegisterHandler(new SpawnCustomerCommandHandler(_gameDataService));
 
             // TODO: This is only used to switch between scenes. Just a placeholder
