@@ -28,8 +28,8 @@ namespace NewCore.ViewBinders.Decorators
         {
             EnsureInitialized();
 
-            foreach (var vm in source)
-                EnsureView(vm, prefab, parent);
+            foreach (var viewModel in source)
+                EnsureView(viewModel, prefab, parent);
 
             source.ObserveAdd()
                 .Subscribe(addEvent => EnsureView(addEvent.Value, prefab, parent))
@@ -85,20 +85,20 @@ namespace NewCore.ViewBinders.Decorators
         }
 
         private void EnsureView<TViewModel, TView>(
-            TViewModel vm,
+            TViewModel viewModel,
             TView prefab,
             Transform parent)
             where TViewModel : IEntityViewModel
             where TView : EntityView<TViewModel>
         {
-            if (_instances.TryGetValue(vm.ID, out var existing))
+            if (_instances.TryGetValue(viewModel.ID, out var existing))
             {
-                ((TView)existing).Bind(vm);
+                ((TView)existing).Bind(viewModel);
                 return;
             }
 
-            var view = _inner.BindSingle(vm, prefab, parent);
-            _instances[vm.ID] = view;
+            var view = _inner.BindSingle(viewModel, prefab, parent);
+            _instances[viewModel.ID] = view;
         }
 
         public void Dispose()

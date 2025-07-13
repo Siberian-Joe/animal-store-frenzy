@@ -1,8 +1,8 @@
 ﻿using System;
 using R3;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Zenject;
 
 namespace NewCore.Services.Input
 {
@@ -14,7 +14,6 @@ namespace NewCore.Services.Input
         private readonly Camera _camera;
         private readonly Subject<Vector2> _clicked = new();
 
-        [Inject]
         public PlayerInputService(ICameraProvider cameraProvider)
         {
             _playerInput = new PlayerInput();
@@ -26,6 +25,9 @@ namespace NewCore.Services.Input
 
         private void OnClick(InputAction.CallbackContext context)
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
+
             var worldPosition = _camera.ScreenToWorldPoint(context.ReadValue<Vector2>());
             _clicked.OnNext(worldPosition);
         }
