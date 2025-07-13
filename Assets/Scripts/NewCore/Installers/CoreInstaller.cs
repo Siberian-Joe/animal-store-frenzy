@@ -33,8 +33,7 @@ namespace NewCore.Installers
                 .AsSingle();
 
             Container
-                .Bind<ICustomerLifecycle>()
-                .To<CustomerLifecycle>()
+                .BindInterfacesAndSelfTo<CustomerLifecycle>()
                 .AsSingle();
 
             Container
@@ -47,6 +46,7 @@ namespace NewCore.Installers
                 .To<ViewBinder>()
                 .AsSingle();
 
+            // TODO: Think of a way to ensure the decorator correctly calls Dispose
             Container
                 .Decorate<IViewBinder>()
                 .With<SceneAwareViewBinderDecorator>();
