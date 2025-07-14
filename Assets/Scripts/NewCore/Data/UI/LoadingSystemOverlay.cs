@@ -2,7 +2,7 @@
 
 namespace NewCore.Data.UI
 {
-    public class LoadingSystemOverlay : Entity<LoadingSystemOverlayModel>
+    public class LoadingSystemOverlay : Proxy<LoadingSystemOverlayModel>
     {
         public override LoadingSystemOverlayModel ToModel() => new();
     }

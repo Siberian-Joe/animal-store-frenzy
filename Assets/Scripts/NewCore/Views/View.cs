@@ -7,22 +7,14 @@ namespace NewCore.Views
 {
     public interface IView
     {
-        void Bind(IViewModel viewModel);
     }
 
     public abstract class View<TViewModel> : MonoBehaviour, IView, IDisposable
         where TViewModel : IViewModel
     {
         protected readonly CompositeDisposable Disposables = new();
-        protected TViewModel ViewModel { get; private set; }
 
-        void IView.Bind(IViewModel viewModel)
-        {
-            if (viewModel is TViewModel typedViewModel)
-                Bind(typedViewModel);
-            else
-                Debug.LogError($"Cannot bind {viewModel.GetType().Name} to {GetType().Name}");
-        }
+        protected TViewModel ViewModel { get; private set; }
 
         public void Bind(TViewModel viewModel)
         {

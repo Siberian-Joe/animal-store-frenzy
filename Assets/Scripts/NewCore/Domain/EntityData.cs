@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace NewCore.Domain
 {
@@ -6,5 +7,6 @@ namespace NewCore.Domain
     public class EntityData : IModel
     {
         public string ID;
+        public Vector3 Position;
     }
 }

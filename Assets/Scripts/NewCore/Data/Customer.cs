@@ -1,24 +1,15 @@
 ﻿using NewCore.Domain;
-using R3;
-using UnityEngine;
 
 namespace NewCore.Data
 {
-    public class Customer : Entity<CustomerData>
+    public class Customer : NavigableEntity<CustomerData>
     {
         public string Type;
-        public ReactiveProperty<Vector2> Position { get; private set; }
 
         public override void Initialize(CustomerData data)
         {
             base.Initialize(data);
-
             Type = data.Type;
-            Position = new ReactiveProperty<Vector2>(data.Position);
-
-            Position
-                .Skip(1)
-                .Subscribe(position => data.Position = position);
         }
 
         public override CustomerData ToModel()
@@ -27,14 +18,9 @@ namespace NewCore.Data
             {
                 ID = ID,
                 Type = Type,
-                Position = Position.Value
+                Position = Position.Value,
+                TargetPosition = TargetPosition.Value,
             };
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            Position.Dispose();
         }
     }
 }

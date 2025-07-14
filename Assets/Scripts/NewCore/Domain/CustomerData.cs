@@ -1,12 +1,10 @@
 ﻿using System;
-using UnityEngine;
 
 namespace NewCore.Domain
 {
     [Serializable]
-    public class CustomerData : EntityData
+    public class CustomerData : NavigableEntityData
     {
         public string Type;
-        public Vector2 Position;
     }
 }
