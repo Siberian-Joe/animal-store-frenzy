@@ -1,7 +1,7 @@
 ﻿using NewCore.Commands;
 using NewCore.Data;
 using NewCore.Factories;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using UnityEngine;
 
 namespace NewCore.Services.Lifecycle

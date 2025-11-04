@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Bootstrap;
 using NewCore.Data.UI;
+using NewCore.Domain.UI;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Handlers;
 using NewCore.ViewModels.UI;
@@ -58,6 +59,7 @@ namespace NewCore.Services.Scenes
             return await _panelService
                 .LoadPanelAsync<
                     LoadingSystemOverlayView,
+                    LoadingSystemOverlayModel,
                     LoadingSystemOverlay,
                     LoadingSystemOverlayViewModel>(cancellationToken);
         }

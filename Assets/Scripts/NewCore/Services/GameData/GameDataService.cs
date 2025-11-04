@@ -4,21 +4,28 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Extensions;
+using NewCore.Modules.Interaction;
 using NewCore.Services.Storage;
 using R3;
 using UnityEngine;
 using Zenject;
 
-namespace NewCore.Services
+namespace NewCore.Services.GameData
 {
     public sealed class GameDataService : IGameDataService, IInitializable
     {
         private readonly IStorage _storage;
+        private readonly IProxyFactory _proxyFactory;
+
         private readonly Dictionary<Type, IDataRegistration> _registrations = new();
         private readonly Dictionary<Type, IProxy> _proxyCache = new();
 
-        public GameDataService(IStorage storage) =>
+        public GameDataService(IStorage storage, IProxyFactory proxyFactory)
+        {
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            _proxyFactory = proxyFactory ?? throw new ArgumentNullException(nameof(proxyFactory));
+        }
 
         public bool TryResolve<TModel, TProxy>(out TProxy proxy)
             where TModel : IModel
@@ -34,15 +41,29 @@ namespace NewCore.Services
             return false;
         }
 
-        public void Register<TModel, TProxy>(string key, Func<TModel> createDefault, Func<TModel, TProxy> createProxy)
+        public void Register<TModel, TProxy>(
+            string key,
+            Func<TModel> createDefault,
+            Func<TModel, IProxyFactory, TProxy> createProxy)
             where TModel : IModel
             where TProxy : IProxy =>
-            _registrations[typeof(TModel)] = new DataRegistration<TModel, TProxy>(key, createDefault, createProxy);
+            _registrations[typeof(TModel)] =
+                new DataRegistration<TModel, TProxy>(key, createDefault, createProxy);
 
-        public async UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(CancellationToken cancellationToken = default)
+        public UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(CancellationToken cancellationToken = default)
+            where TModel : IModel
+            where TProxy : IProxy =>
+            LoadAsync<TModel, TProxy>(_proxyFactory, cancellationToken);
+
+        public async UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(
+            IProxyFactory factory,
+            CancellationToken cancellationToken = default)
             where TModel : IModel
             where TProxy : IProxy
         {
+            if (factory == null)
+                return Result<TProxy>.Fail(new DataError($"{nameof(IProxyFactory)} is null"));
+
             var modelType = typeof(TModel);
 
             if (_proxyCache.TryGetValue(modelType, out var cached))
@@ -56,32 +77,33 @@ namespace NewCore.Services
                 return await UniTask.FromCanceled<Result<TProxy>>(cancellationToken);
 
             var exists = await _storage.ExistsAsync(registration.Key, cancellationToken);
-            if (!exists.IsSuccess)
+            if (exists.IsSuccess == false)
                 return Result<TProxy>.Fail(exists.Error);
 
             TModel model;
             if (exists.Value)
             {
-                var result = await _storage.LoadAsync<TModel>(registration.Key, cancellationToken);
-                if (!result.IsSuccess)
-                    return Result<TProxy>.Fail(result.Error);
+                var load = await _storage.LoadAsync<TModel>(registration.Key, cancellationToken);
+                if (load.IsSuccess == false)
+                    return Result<TProxy>.Fail(load.Error);
 
-                model = result.Value;
+                model = load.Value;
             }
             else
             {
                 model = registration.CreateDefault();
-                var result = await _storage.SaveAsync(registration.Key, model, cancellationToken);
-                if (!result.IsSuccess)
-                    return Result<TProxy>.Fail(result.Error);
+                var saveDefault = await _storage.SaveAsync(registration.Key, model, cancellationToken);
+                if (saveDefault.IsSuccess == false)
+                    return Result<TProxy>.Fail(saveDefault.Error);
             }
 
-            var proxy = registration.CreateProxy(model);
+            var proxy = registration.CreateProxy(model, factory);
             _proxyCache[modelType] = proxy;
             return Result<TProxy>.Ok(proxy);
         }
 
-        public async UniTask<Result<Unit>> SaveAsync<TModel, TProxy>(CancellationToken cancellationToken = default)
+        public async UniTask<Result<Unit>> SaveAsync<TModel, TProxy>(
+            CancellationToken cancellationToken = default)
             where TModel : IModel
             where TProxy : IProxy
         {
@@ -99,7 +121,8 @@ namespace NewCore.Services
             return await _storage.SaveAsync(baseReg.Key, proxy.ToModel(), cancellationToken);
         }
 
-        public async UniTask<Result<Unit>> ResetAsync<TModel, TProxy>(CancellationToken cancellationToken = default)
+        public async UniTask<Result<Unit>> ResetAsync<TModel, TProxy>(
+            CancellationToken cancellationToken = default)
             where TModel : IModel
             where TProxy : IProxy
         {
@@ -107,9 +130,7 @@ namespace NewCore.Services
 
             if (!_registrations.TryGetValue(modelType, out var baseReg) ||
                 baseReg is not IDataRegistration<TModel, TProxy> reg)
-            {
                 return Result.Fail(new DataError($"No registration for {modelType.Name}"));
-            }
 
             if (cancellationToken.IsCancellationRequested)
                 return await UniTask.FromCanceled<Result<Unit>>(cancellationToken);
@@ -131,24 +152,21 @@ namespace NewCore.Services
                     {
                         new()
                         {
-                            ID = Guid.NewGuid().ToString(),
+                            Id = Guid.NewGuid()
+                                     .ToString(),
                             Type = "FirstCustomer",
                             Position = new Vector2(0, 0)
                         },
                         new()
                         {
-                            ID = Guid.NewGuid().ToString(),
+                            Id = Guid.NewGuid()
+                                     .ToString(),
                             Type = "SecondCustomer",
                             Position = new Vector2(1, 0)
                         }
                     }
                 },
-                state =>
-                {
-                    var proxy = new GameState();
-                    proxy.Initialize(state);
-                    return proxy;
-                });
+                (state, factory) => state.ToProxy<GameState>(factory));
 
             Register(
                 nameof(GameSettingsState),
@@ -157,13 +175,7 @@ namespace NewCore.Services
                     MusicVolume = 1,
                     SfxVolume = 1
                 },
-                state =>
-                {
-                    var proxy = new GameSettingsProxy();
-                    proxy.Initialize(state);
-                    return proxy;
-                }
-            );
+                (state, factory) => state.ToProxy<GameSettings>(factory));
         }
     }
 }

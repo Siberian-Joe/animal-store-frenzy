@@ -6,7 +6,7 @@ namespace NewCore.Domain
     [Serializable]
     public class EntityData : IModel
     {
-        public string ID;
+        public string Id;
         public Vector3 Position;
     }
 }

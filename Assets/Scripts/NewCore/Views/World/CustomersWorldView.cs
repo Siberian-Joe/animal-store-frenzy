@@ -1,6 +1,6 @@
 ﻿using NewCore.Factories;
 using NewCore.ViewBinders;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using UnityEngine;
 using Zenject;
 

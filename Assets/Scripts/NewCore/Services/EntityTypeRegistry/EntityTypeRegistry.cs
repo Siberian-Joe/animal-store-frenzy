@@ -14,11 +14,10 @@ namespace NewCore.Services.EntityTypeRegistry
         public void RegisterType<TView>(
             Func<TView, IEntityProxy> proxyFactory,
             Action<GameState, IEntityProxy> addToGameState,
-            Func<GameState, bool> shouldInitFromScene)
+            Func<GameState, bool> shouldInitFromScene = null)
             where TView : Object, IView
         {
-            if (shouldInitFromScene == null)
-                throw new ArgumentNullException(nameof(shouldInitFromScene));
+            shouldInitFromScene ??= _ => true;
 
             _handlers.Add(new EntityTypeHandler
             {
@@ -32,7 +31,7 @@ namespace NewCore.Services.EntityTypeRegistry
         public void RegisterType<TView, TProxy>(
             Func<TView, TProxy> proxyFactory,
             Action<GameState, TProxy> addToGameState,
-            Func<GameState, bool> shouldInitFromScene)
+            Func<GameState, bool> shouldInitFromScene = null)
             where TView : Object, IView where TProxy : IEntityProxy
         {
             RegisterType<TView>(

@@ -1,5 +1,5 @@
 using NewCore.ViewBinders;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using R3;
 using UnityEngine;
 using Zenject;

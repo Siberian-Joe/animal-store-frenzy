@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NewCore.Factories;
 using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using NewCore.Views;
 using ObservableCollections;
 using R3;
@@ -29,7 +30,7 @@ namespace NewCore.Services.ViewSynchronizer
             foreach (var viewModel in source)
             {
                 var view = _viewFactory.Create(viewModel, prefab, parent);
-                _instances[viewModel.ID] = view;
+                _instances[viewModel.Id] = view;
             }
 
             source.ObserveAdd()
@@ -37,18 +38,18 @@ namespace NewCore.Services.ViewSynchronizer
                 {
                     var view = _viewFactory.Create(
                         addEvent.Value, prefab, parent);
-                    _instances[addEvent.Value.ID] = view;
+                    _instances[addEvent.Value.Id] = view;
                 })
                 .AddTo(_disposables);
 
             source.ObserveRemove()
                 .Subscribe(removeEvent =>
                 {
-                    if (_instances.TryGetValue(removeEvent.Value.ID, out var view) &&
+                    if (_instances.TryGetValue(removeEvent.Value.Id, out var view) &&
                         view is MonoBehaviour monoBehaviour)
                     {
                         Object.Destroy(monoBehaviour.gameObject);
-                        _instances.Remove(removeEvent.Value.ID);
+                        _instances.Remove(removeEvent.Value.Id);
                     }
 
                     removeEvent.Value.Dispose();

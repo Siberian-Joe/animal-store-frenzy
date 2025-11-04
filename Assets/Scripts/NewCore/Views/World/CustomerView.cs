@@ -1,4 +1,4 @@
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 
 namespace NewCore.Views.World
 {

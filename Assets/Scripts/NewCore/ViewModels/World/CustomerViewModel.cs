@@ -1,8 +1,6 @@
 using NewCore.Data;
-using R3;
-using UnityEngine;
 
-namespace NewCore.ViewModels
+namespace NewCore.ViewModels.World
 {
     public class CustomerViewModel : EntityViewModel<Customer>
     {

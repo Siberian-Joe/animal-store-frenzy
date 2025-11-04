@@ -5,7 +5,7 @@ namespace NewCore.Data
 {
     public interface IEntityProxy : IProxy
     {
-        string ID { get; }
+        string Id { get; }
         ReactiveProperty<Vector3> Position { get; }
     }
 }

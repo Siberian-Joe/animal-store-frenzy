@@ -1,5 +1,5 @@
 using NewCore.Data;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using UnityEngine;
 
 namespace NewCore.Services.Lifecycle

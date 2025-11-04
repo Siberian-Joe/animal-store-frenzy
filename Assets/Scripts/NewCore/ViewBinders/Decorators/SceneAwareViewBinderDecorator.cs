@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NewCore.Components;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using NewCore.Views;
 using ObservableCollections;
 using R3;
@@ -38,12 +38,12 @@ namespace NewCore.ViewBinders.Decorators
             source.ObserveRemove()
                 .Subscribe(removeEvent =>
                 {
-                    if (!_instances.TryGetValue(removeEvent.Value.ID, out var view) ||
+                    if (!_instances.TryGetValue(removeEvent.Value.Id, out var view) ||
                         view is not MonoBehaviour monoBehaviour)
                         return;
 
                     Object.Destroy(monoBehaviour.gameObject);
-                    _instances.Remove(removeEvent.Value.ID);
+                    _instances.Remove(removeEvent.Value.Id);
                 })
                 .AddTo(_disposables);
         }
@@ -57,14 +57,14 @@ namespace NewCore.ViewBinders.Decorators
         {
             EnsureInitialized();
 
-            if (_instances.TryGetValue(viewModel.ID, out var existing))
+            if (_instances.TryGetValue(viewModel.Id, out var existing))
             {
                 ((TView)existing).Bind(viewModel);
                 return (TView)existing;
             }
 
             var view = _inner.BindSingle(viewModel, prefab, parent);
-            _instances[viewModel.ID] = view;
+            _instances[viewModel.Id] = view;
             return view;
         }
 
@@ -78,7 +78,7 @@ namespace NewCore.ViewBinders.Decorators
             foreach (var identifier in identifiers)
             {
                 var view = identifier.GetComponent<IView>();
-                var id = identifier.ID;
+                var id = identifier.Id;
                 if (view != null && !string.IsNullOrEmpty(id))
                     _instances[id] = view;
             }
@@ -91,14 +91,14 @@ namespace NewCore.ViewBinders.Decorators
             where TViewModel : IEntityViewModel
             where TView : EntityView<TViewModel>
         {
-            if (_instances.TryGetValue(viewModel.ID, out var existing))
+            if (_instances.TryGetValue(viewModel.Id, out var existing))
             {
                 ((TView)existing).Bind(viewModel);
                 return;
             }
 
             var view = _inner.BindSingle(viewModel, prefab, parent);
-            _instances[viewModel.ID] = view;
+            _instances[viewModel.Id] = view;
         }
 
         public void Dispose()

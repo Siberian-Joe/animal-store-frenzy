@@ -1,7 +1,7 @@
 ﻿using NewCore.Services.Lifecycle;
 using ObservableCollections;
 
-namespace NewCore.ViewModels
+namespace NewCore.ViewModels.World
 {
     public class CustomersWorldViewModel : ViewModel
     {

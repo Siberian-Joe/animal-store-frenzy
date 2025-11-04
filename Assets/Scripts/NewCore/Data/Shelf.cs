@@ -1,47 +1,54 @@
-﻿using NewCore.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NewCore.Domain;
+using NewCore.Modules.Interaction.Abstractions;
 using R3;
+using UnityEngine;
 
 namespace NewCore.Data
 {
-    public class Shelf : Entity<ShelfData>
+    public class Shelf : Entity<ShelfData>, IActor
     {
-        public string Name { get; private set; }
-        public ReactiveProperty<int> Capacity { get; private set; }
-        public ReactiveProperty<int> Level { get; private set; }
+        public string Name { get; }
 
-        public override void Initialize(ShelfData data)
+        public ReactiveProperty<int> MaxCapacity { get; }
+
+        public ReactiveProperty<int> Capacity { get; }
+
+        public IReadOnlyList<IInteractionRule> Rules { get; }
+
+        public Shelf(ShelfData model, IEnumerable<IInteractionRule> rules) : base(model)
         {
-            base.Initialize(data);
+            Rules = rules.ToList();
 
-            Name = data.Name;
-            Capacity = new ReactiveProperty<int>(data.Capacity);
-            Level = new ReactiveProperty<int>(data.Level);
+            Name = model.Name;
+            Capacity = new ReactiveProperty<int>(model.Capacity);
+            MaxCapacity = new ReactiveProperty<int>(model.MaxCapacity);
 
             Capacity
-                .Skip(1)
-                .Subscribe(capacity => data.Capacity = capacity);
-            Level
-                .Skip(1)
-                .Subscribe(level => data.Level = level);
+                .Take(1)
+                .Subscribe(capacity => model.Capacity = capacity)
+                .AddTo(Disposables);
+
+            MaxCapacity
+                .Take(1)
+                .Subscribe(level => model.MaxCapacity = level)
+                .AddTo(Disposables);
         }
 
-        public override ShelfData ToModel()
+        public void StoreOne() => Capacity.Value = Mathf.Min(Capacity.Value + 1, MaxCapacity.Value);
+        public void WithdrawOne() => Capacity.Value = Mathf.Max(Capacity.Value - 1, 0);
+
+        protected override ShelfData CreateModel()
         {
             return new ShelfData
             {
-                ID = ID,
+                Id = Id,
                 Name = Name,
+                Position = Position.Value,
                 Capacity = Capacity.Value,
-                Level = Level.Value
+                MaxCapacity = MaxCapacity.Value
             };
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            Capacity.Dispose();
-            Level.Dispose();
         }
     }
 }

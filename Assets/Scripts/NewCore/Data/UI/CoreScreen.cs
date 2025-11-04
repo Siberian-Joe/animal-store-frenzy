@@ -4,6 +4,10 @@ namespace NewCore.Data.UI
 {
     public class CoreScreen : Proxy<CoreScreenModel>
     {
-        public override CoreScreenModel ToModel() => new();
+        public CoreScreen(CoreScreenModel model) : base(model)
+        {
+        }
+
+        protected override CoreScreenModel CreateModel() => new();
     }
 }

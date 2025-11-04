@@ -1,11 +1,11 @@
 ﻿using R3;
 using UnityEngine;
 
-namespace NewCore.ViewModels
+namespace NewCore.ViewModels.World
 {
     public interface IEntityViewModel : IViewModel
     {
-        public string ID { get; }
+        public string Id { get; }
         public ReactiveProperty<Vector3> Position { get; }
     }
 }

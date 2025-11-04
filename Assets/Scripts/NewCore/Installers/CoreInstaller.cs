@@ -1,7 +1,12 @@
 using NewCore.Bootstrap;
 using NewCore.Commands;
+using NewCore.Data;
 using NewCore.Factories;
+using NewCore.Modules.Interaction;
+using NewCore.Modules.Interaction.Abstractions;
+using NewCore.Modules.Interaction.Rules;
 using NewCore.Services.EntityTypeRegistry;
+using NewCore.Services.GameData;
 using NewCore.Services.Lifecycle;
 using NewCore.ViewBinders;
 using NewCore.ViewBinders.Decorators;
@@ -13,6 +18,11 @@ namespace NewCore.Installers
     {
         public override void InstallBindings()
         {
+            Container
+                .Rebind<IProxyFactory>()
+                .To<ProxyFactory>()
+                .AsSingle();
+
             Container
                 .Bind<ICommandProcessor>()
                 .To<CommandProcessor>()
@@ -30,6 +40,10 @@ namespace NewCore.Installers
 
             Container
                 .BindInterfacesAndSelfTo<PlayerService>()
+                .AsSingle();
+
+            Container
+                .BindInterfacesAndSelfTo<ShelvesLifecycle>()
                 .AsSingle();
 
             Container
@@ -61,6 +75,15 @@ namespace NewCore.Installers
                 .Bind<IEntityTypeRegistry>()
                 .To<EntityTypeRegistry>()
                 .AsSingle();
+
+            Container
+                .Bind<IInteractionRule>()
+                .To<StoreOnShelfRule>()
+                .AsSingle()
+                .WhenInjectedInto<Player>();
+
+            Container.Decorate<IGameDataService>()
+                     .With<RuntimeScopedGameDataService>();
 
             base.InstallBindings();
         }

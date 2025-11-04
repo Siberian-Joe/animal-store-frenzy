@@ -4,19 +4,15 @@ namespace NewCore.Data
 {
     public class Customer : NavigableEntity<CustomerData>
     {
-        public string Type;
+        public string Type { get; }
 
-        public override void Initialize(CustomerData data)
-        {
-            base.Initialize(data);
-            Type = data.Type;
-        }
+        public Customer(CustomerData model) : base(model) => Type = model.Type;
 
-        public override CustomerData ToModel()
+        protected override CustomerData CreateModel()
         {
             return new CustomerData
             {
-                ID = ID,
+                Id = Id,
                 Type = Type,
                 Position = Position.Value,
                 TargetPosition = TargetPosition.Value,

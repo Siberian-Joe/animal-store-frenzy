@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
-using NewCore.Services;
+using NewCore.Services.GameData;
 using UnityEngine;
 
 namespace NewCore.Commands
@@ -26,7 +26,8 @@ namespace NewCore.Commands
 
                 // TODO: Move save logic to a separate handler or external service to adhere to SRP
                 if (result)
-                    _gameDataService.SaveAsync<GameStateData, GameState>().Forget();
+                    _gameDataService.SaveAsync<GameStateData, GameState>()
+                                    .Forget();
 
                 return result;
             }

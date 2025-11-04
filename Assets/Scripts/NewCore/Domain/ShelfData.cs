@@ -6,7 +6,7 @@ namespace NewCore.Domain
     public class ShelfData : EntityData
     {
         public string Name;
+        public int MaxCapacity = 5;
         public int Capacity;
-        public int Level;
     }
 }

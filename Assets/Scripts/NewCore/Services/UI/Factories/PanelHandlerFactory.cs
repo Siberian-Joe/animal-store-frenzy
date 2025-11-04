@@ -1,14 +1,17 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
+using NewCore.Domain;
 using NewCore.Factories;
+using NewCore.Modules.Interaction;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI.Handlers;
 using NewCore.Services.UI.Handlers.Decorators;
 using NewCore.Services.UI.Registries;
-using NewCore.ViewModels;
 using NewCore.Views.UI;
+using IViewModel = NewCore.ViewModels.IViewModel;
 
 namespace NewCore.Services.UI.Factories
 {
@@ -17,21 +20,29 @@ namespace NewCore.Services.UI.Factories
         private readonly IResourceLoader _resourceLoader;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IPanelCache _cache;
-        private readonly IPanelHandlerResolver[] _resolvers;
+        private readonly IEnumerable<IPanelHandlerResolver> _resolvers;
+        private readonly IProxyFactory _proxyFactory;
 
-        public PanelHandlerFactory(IResourceLoader resourceLoader, IViewModelFactory viewModelFactory,
-            IPanelCache cache, IPanelHandlerResolver[] resolvers)
+        public PanelHandlerFactory(
+            IResourceLoader resourceLoader,
+            IViewModelFactory viewModelFactory,
+            IPanelCache cache,
+            IEnumerable<IPanelHandlerResolver> resolvers,
+            IProxyFactory proxyFactory)
         {
             _resourceLoader = resourceLoader;
             _viewModelFactory = viewModelFactory;
             _cache = cache;
             _resolvers = resolvers;
+            _proxyFactory = proxyFactory;
         }
 
-        public async UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TProxy, TViewModel>(UIContainerRoot roots,
+        public async UniTask<IPanelHandler<TViewModel>> CreateAsync<TPanel, TModel, TProxy, TViewModel>(
+            UIContainerRoot roots,
             CancellationToken cancellationToken = default)
             where TPanel : PanelView<TViewModel>
-            where TProxy : IProxy, new()
+            where TModel : IModel, new()
+            where TProxy : IProxy
             where TViewModel : class, IViewModel
         {
             var panelType = typeof(TPanel);
@@ -39,7 +50,7 @@ namespace NewCore.Services.UI.Factories
                 return (IPanelHandler<TViewModel>)existing;
 
             var view = await _resourceLoader.InstantiateResourceAsync<TPanel>(cancellationToken: cancellationToken);
-            var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(new TProxy());
+            var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(_proxyFactory.Create<TProxy>(new TModel()));
 
             view.Bind(viewModel);
             view.Close();

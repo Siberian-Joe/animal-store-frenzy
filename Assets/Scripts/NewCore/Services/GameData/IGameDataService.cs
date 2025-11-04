@@ -3,17 +3,28 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Modules.Interaction;
 using R3;
 
-namespace NewCore.Services
+namespace NewCore.Services.GameData
 {
     public interface IGameDataService : IGameDataResolver
     {
-        void Register<TModel, TProxy>(string key, Func<TModel> createDefault, Func<TModel, TProxy> createProxy)
+        public void Register<TModel, TProxy>(
+            string key,
+            Func<TModel> createDefault,
+            Func<TModel, IProxyFactory, TProxy> createProxy)
             where TModel : IModel
             where TProxy : IProxy;
 
-        UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(CancellationToken cancellationToken = default)
+        public UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(
+            CancellationToken cancellationToken = default)
+            where TModel : IModel
+            where TProxy : IProxy;
+
+        public UniTask<Result<TProxy>> LoadAsync<TModel, TProxy>(
+            IProxyFactory factory,
+            CancellationToken cancellationToken = default)
             where TModel : IModel
             where TProxy : IProxy;
 

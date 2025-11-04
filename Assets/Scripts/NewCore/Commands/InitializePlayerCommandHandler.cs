@@ -2,6 +2,7 @@
 using NewCore.Factories;
 using NewCore.Services.Lifecycle;
 using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 
 namespace NewCore.Commands
 {

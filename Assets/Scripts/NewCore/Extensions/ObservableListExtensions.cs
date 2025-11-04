@@ -3,53 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Modules.Interaction;
 using ObservableCollections;
 using R3;
+using UnityEngine;
 
 namespace NewCore.Extensions
 {
     public static class ObservableListExtensions
     {
-        public static void InitializeFromModels<TModel, TProxy>(
+        public static IDisposable InitializeFromModels<TModel, TProxy>(
             this ObservableList<TProxy> list,
-            ICollection<TModel> models,
-            CompositeDisposable disposables)
-            where TModel : EntityData
-            where TProxy : Entity<TModel>, new()
+            ICollection<TModel> models, IProxyFactory proxyFactory)
+            where TModel : IModel
+            where TProxy : Proxy<TModel>
         {
-            if (disposables == null)
-                throw new ArgumentNullException(nameof(disposables));
-
             models ??= new List<TModel>();
 
+            var disposables = new CompositeDisposable();
+
             foreach (var model in models)
-            {
-                var proxy = new TProxy();
-                proxy.Initialize(model);
-                list.Add(proxy);
-            }
+                list.Add(proxyFactory.Create<TProxy>(model));
 
             list.ObserveAdd()
                 .Subscribe(addEvent => models.Add(addEvent.Value.ToModel()))
                 .AddTo(disposables);
 
             list.ObserveRemove()
-                .Subscribe(removeEvent => models.Remove(removeEvent.Value.ToModel()))
+                .Subscribe(remEvent => models.Remove(remEvent.Value.ToModel()))
                 .AddTo(disposables);
+
+            return disposables;
         }
 
-        public static void AddModel<TModel, TProxy>(
+        public static void AddModel<TProxy>(
             this ObservableList<TProxy> list,
-            TModel model)
-            where TModel : IModel
-            where TProxy : Proxy<TModel>, new()
+            IModel model,
+            IProxyFactory proxyFactory)
+            where TProxy : IProxy
         {
             if (model == null)
-                throw new ArgumentNullException(nameof(model));
+            {
+                Debug.LogError("Model is null. Cannot create proxy for null model");
+                return;
+            }
 
-            var proxy = new TProxy();
-            proxy.Initialize(model);
-            list.Add(proxy);
+            if (proxyFactory == null)
+            {
+                Debug.LogError("Proxy factory is null. Cannot create proxy for model");
+                return;
+            }
+
+            list.Add(proxyFactory.Create<TProxy>(model));
         }
 
         public static void RemoveModel<TModel, TProxy>(
@@ -59,18 +64,15 @@ namespace NewCore.Extensions
             where TProxy : Entity<TModel>, new()
         {
             if (model == null)
-                throw new ArgumentNullException(nameof(model));
+            {
+                Debug.LogError("Model is null. Cannot remove proxy for null model");
+                return;
+            }
 
-            var proxy = list.FirstOrDefault(p => p.IsEquivalentTo(model));
+            var proxy = list.FirstOrDefault(proxy => proxy.Equals(model));
             if (proxy != null)
                 list.Remove(proxy);
         }
-
-        public static List<TModel> ToModelList<TModel, TProxy>(
-            this IEnumerable<TProxy> proxies)
-            where TModel : EntityData
-            where TProxy : Entity<TModel> =>
-            proxies.Select(proxy => proxy.ToModel()).ToList();
 
         public static void ClearAndDispose<T>(this ICollection<T> items) where T : IDisposable
         {

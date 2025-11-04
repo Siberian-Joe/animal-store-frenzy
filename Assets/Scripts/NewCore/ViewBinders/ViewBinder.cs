@@ -1,5 +1,6 @@
 ﻿using System;
 using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using NewCore.Views;
 using ObservableCollections;
 using R3;

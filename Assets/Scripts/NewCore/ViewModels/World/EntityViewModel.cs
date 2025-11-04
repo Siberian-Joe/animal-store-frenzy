@@ -2,12 +2,12 @@
 using R3;
 using UnityEngine;
 
-namespace NewCore.ViewModels
+namespace NewCore.ViewModels.World
 {
     public abstract class EntityViewModel<TProxy> : ViewModel<TProxy>, IEntityViewModel
-        where TProxy : IEntityProxy
+        where TProxy : Proxy, IEntityProxy
     {
-        public string ID => Proxy.ID;
+        public string Id => Proxy.Id;
         public ReactiveProperty<Vector3> Position => Proxy.Position;
 
         protected EntityViewModel(TProxy proxy) : base(proxy)

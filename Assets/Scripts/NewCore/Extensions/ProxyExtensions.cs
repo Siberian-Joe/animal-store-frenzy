@@ -2,28 +2,29 @@
 using System.Linq;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Modules.Interaction;
 
 namespace NewCore.Extensions
 {
     public static class ProxyExtensions
     {
-        public static TProxy ToProxy<TModel, TProxy>(this TModel model)
-            where TModel : IModel
-            where TProxy : Proxy<TModel>, new()
-        {
-            var proxy = new TProxy();
-            proxy.Initialize(model);
-            return proxy;
-        }
+        public static TProxy ToProxy<TProxy>(
+            this IModel model,
+            IProxyFactory factory)
+            where TProxy : IProxy =>
+            factory.Create<TProxy>(model);
 
-        public static List<TProxy> ToProxies<TModel, TProxy>(this IEnumerable<TModel> models)
-            where TModel : IModel
-            where TProxy : Proxy<TModel>, new() =>
-            models.Select(ToProxy<TModel, TProxy>).ToList();
+        public static IEnumerable<TProxy> ToProxies<TProxy>(
+            this IEnumerable<IModel> models,
+            IProxyFactory factory)
+            where TProxy : IProxy =>
+            models.Select(factory.Create<TProxy>);
 
-        public static List<TModel> ToModels<TModel, TProxy>(this IEnumerable<TProxy> proxies)
-            where TModel : IModel
-            where TProxy : Proxy<TModel> =>
-            proxies.Select(proxy => proxy.ToModel()).ToList();
+        public static IEnumerable<TModel> ToModels<TModel>(this IEnumerable<Proxy<TModel>> proxies)
+            where TModel : IModel =>
+            proxies
+                .Select(proxy => proxy.ToModel());
+
+
     }
 }

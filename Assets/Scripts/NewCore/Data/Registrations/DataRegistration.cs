@@ -1,6 +1,7 @@
 ﻿using System;
 using NewCore.Data;
 using NewCore.Domain;
+using NewCore.Modules.Interaction;
 
 namespace NewCore.Services
 {
@@ -10,9 +11,15 @@ namespace NewCore.Services
     {
         public string Key { get; }
         public Func<TModel> CreateDefault { get; }
-        public Func<TModel, TProxy> CreateProxy { get; }
+        public Func<TModel, IProxyFactory, TProxy> CreateProxy { get; }
 
-        public DataRegistration(string key, Func<TModel> createDefault, Func<TModel, TProxy> createProxy)
+        public Type ModelType => typeof(TModel);
+        public Type ProxyType => typeof(TProxy);
+
+        public DataRegistration(
+            string key,
+            Func<TModel> createDefault,
+            Func<TModel, IProxyFactory, TProxy> createProxy)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));
             CreateDefault = createDefault ?? throw new ArgumentNullException(nameof(createDefault));

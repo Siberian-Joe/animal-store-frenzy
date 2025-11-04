@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using NewCore.Data;
+using NewCore.Domain;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.UI.Factories;
 using NewCore.Services.UI.Handlers;
@@ -30,14 +31,15 @@ namespace NewCore.Services.UI
             });
         }
 
-        public async UniTask<IPanelHandler<TViewModel>> LoadPanelAsync<TPanel, TProxy, TViewModel>(
+        public async UniTask<IPanelHandler<TViewModel>> LoadPanelAsync<TPanel, TModel, TProxy, TViewModel>(
             CancellationToken cancellationToken = default)
             where TPanel : PanelView<TViewModel>
-            where TProxy : IProxy, new()
+            where TModel : IModel, new()
+            where TProxy : IProxy
             where TViewModel : class, IViewModel
         {
             var roots = await _lazyRoots;
-            var handler = await _handlerFactory.CreateAsync<TPanel, TProxy, TViewModel>(roots, cancellationToken);
+            var handler = await _handlerFactory.CreateAsync<TPanel, TModel, TProxy, TViewModel>(roots, cancellationToken);
 
             return handler;
         }

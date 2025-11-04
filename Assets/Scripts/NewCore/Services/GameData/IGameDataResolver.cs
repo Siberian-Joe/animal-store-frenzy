@@ -1,7 +1,7 @@
 ﻿using NewCore.Data;
 using NewCore.Domain;
 
-namespace NewCore.Services
+namespace NewCore.Services.GameData
 {
     public interface IGameDataResolver
     {

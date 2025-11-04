@@ -1,6 +1,6 @@
 ﻿using System;
 using NewCore.Components;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using R3;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace NewCore.Views
         private const float PositionToleranceSqr = 0.0001f;
         private const float PositionUpdateInterval = 200f;
 
-        public string ID => ViewModel?.ID ?? (_identifier ??= GetComponent<EntityIdentifier>()).ID;
+        public string Id => ViewModel?.Id ?? (_identifier ??= GetComponent<EntityIdentifier>()).Id;
 
         private EntityIdentifier _identifier;
 
@@ -23,23 +23,23 @@ namespace NewCore.Views
             if (_identifier == null)
                 _identifier = GetComponent<EntityIdentifier>();
 
-            _identifier.ID = ViewModel.ID;
+            _identifier.Id = ViewModel.Id;
 
-            if (ViewModel != null)
-            {
-                transform.position = ViewModel.Position.Value;
+            if (ViewModel == null)
+                return;
 
-                Observable.EveryUpdate()
-                    .Select(_ => transform.position)
-                    .DistinctUntilChanged()
-                    .ThrottleFirst(TimeSpan.FromMilliseconds(PositionUpdateInterval))
-                    .Subscribe(positionValue =>
-                    {
-                        if ((ViewModel.Position.Value - positionValue).sqrMagnitude > PositionToleranceSqr)
-                            ViewModel.Position.Value = positionValue;
-                    })
-                    .AddTo(Disposables);
-            }
+            transform.position = ViewModel.Position.Value;
+
+            Observable.EveryUpdate()
+                .Select(_ => transform.position)
+                .DistinctUntilChanged()
+                .ThrottleFirst(TimeSpan.FromMilliseconds(PositionUpdateInterval))
+                .Subscribe(positionValue =>
+                {
+                    if ((ViewModel.Position.Value - positionValue).sqrMagnitude > PositionToleranceSqr)
+                        ViewModel.Position.Value = positionValue;
+                })
+                .AddTo(Disposables);
         }
     }
 }

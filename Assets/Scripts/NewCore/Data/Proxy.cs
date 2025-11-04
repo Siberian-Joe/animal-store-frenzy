@@ -1,22 +1,31 @@
-﻿using NewCore.Domain;
+﻿using System;
+using NewCore.Domain;
 using R3;
 
 namespace NewCore.Data
 {
-    public class Proxy : IProxy
+    public abstract class Proxy : IProxy, IDisposable
     {
         protected readonly CompositeDisposable Disposables = new();
+
+        IModel IProxy.ToModel() => CreateModelCore();
+
+        protected abstract IModel CreateModelCore();
 
         public virtual void Dispose() => Disposables.Dispose();
     }
 
-    public abstract class Proxy<TModel> : Proxy, IProxy<TModel>
+    public abstract class Proxy<TModel> : Proxy
         where TModel : IModel
     {
-        public abstract TModel ToModel();
+        protected TModel Model { get; }
 
-        public virtual void Initialize(TModel data)
-        {
-        }
+        protected Proxy(TModel model) => Model = model;
+
+        public TModel ToModel() => CreateModel();
+
+        protected sealed override IModel CreateModelCore() => CreateModel();
+
+        protected abstract TModel CreateModel();
     }
 }

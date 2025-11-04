@@ -1,4 +1,6 @@
-﻿using R3;
+﻿using System;
+using NewCore.Extensions;
+using R3;
 using UnityEngine.AI;
 
 namespace NewCore.Views
@@ -7,6 +9,7 @@ namespace NewCore.Views
         where TViewModel : INavigableEntityViewModel
     {
         private NavMeshAgent _agent;
+        private IDisposable _arriveDisposable;
 
         private void Awake()
         {
@@ -17,8 +20,18 @@ namespace NewCore.Views
         protected override void OnBind()
         {
             base.OnBind();
+
             ViewModel.TargetPosition
-                .Subscribe(targetPosition => _agent.SetDestination(targetPosition))
+                .Subscribe(targetPosition =>
+                {
+                    _agent.SetDestination(targetPosition);
+
+                    _arriveDisposable?.Dispose();
+                    _arriveDisposable = _agent
+                        .WhenArrived()
+                        .Subscribe(_ => ViewModel.NotifyArrived())
+                        .AddTo(Disposables);
+                })
                 .AddTo(Disposables);
         }
     }

@@ -1,14 +1,23 @@
-﻿using NewCore.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NewCore.Domain;
+using NewCore.Modules.Interaction.Abstractions;
 
 namespace NewCore.Data
 {
-    public class Player : NavigableEntity<PlayerData>
+    public class Player : NavigableEntity<PlayerData>, IActor
     {
-        public override PlayerData ToModel()
+        public IReadOnlyList<IInteractionRule> Rules { get; }
+
+        public Player(PlayerData model, IEnumerable<IInteractionRule> interactionRules) : base(model) =>
+            Rules = interactionRules.ToList()
+                                    .AsReadOnly();
+
+        protected override PlayerData CreateModel()
         {
             return new PlayerData
             {
-                ID = ID,
+                Id = Id,
                 Position = Position.Value,
                 TargetPosition = TargetPosition.Value
             };

@@ -11,9 +11,9 @@ namespace NewCore.ViewModels
     }
 
     public abstract class ViewModel<TProxy> : ViewModel
-        where TProxy : IProxy
+        where TProxy : Proxy
     {
-        public TProxy Proxy { get; }
+        protected TProxy Proxy { get; }
 
         protected ViewModel(TProxy proxy) => Proxy = proxy;
 

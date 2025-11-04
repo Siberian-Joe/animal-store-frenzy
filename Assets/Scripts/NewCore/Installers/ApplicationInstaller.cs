@@ -1,6 +1,8 @@
 ﻿using NewCore.Bootstrap;
 using NewCore.Factories;
+using NewCore.Modules.Interaction;
 using NewCore.Services;
+using NewCore.Services.GameData;
 using NewCore.Services.Input;
 using NewCore.Services.ResourceLoaders;
 using NewCore.Services.Scenes;
@@ -8,10 +10,9 @@ using NewCore.Services.Storage;
 using NewCore.Services.UI;
 using NewCore.Services.UI.Factories;
 using NewCore.Services.UI.Registries;
-using NewCore.ViewModels;
 using NewCore.ViewModels.UI;
+using NewCore.ViewModels.World;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace NewCore.Installers
@@ -22,6 +23,11 @@ namespace NewCore.Installers
 
         public override void InstallBindings()
         {
+            Container
+                .Bind<IProxyFactory>()
+                .To<ProxyFactory>()
+                .AsSingle();
+
             Container
                 .Bind<IResourceLoader>()
                 .To<ResourceLoader>()
@@ -47,7 +53,6 @@ namespace NewCore.Installers
                 .To<SystemOverlayRegistry>()
                 .AsSingle();
 
-
             Container
                 .Bind<IPanelHandlerResolver>()
                 .To<ScreenHandlerResolver>()
@@ -67,7 +72,6 @@ namespace NewCore.Installers
                 .Bind<IPanelHandlerResolver>()
                 .To<DefaultHandlerResolver>()
                 .AsSingle();
-
 
             Container
                 .Bind<IPanelHandlerFactory>()

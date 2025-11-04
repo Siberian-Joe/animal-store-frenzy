@@ -1,4 +1,4 @@
-﻿using NewCore.ViewModels;
+﻿using NewCore.ViewModels.World;
 using NewCore.Views;
 using ObservableCollections;
 using UnityEngine;

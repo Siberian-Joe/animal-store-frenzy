@@ -7,12 +7,11 @@ namespace NewCore.Data
     public abstract class NavigableEntity<TModel> : Entity<TModel>, INavigableEntityProxy
         where TModel : NavigableEntityData
     {
-        public ReactiveProperty<Vector3> TargetPosition { get; private set; }
+        public ReactiveProperty<Vector3> TargetPosition { get; }
 
-        public override void Initialize(TModel data)
+        protected NavigableEntity(TModel model) : base(model)
         {
-            base.Initialize(data);
-            TargetPosition = new ReactiveProperty<Vector3>(data.Position);
+            TargetPosition = new ReactiveProperty<Vector3>(model.Position);
             TargetPosition
                 .Skip(1)
                 .Subscribe(position => Position.Value = position)

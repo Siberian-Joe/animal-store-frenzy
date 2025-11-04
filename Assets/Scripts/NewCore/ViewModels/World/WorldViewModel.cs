@@ -1,7 +1,7 @@
 ﻿using NewCore.Services.Lifecycle;
 using R3;
 
-namespace NewCore.ViewModels
+namespace NewCore.ViewModels.World
 {
     public class WorldViewModel : ViewModel
     {

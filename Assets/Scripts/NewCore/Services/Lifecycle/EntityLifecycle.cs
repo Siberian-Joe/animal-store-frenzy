@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using NewCore.Data;
 using NewCore.Extensions;
 using NewCore.Factories;
-using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using ObservableCollections;
 using R3;
 
 namespace NewCore.Services.Lifecycle
 {
     public abstract class EntityLifecycle<TProxy, TViewModel> : IDisposable
-        where TProxy : IEntityProxy, new()
+        where TProxy : Proxy, IEntityProxy
         where TViewModel : EntityViewModel<TProxy>
     {
         public IObservableCollection<TViewModel> Entities => _viewModels;
@@ -41,21 +41,21 @@ namespace NewCore.Services.Lifecycle
 
         private void Add(TProxy proxy)
         {
-            if (_map.ContainsKey(proxy.ID))
+            if (_map.ContainsKey(proxy.Id))
                 return;
 
             var viewModel = _viewModelFactory.Create<TProxy, TViewModel>(proxy);
-            _map.Add(proxy.ID, viewModel);
+            _map.Add(proxy.Id, viewModel);
             _viewModels.Add(viewModel);
         }
 
         private void Remove(TProxy proxy)
         {
-            if (!_map.TryGetValue(proxy.ID, out var viewModel))
+            if (!_map.TryGetValue(proxy.Id, out var viewModel))
                 return;
 
             _viewModels.Remove(viewModel);
-            _map.Remove(proxy.ID);
+            _map.Remove(proxy.Id);
             viewModel.Dispose();
         }
 

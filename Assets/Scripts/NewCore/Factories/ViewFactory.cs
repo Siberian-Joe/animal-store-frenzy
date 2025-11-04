@@ -1,4 +1,5 @@
 ﻿using NewCore.ViewModels;
+using NewCore.ViewModels.World;
 using NewCore.Views;
 using UnityEngine;
 using Zenject;

@@ -4,6 +4,10 @@ namespace NewCore.Data.UI
 {
     public class LoadingSystemOverlay : Proxy<LoadingSystemOverlayModel>
     {
-        public override LoadingSystemOverlayModel ToModel() => new();
+        public LoadingSystemOverlay(LoadingSystemOverlayModel model) : base(model)
+        {
+        }
+
+        protected override LoadingSystemOverlayModel CreateModel() => new();
     }
 }
