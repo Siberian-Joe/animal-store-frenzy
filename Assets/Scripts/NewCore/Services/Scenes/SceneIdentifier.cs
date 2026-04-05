@@ -5,6 +5,6 @@ namespace NewCore.Services.Scenes
     {
         public const string Bootstrap = "Bootstrap";
         public const string MainMenu = "MainMenu";
-        public const string Core = "Core";
+        public const string Core = "Core 1";
     }
 }
