@@ -1,6 +1,8 @@
-using Game.World.Core;
+using Game.World.Commands;
+using Game.World.EntityRuntime;
 using Game.World.Interactions;
-using Game.World.Navigation;
+using Game.World.Features.InteractionTarget;
+using Game.World.Features.Navigation;
 using NewCore.Services.Input;
 using R3;
 using UnityEngine;
@@ -15,11 +17,19 @@ namespace Game.World.Debugging
         private readonly CompositeDisposable _disposables = new();
 
         private IPlayerInputService _inputService;
-        private IEntityInteraction _pendingInteraction;
+        private GameCommandDispatcher _commandDispatcher;
+        private InteractionCommandRequest _pendingRequest;
+        private InteractionSourcePart _sourcePart;
         private INavigationFeature _navigation;
 
         [Inject]
-        public void Construct(IPlayerInputService inputService) => _inputService = inputService;
+        public void Construct(
+            IPlayerInputService inputService,
+            GameCommandDispatcher commandDispatcher)
+        {
+            _inputService = inputService;
+            _commandDispatcher = commandDispatcher;
+        }
 
         private void Start()
         {
@@ -29,9 +39,29 @@ namespace Game.World.Debugging
                 return;
             }
 
-            if (_player.TryGetFeature(out _navigation) == false)
+            if (_commandDispatcher == null)
+            {
+                Debug.LogError($"{nameof(PlayerShelfInteractionTester)}: command dispatcher was not injected", this);
+                return;
+            }
+
+            if (_inputService == null)
+            {
+                Debug.LogError($"{nameof(PlayerShelfInteractionTester)}: input service was not injected", this);
+                return;
+            }
+
+            if (TryGetNavigation(_player, out _navigation) == false)
             {
                 Debug.LogError($"{nameof(PlayerShelfInteractionTester)}: player has no navigation feature", this);
+                return;
+            }
+
+            if (TryGetInteractionSource(_player, out _sourcePart) == false)
+            {
+                Debug.LogError(
+                    $"{nameof(PlayerShelfInteractionTester)}: player has no {nameof(InteractionSourcePart)}",
+                    this);
                 return;
             }
 
@@ -53,25 +83,101 @@ namespace Game.World.Debugging
             if (targetRoot == false)
                 return;
 
-            if (targetRoot.TryGetFeature<IInteractionTargetFeature>(out var shelfInteraction) == false)
+            if (TryGetInteractionTarget(targetRoot, out var targetPoint) == false)
                 return;
 
-            if (shelfInteraction.TryResolve(_player, out var interaction) == false)
+            if (targetPoint.TryBuildRequest(_sourcePart, out var request) == false)
                 return;
 
-            _pendingInteraction = interaction;
-            _navigation.SetTarget(interaction.ApproachPoint);
+            _pendingRequest = request;
+            _navigation.SetTarget(request.ApproachPoint);
         }
 
         private void CompletePendingInteraction()
         {
-            if (_pendingInteraction == null)
+            if (_pendingRequest == null)
                 return;
 
-            if (_pendingInteraction.CanExecute)
-                _pendingInteraction.Execute();
+            _commandDispatcher.Dispatch(_pendingRequest.Command);
+            _pendingRequest = null;
+        }
 
-            _pendingInteraction = null;
+        private static bool TryGetNavigation(EntityRoot root, out INavigationFeature navigation)
+        {
+            if (root == false)
+            {
+                navigation = null;
+                return false;
+            }
+
+            var candidates = root.GetComponentsInChildren<NavigationPart>(true);
+
+            foreach (var candidate in candidates)
+            {
+                if (candidate == false)
+                    continue;
+
+                if (candidate.GetComponentInParent<EntityRoot>() != root)
+                    continue;
+
+                navigation = candidate;
+                return true;
+            }
+
+            navigation = null;
+            return false;
+        }
+
+        private static bool TryGetInteractionTarget(EntityRoot root, out InteractionTargetPart targetPoint)
+        {
+            if (root == false)
+            {
+                targetPoint = null;
+                return false;
+            }
+
+            var candidates = root.GetComponentsInChildren<InteractionTargetPart>(true);
+
+            foreach (var candidate in candidates)
+            {
+                if (candidate == false)
+                    continue;
+
+                if (candidate.GetComponentInParent<EntityRoot>() != root)
+                    continue;
+
+                targetPoint = candidate;
+                return true;
+            }
+
+            targetPoint = null;
+            return false;
+        }
+
+        private static bool TryGetInteractionSource(EntityRoot root, out InteractionSourcePart sourcePoint)
+        {
+            if (root == false)
+            {
+                sourcePoint = null;
+                return false;
+            }
+
+            var candidates = root.GetComponentsInChildren<InteractionSourcePart>(true);
+
+            foreach (var candidate in candidates)
+            {
+                if (candidate == false)
+                    continue;
+
+                if (candidate.GetComponentInParent<EntityRoot>() != root)
+                    continue;
+
+                sourcePoint = candidate;
+                return true;
+            }
+
+            sourcePoint = null;
+            return false;
         }
 
         private void OnDestroy() => _disposables.Dispose();

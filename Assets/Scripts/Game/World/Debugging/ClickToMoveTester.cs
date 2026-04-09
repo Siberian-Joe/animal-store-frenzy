@@ -1,5 +1,5 @@
-﻿using Game.World.Core;
-using Game.World.Navigation;
+using Game.World.EntityRuntime;
+using Game.World.Features.Navigation;
 using NewCore.Services.Input;
 using R3;
 using UnityEngine;
@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Game.World.Debugging
 {
-    public sealed class ClickToMoveInputTester : MonoBehaviour
+    public sealed class ClickToMoveTester : MonoBehaviour
     {
         [SerializeField] private EntityRoot _targetEntity;
 
@@ -25,14 +25,14 @@ namespace Game.World.Debugging
         {
             if (_playerInputService == null)
             {
-                Debug.LogError($"{nameof(ClickToMoveInputTester)}: {nameof(IPlayerInputService)} was not injected.",
+                Debug.LogError($"{nameof(ClickToMoveTester)}: {nameof(IPlayerInputService)} was not injected.",
                     this);
                 return;
             }
 
             if (_targetEntity == false)
             {
-                Debug.LogError($"{nameof(ClickToMoveInputTester)}: target entity is not assigned.", this);
+                Debug.LogError($"{nameof(ClickToMoveTester)}: target entity is not assigned.", this);
                 return;
             }
 
@@ -43,10 +43,36 @@ namespace Game.World.Debugging
 
         private void HandleClick(ClickContext click)
         {
-            if (_targetEntity.TryGetFeature<INavigationFeature>(out var navigation) == false)
+            if (TryGetNavigation(_targetEntity, out var navigation) == false)
                 return;
 
             navigation.SetTarget(click.WorldPosition);
+        }
+
+        private static bool TryGetNavigation(EntityRoot root, out INavigationFeature navigation)
+        {
+            if (root == false)
+            {
+                navigation = null;
+                return false;
+            }
+
+            var candidates = root.GetComponentsInChildren<NavigationPart>(true);
+
+            foreach (var candidate in candidates)
+            {
+                if (candidate == false)
+                    continue;
+
+                if (candidate.GetComponentInParent<EntityRoot>() != root)
+                    continue;
+
+                navigation = candidate;
+                return true;
+            }
+
+            navigation = null;
+            return false;
         }
 
         private void OnDestroy()

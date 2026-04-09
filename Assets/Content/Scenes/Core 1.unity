@@ -1350,6 +1350,8 @@ GameObject:
   - component: {fileID: 1148530380}
   - component: {fileID: 1148530381}
   - component: {fileID: 1148530382}
+  - component: {fileID: 1148530383}
+  - component: {fileID: 1148530384}
   - component: {fileID: 1148530379}
   m_Layer: 0
   m_Name: Man
@@ -1385,11 +1387,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d7ee58951f1403a9a2fccfded2ee776, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.TransformPart
-  _syncPositionFromFeature: 1
-  _syncRotationFromFeature: 1
-  _syncPositionToFeature: 1
-  _syncRotationToFeature: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.Spatial.SpatialPart
 --- !u!114 &1148530377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,7 +1399,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4344be3e8a92489d813c6ef3e9c11f72, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Core.EntityIdentifier
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.EntityRuntime.EntityIdentifier
   _id: d745cc210574452bbecf6b8605f4b81e
 --- !u!114 &1148530378
 MonoBehaviour:
@@ -1414,7 +1412,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fda2f0ced3d42e1a0096ef20a59c964, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Core.EntityRoot
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.EntityRuntime.EntityRoot
 --- !u!195 &1148530379
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1448,7 +1446,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cfa758c16f649f4bd604f4318dbbba4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.NavigationPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.Navigation.NavigationPart
   _stoppingDistance: 0.15
   _disableAgentRotation: 1
   _disableAgentUpAxis: 1
@@ -1463,7 +1461,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45bf78cdf9524e89ba15e16d04b52b9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.ProductContainerPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.ProductContainer.ProductContainerPart
   _capacity: 10
   _initialQuantity: 5
 --- !u!114 &1148530382
@@ -1477,8 +1475,35 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 899c890530fd4844ba4dcdcef8b825d4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.ShelfConsumerPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.ShelfConsumer.ShelfConsumerPart
   _transferAmount: 1
+  _container: {fileID: 1148530381}
+--- !u!114 &1148530383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148530374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba95b29f3dfa4e5aaed9df0eb8040294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Interactions.InteractionSourcePart
+--- !u!114 &1148530384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148530374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c20d211c714e13bf383c49fe2ca2e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.ShelfRestocker.ShelfRestockerPart
+  _transferAmount: 1
+  _container: {fileID: 1148530381}
 --- !u!1 &1350138222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,12 +1822,6 @@ GameObject:
   - component: {fileID: 1538534510}
   - component: {fileID: 1538534512}
   - component: {fileID: 1538534514}
-  - component: {fileID: 1538534513}
-  - component: {fileID: 1538534515}
-  - component: {fileID: 1538534519}
-  - component: {fileID: 1538534518}
-  - component: {fileID: 1538534517}
-  - component: {fileID: 1538534516}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1826,12 +1845,6 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1538534512}
   - {fileID: 1538534514}
-  - {fileID: 1538534513}
-  - {fileID: 1538534515}
-  - {fileID: 1538534519}
-  - {fileID: 1538534518}
-  - {fileID: 1538534517}
-  - {fileID: 1538534516}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
@@ -1877,18 +1890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a09366f4c7d34f0fab7e661d96b50d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1538534513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca23e7615fc482ab297360feb5ef3a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.TransformModuleInstaller
 --- !u!114 &1538534514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1901,66 +1902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb7c328868d476ebf7bf4b303252fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.EntityCompositionInstaller
---- !u!114 &1538534515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbcd80f50a984a2fa8d9c0b04876d742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.NavigationModuleInstaller
---- !u!114 &1538534516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e459683580740318887edc8eb438c52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.ShelfRestockerModuleInstaller
---- !u!114 &1538534517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f297ee1c7e4656b4d34dab3f0312c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.InteractionTargetModuleInstaller
---- !u!114 &1538534518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50bf46f2484a4f0abdd8b54d828d24aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.ShelfConsumerModuleInstaller
---- !u!114 &1538534519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538534509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f8d72d3f4b44f7a6f57f305c3ca241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Installers.ProductContainerModuleInstaller
 --- !u!1 &1829831106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3068,7 +3009,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4344be3e8a92489d813c6ef3e9c11f72, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Core.EntityIdentifier
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.EntityRuntime.EntityIdentifier
   _id: e4560c8bf4414f258f30384e5bec01a4
 --- !u!114 &8329886551727243475
 MonoBehaviour:
@@ -3081,7 +3022,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45bf78cdf9524e89ba15e16d04b52b9d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.ProductContainerPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.ProductContainer.ProductContainerPart
   _capacity: 10
   _initialQuantity: 5
 --- !u!114 &8329886551727243476
@@ -3095,7 +3036,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fda2f0ced3d42e1a0096ef20a59c964, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Core.EntityRoot
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.EntityRuntime.EntityRoot
 --- !u!114 &8329886551727243477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3107,8 +3048,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edbbcf4b78224377b361566e70fd3d11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.InteractionTargetPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.InteractionTarget.InteractionTargetPart
   _localInteractionOffset: {x: 0, y: 0, z: -0.75}
+  _spatial: {fileID: 8329886551727243478}
 --- !u!114 &8329886551727243478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3120,11 +3062,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d7ee58951f1403a9a2fccfded2ee776, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.TransformPart
-  _syncPositionFromFeature: 1
-  _syncRotationFromFeature: 1
-  _syncPositionToFeature: 1
-  _syncRotationToFeature: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.Spatial.SpatialPart
 --- !u!114 &8329886551727243479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3134,10 +3072,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4323067766800609256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d3d5da835048dc8b0e4197f89b5905, type: 3}
+  m_Script: {fileID: 11500000, guid: d5d1d65af3b84c96a814c3d61ded917c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.TakeFromShelfInteractionResolverPart
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.InteractionTarget.TakeFromShelfCommandBuilderPart
   _order: 0
+  _container: {fileID: 8329886551727243475}
 --- !u!114 &8329886551727243480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3147,10 +3086,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4323067766800609256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5104d713f17432887148655224dca42, type: 3}
+  m_Script: {fileID: 11500000, guid: dcb31fc83f494241b074beaecc0a3e0c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Parts.RestockShelfInteractionResolverPart
-  _order: 0
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Features.InteractionTarget.RestockShelfCommandBuilderPart
+  _order: -10
+  _container: {fileID: 8329886551727243475}
 --- !u!4 &8397782550942842280
 Transform:
   m_ObjectHideFlags: 0
