@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using Game.World.Commands;
 using Game.World.EntityRuntime;
-using Game.World.Interactions;
 using Game.World.Features.InteractionTarget;
 using Game.World.Features.Navigation;
+using Game.World.Interactions;
 using NewCore.Services.Input;
 using R3;
 using UnityEngine;
@@ -15,11 +16,12 @@ namespace Game.World.Debugging
         [SerializeField] private EntityRoot _player;
 
         private readonly CompositeDisposable _disposables = new();
+        private readonly List<InteractionOption> _interactionOptions = new(4);
 
         private IPlayerInputService _inputService;
         private GameCommandDispatcher _commandDispatcher;
-        private InteractionCommandRequest _pendingRequest;
-        private InteractionSourcePart _sourcePart;
+        private InteractionOption _pendingOption;
+        private InteractionActorPart _sourcePart;
         private INavigationFeature _navigation;
 
         [Inject]
@@ -60,7 +62,7 @@ namespace Game.World.Debugging
             if (TryGetInteractionSource(_player, out _sourcePart) == false)
             {
                 Debug.LogError(
-                    $"{nameof(PlayerShelfInteractionTester)}: player has no {nameof(InteractionSourcePart)}",
+                    $"{nameof(PlayerShelfInteractionTester)}: player has no {nameof(InteractionActorPart)}",
                     this);
                 return;
             }
@@ -86,20 +88,23 @@ namespace Game.World.Debugging
             if (TryGetInteractionTarget(targetRoot, out var targetPoint) == false)
                 return;
 
-            if (targetPoint.TryBuildRequest(_sourcePart, out var request) == false)
+            _interactionOptions.Clear();
+            targetPoint.CollectOptions(_sourcePart, _interactionOptions);
+
+            if (_interactionOptions.Count <= 0)
                 return;
 
-            _pendingRequest = request;
-            _navigation.SetTarget(request.ApproachPoint);
+            _pendingOption = _interactionOptions[0];
+            _navigation.SetTarget(_pendingOption.ApproachPoint);
         }
 
         private void CompletePendingInteraction()
         {
-            if (_pendingRequest == null)
+            if (_pendingOption == null)
                 return;
 
-            _commandDispatcher.Dispatch(_pendingRequest.Command);
-            _pendingRequest = null;
+            _commandDispatcher.Dispatch(_pendingOption.Command);
+            _pendingOption = null;
         }
 
         private static bool TryGetNavigation(EntityRoot root, out INavigationFeature navigation)
@@ -154,7 +159,7 @@ namespace Game.World.Debugging
             return false;
         }
 
-        private static bool TryGetInteractionSource(EntityRoot root, out InteractionSourcePart sourcePoint)
+        private static bool TryGetInteractionSource(EntityRoot root, out InteractionActorPart sourcePoint)
         {
             if (root == false)
             {
@@ -162,7 +167,7 @@ namespace Game.World.Debugging
                 return false;
             }
 
-            var candidates = root.GetComponentsInChildren<InteractionSourcePart>(true);
+            var candidates = root.GetComponentsInChildren<InteractionActorPart>(true);
 
             foreach (var candidate in candidates)
             {

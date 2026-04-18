@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.World.EntityRuntime;
+using Game.World.Persistence;
 using UnityEngine;
 
 namespace Game.World.Features.Navigation

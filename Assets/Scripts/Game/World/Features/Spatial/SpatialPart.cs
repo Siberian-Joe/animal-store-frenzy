@@ -1,4 +1,4 @@
-using Game.World.EntityRuntime;
+using Game.World.Persistence;
 using R3;
 using UnityEngine;
 
@@ -27,7 +27,6 @@ namespace Game.World.Features.Spatial
 
         protected override void RestoreState(SpatialState state)
         {
-            ApplyTransform(state.Position, state.Rotation);
         }
 
         protected override void InitializeFreshState(SpatialState state)
@@ -36,13 +35,14 @@ namespace Game.World.Features.Spatial
             state.Rotation = transform.rotation;
         }
 
-        protected override void OnStateReady(SpatialState state)
+        protected override void ApplyBoundState(SpatialState state)
         {
             _position.Value = state.Position;
             _rotation.Value = state.Rotation;
+            ApplyTransform(state.Position, state.Rotation);
         }
 
-        protected override void OnActivate()
+        protected override void OnStateActivated()
         {
             _position
                 .Subscribe(ApplyPosition)

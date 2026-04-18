@@ -1,6 +1,6 @@
-﻿namespace Game.World.Interactions
+namespace Game.World.Interactions
 {
-    public interface IInteractionContract
+    public interface IInteractionRole
     {
     }
 }

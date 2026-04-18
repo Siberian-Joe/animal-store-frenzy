@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb378c81d2b41ea910e72f9784b626b, type: 3}
+  m_Name: BasicBasket
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.Flow.CustomerArchetypeDefinition
+  _archetypeId: basic_basket
+  _spawnWeight: 2
+  _minInitialNeedCount: 2
+  _maxInitialNeedCount: 3
+  _needProfiles:
+  - NeedId: bread
+    Product: {fileID: 11400000, guid: f0dd97f8b1fcddf418a0064224ffabfb, type: 2}
+    Weight: 5
+    MinIntensity: 0.6
+    MaxIntensity: 1
+    MinQuantity: 1
+    MaxQuantity: 2
+    IsOptional: 0
+  - NeedId: milk
+    Product: {fileID: 11400000, guid: e4f26a6f227d69e45badc9d68f085e10, type: 2}
+    Weight: 5
+    MinIntensity: 0.6
+    MaxIntensity: 1
+    MinQuantity: 1
+    MaxQuantity: 2
+    IsOptional: 0
+  - NeedId: water
+    Product: {fileID: 11400000, guid: 3829709be304dbd4f92b6311770825f5, type: 2}
+    Weight: 2
+    MinIntensity: 0.2
+    MaxIntensity: 0.6
+    MinQuantity: 1
+    MaxQuantity: 1
+    IsOptional: 1
+  - NeedId: snacks
+    Product: {fileID: 11400000, guid: 7730eefb69930ec408a2223592ccbf90, type: 2}
+    Weight: 2
+    MinIntensity: 0.2
+    MaxIntensity: 0.7
+    MinQuantity: 1
+    MaxQuantity: 1
+    IsOptional: 1

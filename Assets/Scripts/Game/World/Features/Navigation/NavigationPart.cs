@@ -1,5 +1,6 @@
 using System;
 using Game.World.EntityRuntime;
+using Game.World.Persistence;
 using R3;
 using UnityEngine;
 using UnityEngine.AI;
@@ -57,13 +58,13 @@ namespace Game.World.Features.Navigation
             state.TargetPosition = transform.position;
         }
 
-        protected override void OnStateReady(NavigationState state)
+        protected override void ApplyBoundState(NavigationState state)
         {
             _targetPosition.Value = state.TargetPosition;
             _hasTarget.Value = state.HasTarget;
         }
 
-        protected override void OnActivate()
+        protected override void OnStateActivated()
         {
             _hasTarget
                 .Subscribe(value => State.HasTarget = value)

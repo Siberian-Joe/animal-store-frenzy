@@ -1,8 +1,8 @@
-﻿namespace Game.World.Interactions
+namespace Game.World.Interactions
 {
-    public interface IInteractionRoleResolver
+    public interface IInteractionActor
     {
-        bool TryResolve<TContract>(out TContract contract)
-            where TContract : class, IInteractionContract;
+        bool TryGetRole<TRole>(out TRole role)
+            where TRole : class, IInteractionRole;
     }
 }

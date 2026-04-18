@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.World.Interactions
 {
-    public interface IInteractionCommandBuilder
+    public interface IInteractionOptionProvider
     {
         int Order { get; }
 
-        bool TryBuild(
-            IInteractionRoleResolver source,
+        void CollectOptions(
+            IInteractionActor actor,
             Vector3 approachPoint,
-            out InteractionCommandRequest request);
+            List<InteractionOption> options);
     }
 }
