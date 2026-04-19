@@ -322,7 +322,6 @@ MonoBehaviour:
   _order: 0
   _interactionActionId: take-product-from-shelf
   _shelfProduct: {fileID: 218518530}
-  _defaultTakeQuantity: 1
 --- !u!114 &218518530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,7 +1717,6 @@ MonoBehaviour:
   _order: 0
   _interactionActionId: take-product-from-shelf
   _shelfProduct: {fileID: 946807988}
-  _defaultTakeQuantity: 1
 --- !u!114 &946807988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2484,6 +2482,7 @@ GameObject:
   - component: {fileID: 1538534516}
   - component: {fileID: 1538534517}
   - component: {fileID: 1538534518}
+  - component: {fileID: 1538534519}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -2510,6 +2509,7 @@ MonoBehaviour:
   - {fileID: 1538534516}
   - {fileID: 1538534517}
   - {fileID: 1538534518}
+  - {fileID: 1538534519}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
@@ -2596,6 +2596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24359856ff324403ba2356f61cda3d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.ShopCommandsInstaller
+  _productCatalogConfig: {fileID: 11400000, guid: dc94b95d6f3b0c94aa80c94b2d3539e3, type: 2}
 --- !u!114 &1538534518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2609,6 +2610,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.Flow.CustomerFlowInstaller
   _config: {fileID: 11400000, guid: b1b17ff8473aa7a448c5eff506e8281e, type: 2}
+--- !u!114 &1538534519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538534509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d277f639dc6b47bf9a26347a546c3787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scenes.Core.CoreSceneInstaller
 --- !u!1 &1684682318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,7 +2825,6 @@ MonoBehaviour:
   _order: 0
   _interactionActionId: take-product-from-shelf
   _shelfProduct: {fileID: 1684682325}
-  _defaultTakeQuantity: 1
 --- !u!114 &1684682325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4327,7 +4339,6 @@ MonoBehaviour:
   _order: 0
   _interactionActionId: take-product-from-shelf
   _shelfProduct: {fileID: 8329886551727243480}
-  _defaultTakeQuantity: 1
 --- !u!114 &8329886551727243480
 MonoBehaviour:
   m_ObjectHideFlags: 0

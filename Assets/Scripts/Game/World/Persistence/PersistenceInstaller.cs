@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Game.World.EntityRuntime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace Game.World.Persistence
