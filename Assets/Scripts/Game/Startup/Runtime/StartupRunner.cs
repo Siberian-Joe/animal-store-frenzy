@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Startup.Contracts;
 using R3;
+using Debug = UnityEngine.Debug;
 
 namespace Game.Startup.Runtime
 {
@@ -28,16 +29,16 @@ namespace Game.Startup.Runtime
                 return;
 
             _started = true;
-            RunAsync().Forget();
+            RunAsync(_token.Token).Forget(HandleUnhandledException);
         }
 
-        private async UniTaskVoid RunAsync()
+        private async UniTask RunAsync(CancellationToken token)
         {
             SetState(StartupState.Running);
 
             try
             {
-                LastReport = await _startup.RunAsync(_token.Token);
+                LastReport = await _startup.RunAsync(token);
 
                 if (LastReport.HasCriticalFailure)
                 {
@@ -58,13 +59,22 @@ namespace Game.Startup.Runtime
             }
         }
 
+        private void HandleUnhandledException(Exception exception)
+        {
+            if (_disposed)
+                return;
+
+            SetState(StartupState.Failed);
+            Debug.LogException(exception);
+        }
+
         private void SetState(StartupState state)
         {
             if (_disposed)
                 return;
 
             try
-            {
+            {  
                 _state.Value = state;
             }
             catch (ObjectDisposedException)

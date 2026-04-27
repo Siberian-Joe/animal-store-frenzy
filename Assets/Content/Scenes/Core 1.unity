@@ -4352,7 +4352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Shelves.ShelfProductPart
   _product: {fileID: 11400000, guid: f0dd97f8b1fcddf418a0064224ffabfb, type: 2}
-  _initialQuantity: 5
+  _initialQuantity: 1000
 --- !u!4 &8397782550942842280
 Transform:
   m_ObjectHideFlags: 0

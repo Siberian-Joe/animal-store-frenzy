@@ -14,7 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 892f3477f2fc4f44eaf05897eb79b8e0
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 292d05b1c9775474e82336cb5b016c61
+    m_Address: MainMenuScreen 1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ui-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d6f43a037eb7b64b899c0da6dd47698
+    m_Address: PanelResourcesConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf966dbc822e4b042bbf65e55a42dee0
+    m_Address: PanelRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ca08ea1374997ef47848e1de0bfc3c49, type: 2}
   m_SchemaSet:

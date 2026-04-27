@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1065874139593453614}
   - component: {fileID: 2501979405099509805}
   - component: {fileID: 9005626308586926076}
+  - component: {fileID: 2677701414143713799}
+  - component: {fileID: 5039337573066752294}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -47,7 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 9005626308586926076}
+  - {fileID: 2677701414143713799}
+  - {fileID: 5039337573066752294}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 1
@@ -77,3 +80,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraProviderPrefab: {fileID: -7410375084692395026, guid: 357dbe3cdbbdd1e4997c5e16bdde51b7, type: 3}
+--- !u!114 &2677701414143713799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972554989254088606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9019e4320972d944f8404cad268ce812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Panels.PanelProjectInstaller
+--- !u!114 &5039337573066752294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972554989254088606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3894cd0fd1e84ffa97a342b6958bb922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ResourceLoading.Runtime.Installers.ResourceLoadingInstaller

@@ -1,6 +1,4 @@
-﻿using Game.ResourceLoading.Contracts;
-using Game.ResourceLoading.Runtime;
-using Game.SceneReady.Contracts;
+﻿using Game.SceneReady.Contracts;
 using Game.SceneReady.Runtime;
 using Game.Startup.Contracts;
 using Game.Startup.Runtime;
@@ -31,11 +29,6 @@ namespace Game.Scenes.Shared
                 .AsSingle();
 
             Container
-                .Bind<IResourceLoader>()
-                .To<AddressablesResourceLoader>()
-                .AsSingle();
-
-            Container
                 .Bind<StartupPipeline>()
                 .AsSingle();
 
@@ -49,11 +42,9 @@ namespace Game.Scenes.Shared
         }
 
         protected void BindStartupTask<TTask>()
-            where TTask : class, IStartupTask
-        {
+            where TTask : class, IStartupTask =>
             Container
                 .BindInterfacesAndSelfTo<TTask>()
                 .AsSingle();
-        }
     }
 }
