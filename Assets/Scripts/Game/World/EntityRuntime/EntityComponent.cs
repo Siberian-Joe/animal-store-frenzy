@@ -6,12 +6,11 @@ namespace Game.World.EntityRuntime
 {
     public abstract class EntityComponent : MonoBehaviour, IEntityComponent
     {
-        private CompositeDisposable _activationDisposables = new();
-        private EntityRoot _ownerRoot;
-
         public virtual int ActivationOrder => 0;
 
         public bool IsActive { get; private set; }
+
+        protected CompositeDisposable ActivationDisposables { get; private set; } = new();
 
         public EntityRoot OwnerRoot
         {
@@ -22,7 +21,7 @@ namespace Game.World.EntityRuntime
             }
         }
 
-        protected CompositeDisposable ActivationDisposables => _activationDisposables;
+        private EntityRoot _ownerRoot;
 
         public void Activate()
         {
@@ -30,10 +29,8 @@ namespace Game.World.EntityRuntime
                 return;
 
             if (OwnerRoot == false)
-            {
                 throw new InvalidOperationException(
                     $"Entity component '{GetType().Name}' on '{name}' is not placed under an {nameof(EntityRoot)}.");
-            }
 
             try
             {
@@ -42,8 +39,8 @@ namespace Game.World.EntityRuntime
             }
             catch
             {
-                _activationDisposables.Dispose();
-                _activationDisposables = new CompositeDisposable();
+                ActivationDisposables.Dispose();
+                ActivationDisposables = new CompositeDisposable();
                 throw;
             }
         }
@@ -60,8 +57,8 @@ namespace Game.World.EntityRuntime
             finally
             {
                 IsActive = false;
-                _activationDisposables.Dispose();
-                _activationDisposables = new CompositeDisposable();
+                ActivationDisposables.Dispose();
+                ActivationDisposables = new CompositeDisposable();
             }
         }
 
@@ -75,8 +72,8 @@ namespace Game.World.EntityRuntime
 
         protected virtual void OnDestroy()
         {
-            _activationDisposables.Dispose();
-            _activationDisposables = new CompositeDisposable();
+            ActivationDisposables.Dispose();
+            ActivationDisposables = new CompositeDisposable();
         }
     }
 }

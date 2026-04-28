@@ -1,5 +1,4 @@
 using Game.World.EntityRuntime;
-using Game.World.Shop.Shelves;
 using UnityEngine;
 
 namespace Game.World.Shop

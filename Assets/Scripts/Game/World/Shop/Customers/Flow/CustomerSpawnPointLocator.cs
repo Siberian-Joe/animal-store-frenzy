@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace Game.World.Shop.Customers.Flow
 {
@@ -40,7 +41,7 @@ namespace Game.World.Shop.Customers.Flow
                 return false;
             }
 
-            var index = UnityEngine.Random.Range(0, _spawnPoints.Count);
+            var index = Random.Range(0, _spawnPoints.Count);
             spawnPoint = _spawnPoints[index];
             return spawnPoint != false;
         }

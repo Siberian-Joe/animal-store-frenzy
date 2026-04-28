@@ -13,7 +13,8 @@ namespace Game.World.Shop.Commands
             int itemCount)
         {
             if (itemCount <= 0)
-                throw new ArgumentOutOfRangeException(nameof(itemCount), itemCount, "Checkout item count must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(itemCount), itemCount,
+                    "Checkout item count must be positive.");
 
             CustomerId = customerId;
             CheckoutId = checkoutId;

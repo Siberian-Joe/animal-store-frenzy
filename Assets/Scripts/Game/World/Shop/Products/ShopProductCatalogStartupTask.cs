@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Game.ResourceLoading.Contracts;
-using Game.Startup.Contracts;
+using Modules.ResourceLoading.Contracts;
+using Modules.Startup.Contracts;
 using UnityEngine.AddressableAssets;
 
 namespace Game.World.Shop.Products

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Game.World.EntityRuntime
 {
@@ -61,7 +62,7 @@ namespace Game.World.EntityRuntime
             if (root == false)
                 return;
 
-            UnityEngine.Object.Destroy(root.gameObject);
+            Object.Destroy(root.gameObject);
         }
     }
 }

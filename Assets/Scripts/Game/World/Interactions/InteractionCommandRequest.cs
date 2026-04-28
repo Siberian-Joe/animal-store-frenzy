@@ -28,7 +28,8 @@ namespace Game.World.Interactions
 
         public static bool operator ==(InteractionActionId left, InteractionActionId right) => left.Equals(right);
 
-        public static bool operator !=(InteractionActionId left, InteractionActionId right) => left.Equals(right) == false;
+        public static bool operator !=(InteractionActionId left, InteractionActionId right) =>
+            left.Equals(right) == false;
     }
 
     public sealed class InteractionOption

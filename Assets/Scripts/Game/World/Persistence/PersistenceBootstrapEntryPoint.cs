@@ -7,7 +7,8 @@ namespace Game.World.Persistence
     {
         private readonly WorldPersistenceBootstrap _bootstrap;
 
-        public PersistenceBootstrapEntryPoint(WorldPersistenceBootstrap bootstrap) => _bootstrap = bootstrap ?? throw new ArgumentNullException(nameof(bootstrap));
+        public PersistenceBootstrapEntryPoint(WorldPersistenceBootstrap bootstrap) =>
+            _bootstrap = bootstrap ?? throw new ArgumentNullException(nameof(bootstrap));
 
         public void Initialize() => _bootstrap.Initialize();
 
