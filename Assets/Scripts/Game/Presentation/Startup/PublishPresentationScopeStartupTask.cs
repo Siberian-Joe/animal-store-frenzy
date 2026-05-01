@@ -7,7 +7,7 @@ using Modules.Startup.Contracts;
 namespace Game.Presentation.Startup
 {
     [Startup(StartupPhase.Foundation, Order = -1000)]
-    public sealed class PublishPresentationScopeStartupTask : IStartupTask, IDisposable
+    public sealed class PublishPresentationScopeStartupTask : ISceneStartupTask, IDisposable
     {
         private readonly IPanelPreparationScope _scope;
         private readonly IPanelPreparationScopePublisher _publisher;

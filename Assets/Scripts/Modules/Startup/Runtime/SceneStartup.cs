@@ -1,35 +1,25 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.SceneReady.Contracts;
+using Modules.Readiness.Runtime.Contracts;
 using Modules.Startup.Contracts;
 
 namespace Modules.Startup.Runtime
 {
-    public sealed class SceneStartup : IStartup
+    public sealed class SceneStartup : PipelineStartup<ISceneStartupTask>
     {
-        private readonly StartupPipeline _pipeline;
         private readonly ISceneReadyGate _sceneReadyGate;
 
         public SceneStartup(
-            StartupPipeline pipeline,
+            StartupPipeline<ISceneStartupTask> pipeline,
             ISceneReadyGate sceneReadyGate)
-        {
-            _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
+            : base(pipeline) =>
             _sceneReadyGate = sceneReadyGate ?? throw new ArgumentNullException(nameof(sceneReadyGate));
-        }
 
-        public async UniTask<StartupRunReport> RunAsync(CancellationToken token)
+        protected override async UniTask OnSucceededAsync(CancellationToken token)
         {
-            var report = await _pipeline.RunAsync(token);
-
-            if (report.HasCriticalFailure)
-                return report;
-
             await UniTask.SwitchToMainThread(token);
             _sceneReadyGate.Open();
-
-            return report;
         }
     }
 }

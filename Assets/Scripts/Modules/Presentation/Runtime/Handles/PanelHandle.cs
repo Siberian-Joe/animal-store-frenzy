@@ -12,6 +12,16 @@ namespace Modules.Presentation.Runtime.Handles
 {
     public abstract class PanelHandle : IPanelLifetimeHandle, IPanelRuntimeHandle
     {
+        public IPanelLayer Layer { get; }
+        public Type PresenterType { get; }
+
+        public bool IsOpen { get; private set; }
+        public bool IsReleased { get; private set; }
+
+        protected GameObject Root { get; }
+        protected Panel PanelInstance { get; }
+        protected PanelPresenter PresenterUntyped { get; }
+
         private readonly IPanelRegistryWriter _registry;
         private readonly IResourceLease<GameObject> _prefabLease;
 
@@ -27,26 +37,12 @@ namespace Modules.Presentation.Runtime.Handles
             PresenterType = presenterType ?? throw new ArgumentNullException(nameof(presenterType));
             Layer = layer ?? throw new ArgumentNullException(nameof(layer));
             _registry = registry ?? throw new ArgumentNullException(nameof(registry));
-            _prefabLease = prefabLease ?? throw new ArgumentNullException(nameof(prefabLease));
+            _prefabLease = prefabLease;
 
             Root = root ? root : throw new ArgumentNullException(nameof(root));
             PanelInstance = panel ? panel : throw new ArgumentNullException(nameof(panel));
             PresenterUntyped = presenter ?? throw new ArgumentNullException(nameof(presenter));
         }
-
-        public IPanelLayer Layer { get; }
-
-        public Type PresenterType { get; }
-
-        public bool IsOpen { get; private set; }
-
-        public bool IsReleased { get; private set; }
-
-        protected GameObject Root { get; }
-
-        protected Panel PanelInstance { get; }
-
-        protected PanelPresenter PresenterUntyped { get; }
 
         public void Open()
         {
@@ -71,7 +67,7 @@ namespace Modules.Presentation.Runtime.Handles
             _registry.Unregister(this);
 
             Object.Destroy(Root);
-            _prefabLease.Dispose();
+            _prefabLease?.Dispose();
 
             IsReleased = true;
         }

@@ -23,7 +23,7 @@ namespace Modules.Presentation.Runtime.Layers
         [SerializeField]
         private bool _recordOpenedPanelsInNavigationHistory = true;
 
-        private IPanelRoot _root;
+        private IPresentationRoot _root;
         private IPanelLayer _navigationParent;
         private bool _navigationParentResolved;
 
@@ -51,17 +51,17 @@ namespace Modules.Presentation.Runtime.Layers
             }
         }
 
-        private IPanelRoot Root
+        private IPresentationRoot Root
         {
             get
             {
                 if (_root != null)
                     return _root;
 
-                _root = GetComponentInParent<PanelRoot>();
+                _root = GetComponentInParent<PresentationRoot>();
 
                 return _root ?? throw new InvalidOperationException(
-                    $"{GetType().Name} must be placed under {nameof(PanelRoot)}.");
+                    $"{GetType().Name} must be placed under {nameof(PresentationRoot)}.");
             }
         }
 

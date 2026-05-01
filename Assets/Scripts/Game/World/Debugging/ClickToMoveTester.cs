@@ -15,11 +15,11 @@ namespace Game.World.Debugging
 
         private IPlayerInputService _playerInputService;
 
-        [Inject]
-        public void Construct(IPlayerInputService playerInputService)
-        {
-            _playerInputService = playerInputService;
-        }
+        // [Inject]
+        // public void Construct(IPlayerInputService playerInputService)
+        // {
+        //     _playerInputService = playerInputService;
+        // }
 
         private void Start()
         {

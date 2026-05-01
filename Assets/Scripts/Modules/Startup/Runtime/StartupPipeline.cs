@@ -9,12 +9,13 @@ using Debug = UnityEngine.Debug;
 
 namespace Modules.Startup.Runtime
 {
-    public sealed class StartupPipeline
+    public sealed class StartupPipeline<TTask>
+        where TTask : IStartupTask
     {
         private readonly IReadOnlyList<StartupTaskDescriptor> _plan;
 
         public StartupPipeline(
-            IEnumerable<IStartupTask> tasks,
+            IEnumerable<TTask> tasks,
             IStartupTaskDescriptorResolver descriptorResolver)
         {
             if (tasks == null)
@@ -24,7 +25,7 @@ namespace Modules.Startup.Runtime
                 throw new ArgumentNullException(nameof(descriptorResolver));
 
             _plan = tasks
-                .Select(descriptorResolver.Resolve)
+                .Select(task => descriptorResolver.Resolve(task))
                 .OrderBy(descriptor => descriptor.Phase)
                 .ThenBy(descriptor => descriptor.Order)
                 .ThenBy(descriptor => descriptor.Name, StringComparer.Ordinal)

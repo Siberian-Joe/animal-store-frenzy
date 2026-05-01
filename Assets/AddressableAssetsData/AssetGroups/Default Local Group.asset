@@ -19,10 +19,21 @@ MonoBehaviour:
     m_Address: MainMenuScreen 1
     m_ReadOnly: 0
     m_SerializedLabels:
-    - ui-panels
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36918bb72559b5146969c9fe2401a3e1
+    m_Address: LoadingSystemOverlay 1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c55ed21d1995744790b6cbec8a1ed18
+    m_Address: SceneNavigationConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9d6f43a037eb7b64b899c0da6dd47698
-    m_Address: PanelResourcesConfig
+    m_Address: PresentationResourcesConfig
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

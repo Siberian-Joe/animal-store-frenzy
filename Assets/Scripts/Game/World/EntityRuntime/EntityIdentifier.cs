@@ -36,10 +36,7 @@ namespace Game.World.EntityRuntime
         }
 
         [ContextMenu("Generate New Id")]
-        private void GenerateNewIdFromContextMenu()
-        {
-            GenerateNewIdInternal();
-        }
+        private void GenerateNewIdFromContextMenu() => GenerateNewIdInternal();
 
         private bool ShouldSkipAutoGeneration()
         {

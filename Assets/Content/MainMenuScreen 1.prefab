@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ddd730261ca4605ad269cbbe0742f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Panels.MainMenu.MainMenuScreenView
+  _playButton: {fileID: 3557911309393567439}
 --- !u!1 &2184255014971487057
 GameObject:
   m_ObjectHideFlags: 0

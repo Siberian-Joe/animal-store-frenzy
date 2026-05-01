@@ -1,14 +1,12 @@
-﻿using Game.SceneComposition.Shared;
+using Game.SceneComposition.Shared;
 
 namespace Game.SceneComposition.Core
 {
-    public class CoreSceneInstaller : SceneStartupInstaller
+    public sealed class CoreSceneInstaller : SceneStartupInstaller
     {
-        public override void InstallBindings()
+        protected override void InstallSceneBindings()
         {
-            base.InstallBindings();
-
-            // TODO: Scene-specific bindings
+            // TODO: Core scene-specific bindings.
         }
     }
 }

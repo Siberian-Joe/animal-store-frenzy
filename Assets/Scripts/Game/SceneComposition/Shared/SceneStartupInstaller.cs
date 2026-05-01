@@ -1,50 +1,51 @@
-﻿using Modules.SceneReady.Contracts;
-using Modules.SceneReady.Runtime;
+﻿using Game.SceneComposition.Shared.Startup;
+using Game.Startup.Composition.Zenject;
+using Modules.Readiness.Runtime;
+using Modules.Readiness.Runtime.Contracts;
 using Modules.Startup.Contracts;
 using Modules.Startup.Runtime;
-using Zenject;
+using UnityEngine;
 
 namespace Game.SceneComposition.Shared
 {
-    public abstract class SceneStartupInstaller : MonoInstaller
+    public abstract class SceneStartupInstaller : StartupInstaller<SceneStartup, ISceneStartupTask>
     {
-        public override void Start()
+        protected override void BindStartupInfrastructure()
         {
-            base.Start();
+            base.BindStartupInfrastructure();
 
-            var runner = Container.Resolve<StartupRunner<SceneStartup>>();
-            runner.Initialize();
-        }
-
-        public override void InstallBindings()
-        {
             Container
                 .Bind<ISceneReadyGate>()
                 .To<SceneReadyGate>()
                 .AsSingle();
 
-            Container
-                .Bind<IStartupTaskDescriptorResolver>()
-                .To<StartupTaskDescriptorResolver>()
-                .AsSingle();
-
-            Container
-                .Bind<StartupPipeline>()
-                .AsSingle();
-
-            Container
-                .BindInterfacesAndSelfTo<SceneStartup>()
-                .AsSingle();
-
-            Container
-                .Bind<StartupRunner<SceneStartup>>()
-                .AsSingle();
+            BindSceneReadinessPublicationIfAvailable();
         }
 
-        protected void BindStartupTask<TTask>()
-            where TTask : class, IStartupTask =>
+        protected sealed override void InstallStartupBindings()
+        {
+            BindStartupTask<WaitApplicationStartupTask>();
+
+            InstallSceneBindings();
+        }
+
+        protected virtual void InstallSceneBindings()
+        {
+        }
+
+        private void BindSceneReadinessPublicationIfAvailable()
+        {
+            if (Container.HasBinding<ISceneReadinessPublisher>() == false)
+                return;
+
             Container
-                .BindInterfacesAndSelfTo<TTask>()
+                .Bind<GameObject>()
+                .FromInstance(gameObject)
+                .WhenInjectedInto<SceneReadinessPublication>();
+
+            Container
+                .BindInterfacesTo<SceneReadinessPublication>()
                 .AsSingle();
+        }
     }
 }

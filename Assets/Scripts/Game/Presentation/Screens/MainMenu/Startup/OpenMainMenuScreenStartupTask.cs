@@ -7,7 +7,7 @@ using Modules.Startup.Contracts;
 namespace Game.Presentation.Screens.MainMenu.Startup
 {
     [Startup(StartupPhase.Activation, Order = 0)]
-    public sealed class OpenMainMenuScreenStartupTask : IStartupTask
+    public sealed class OpenMainMenuScreenStartupTask : ISceneStartupTask
     {
         private readonly IPanelNavigator _panelNavigator;
 

@@ -11,11 +11,15 @@ namespace Modules.Startup.Runtime
         where TStartup : IStartup
     {
         public ReadOnlyReactiveProperty<StartupState> State => _state;
+
         public StartupRunReport LastReport { get; private set; }
+
+        public UniTask<StartupRunReport> CompletionTask => _completionSource.Task;
 
         private readonly TStartup _startup;
         private readonly ReactiveProperty<StartupState> _state = new(StartupState.NotStarted);
         private readonly CancellationTokenSource _token = new();
+        private readonly UniTaskCompletionSource<StartupRunReport> _completionSource = new();
 
         private bool _disposed;
         private bool _started;
@@ -43,18 +47,26 @@ namespace Modules.Startup.Runtime
                 if (LastReport.HasCriticalFailure)
                 {
                     SetState(StartupState.Failed);
+
+                    _completionSource.TrySetException(
+                        new InvalidOperationException(
+                            $"{typeof(TStartup).Name} finished with critical startup failure."));
+
                     return;
                 }
 
                 SetState(StartupState.Succeeded);
+                _completionSource.TrySetResult(LastReport);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException exception)
             {
                 SetState(StartupState.Cancelled);
+                _completionSource.TrySetCanceled(exception.CancellationToken);
             }
-            catch
+            catch (Exception exception)
             {
                 SetState(StartupState.Failed);
+                _completionSource.TrySetException(exception);
                 throw;
             }
         }
@@ -65,6 +77,7 @@ namespace Modules.Startup.Runtime
                 return;
 
             SetState(StartupState.Failed);
+            _completionSource.TrySetException(exception);
             Debug.LogException(exception);
         }
 
@@ -92,6 +105,7 @@ namespace Modules.Startup.Runtime
             try
             {
                 _token.Cancel();
+                _completionSource.TrySetCanceled(_token.Token);
             }
             catch (ObjectDisposedException)
             {

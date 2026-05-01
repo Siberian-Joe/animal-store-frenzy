@@ -26,10 +26,10 @@ namespace Game.World.Debugging
 
         [Inject]
         public void Construct(
-            IPlayerInputService inputService,
+            // IPlayerInputService inputService,
             GameCommandDispatcher commandDispatcher)
         {
-            _inputService = inputService;
+            // _inputService = inputService;
             _commandDispatcher = commandDispatcher;
         }
 

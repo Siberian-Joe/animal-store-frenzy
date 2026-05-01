@@ -8,7 +8,7 @@ using Modules.Startup.Contracts;
 namespace Game.Presentation.Startup
 {
     [Startup(StartupPhase.Preparation, Order = 0)]
-    public sealed class PrepareConfiguredPanelsStartupTask : IStartupTask
+    public sealed class PrepareConfiguredPanelsStartupTask : ISceneStartupTask
     {
         private readonly IPanelPreparer _preparer;
         private readonly IReadOnlyList<IPanelPreparationPlan> _plans;

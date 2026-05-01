@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1065874139593453614}
   - component: {fileID: 2501979405099509805}
-  - component: {fileID: 9005626308586926076}
+  - component: {fileID: 1532403235388696914}
   - component: {fileID: 2677701414143713799}
   - component: {fileID: 5039337573066752294}
+  - component: {fileID: 6352755964078075066}
+  - component: {fileID: 766704640686179430}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -49,8 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 1532403235388696914}
   - {fileID: 2677701414143713799}
   - {fileID: 5039337573066752294}
+  - {fileID: 6352755964078075066}
+  - {fileID: 766704640686179430}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 1
@@ -67,7 +72,7 @@ MonoBehaviour:
       _missingHandlerDefaultResponse: 2
       _requireStrictUnsubscribe: 0
       _defaultAsyncTickPriority: 1
---- !u!114 &9005626308586926076
+--- !u!114 &1532403235388696914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,10 +81,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8972554989254088606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04e5ca2a5eae45b19c275b07bf774044, type: 3}
+  m_Script: {fileID: 11500000, guid: 85e1162cf059487eb251d8a5369a9eb5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  _cameraProviderPrefab: {fileID: -7410375084692395026, guid: 357dbe3cdbbdd1e4997c5e16bdde51b7, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Bootstrap.Composition.Zenject.ApplicationInstaller
 --- !u!114 &2677701414143713799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,3 +108,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3894cd0fd1e84ffa97a342b6958bb922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.ResourceLoading.Runtime.Installers.ResourceLoadingInstaller
+--- !u!114 &6352755964078075066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972554989254088606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb1e5c0e3b825846a55b2a015f52abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.SceneNavigation.Composition.Zenject.SceneNavigationInstaller
+  _configReference:
+    m_AssetGUID: 6c55ed21d1995744790b6cbec8a1ed18
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+--- !u!114 &766704640686179430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972554989254088606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65526df8109be59448b8002e35f45fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Presentation.Composition.Zenject.PresentationStartupInstaller
+  _resourcesConfigReference:
+    m_AssetGUID: 9d6f43a037eb7b64b899c0da6dd47698
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1

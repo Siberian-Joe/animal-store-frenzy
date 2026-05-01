@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Scenes
   m_GUID: b637148a1d7308842a9ff2bf2519b3c9
   m_SerializeEntries:
+  - m_GUID: 69514e7c9372f4644ad4fce99aaad9ce
+    m_Address: Temp
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6bcd733fe410b55439c5b379816657e0
     m_Address: Core
     m_ReadOnly: 0
