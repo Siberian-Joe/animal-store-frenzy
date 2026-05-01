@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Modules.Presentation.Contracts.Catalog;
+using Modules.Presentation.Runtime.Contracts.Catalog;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Modules.Presentation.Runtime.Catalog

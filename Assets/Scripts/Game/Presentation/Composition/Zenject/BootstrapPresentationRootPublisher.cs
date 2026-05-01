@@ -19,7 +19,7 @@ namespace Game.Presentation.Composition.Zenject
                 : throw new ArgumentNullException(nameof(presentationRoot));
 
             _presentationRootInitializer = presentationRootInitializer
-                                    ?? throw new ArgumentNullException(nameof(presentationRootInitializer));
+                                           ?? throw new ArgumentNullException(nameof(presentationRootInitializer));
         }
 
         public void Initialize()

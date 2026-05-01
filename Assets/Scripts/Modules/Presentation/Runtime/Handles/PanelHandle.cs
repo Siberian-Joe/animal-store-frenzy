@@ -1,10 +1,10 @@
 using System;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 using Modules.Presentation.Runtime.Layers;
 using Modules.Presentation.Runtime.Lifecycle;
 using Modules.Presentation.Runtime.Panels;
 using Modules.Presentation.Runtime.Registry;
-using Modules.ResourceLoading.Contracts;
+using Modules.ResourceLoading.Runtime.Contracts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -61,15 +61,32 @@ namespace Modules.Presentation.Runtime.Handles
             if (IsReleased)
                 return;
 
-            Layer.Release(this);
-
-            PanelInstance.NotifyReleased(PresenterUntyped);
-            _registry.Unregister(this);
-
-            Object.Destroy(Root);
-            _prefabLease?.Dispose();
-
             IsReleased = true;
+
+            try
+            {
+                Layer.Release(this);
+
+                if (IsOpen)
+                {
+                    IsOpen = false;
+
+                    if (PanelInstance)
+                        PanelInstance.NotifyClosed(PresenterUntyped);
+                }
+
+                if (PanelInstance)
+                    PanelInstance.NotifyReleased(PresenterUntyped);
+            }
+            finally
+            {
+                _registry.Unregister(this);
+
+                if (Root)
+                    Object.Destroy(Root);
+
+                _prefabLease?.Dispose();
+            }
         }
 
         void IPanelRuntimeHandle.OpenIn(Transform parent)

@@ -3,7 +3,6 @@ using Game.World.Features.Navigation;
 using NewCore.Services.Input;
 using R3;
 using UnityEngine;
-using Zenject;
 
 namespace Game.World.Debugging
 {

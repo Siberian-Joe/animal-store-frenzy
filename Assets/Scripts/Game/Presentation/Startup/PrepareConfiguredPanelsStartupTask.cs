@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Contracts.Preparation;
-using Modules.Startup.Contracts;
+using Modules.Presentation.Runtime.Contracts.Preparation;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Presentation.Startup
 {

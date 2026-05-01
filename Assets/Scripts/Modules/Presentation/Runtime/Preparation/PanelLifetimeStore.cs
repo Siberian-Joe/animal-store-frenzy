@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 
 namespace Modules.Presentation.Runtime.Preparation
 {

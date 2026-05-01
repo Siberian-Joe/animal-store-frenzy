@@ -1,5 +1,5 @@
 using System;
-using Modules.Presentation.Contracts.Navigation;
+using Modules.Presentation.Runtime.Contracts.Navigation;
 using Modules.SceneNavigation.Runtime.Contracts;
 
 namespace Game.Presentation.Transitions.Loading

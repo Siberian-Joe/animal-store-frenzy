@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Modules.Presentation.Runtime.Preparation;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Presentation.Startup
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Modules.Presentation.Contracts.Navigation;
-using Modules.Presentation.Contracts.Registry;
+using Modules.Presentation.Runtime.Contracts.Navigation;
+using Modules.Presentation.Runtime.Contracts.Registry;
 using Modules.Presentation.Runtime.Panels;
 
 namespace Modules.Presentation.Runtime.Navigation

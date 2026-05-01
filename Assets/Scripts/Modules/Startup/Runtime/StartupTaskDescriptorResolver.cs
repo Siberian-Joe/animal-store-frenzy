@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Modules.Startup.Runtime
 {

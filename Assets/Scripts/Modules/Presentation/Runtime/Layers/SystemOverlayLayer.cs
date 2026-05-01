@@ -1,4 +1,4 @@
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 
 namespace Modules.Presentation.Runtime.Layers
 {

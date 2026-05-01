@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Contracts.Catalog;
-using Modules.Presentation.Contracts.Preparation;
+using Modules.Presentation.Runtime.Contracts.Catalog;
+using Modules.Presentation.Runtime.Contracts.Preparation;
 using Modules.Presentation.Runtime.Handles;
 using Modules.Presentation.Runtime.Lifecycle;
 using Modules.Presentation.Runtime.Panels;
 using Modules.Presentation.Runtime.Registry;
 using Modules.Presentation.Runtime.Root;
-using Modules.ResourceLoading.Contracts;
+using Modules.ResourceLoading.Runtime.Contracts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -30,7 +30,8 @@ namespace Modules.Presentation.Runtime.Preparation
             IResourceLoader resourceLoader)
         {
             _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
-            _presentationRootAccess = presentationRootAccess ?? throw new ArgumentNullException(nameof(presentationRootAccess));
+            _presentationRootAccess =
+                presentationRootAccess ?? throw new ArgumentNullException(nameof(presentationRootAccess));
             _scopeAccess = scopeAccess ?? throw new ArgumentNullException(nameof(scopeAccess));
             _registry = registry ?? throw new ArgumentNullException(nameof(registry));
             _resourceLoader = resourceLoader ?? throw new ArgumentNullException(nameof(resourceLoader));

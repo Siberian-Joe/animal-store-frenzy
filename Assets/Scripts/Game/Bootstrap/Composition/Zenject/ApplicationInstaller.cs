@@ -1,8 +1,8 @@
 ﻿using Game.Bootstrap.Startup;
 using Game.Presentation.Startup;
 using Game.Startup.Composition.Zenject;
-using Modules.Startup.Contracts;
 using Modules.Startup.Runtime;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Bootstrap.Composition.Zenject
 {

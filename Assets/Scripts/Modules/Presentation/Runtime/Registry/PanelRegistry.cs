@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Modules.Presentation.Contracts;
-using Modules.Presentation.Contracts.Preparation;
+using Modules.Presentation.Runtime.Contracts;
+using Modules.Presentation.Runtime.Contracts.Preparation;
 using Modules.Presentation.Runtime.Panels;
 
 namespace Modules.Presentation.Runtime.Registry

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Modules.SceneNavigation.Runtime.Configurations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Game.SceneNavigation.Configuration
+namespace Modules.SceneNavigation.Runtime.Configurations
 {
     [CreateAssetMenu(
         fileName = "SceneNavigationConfig",

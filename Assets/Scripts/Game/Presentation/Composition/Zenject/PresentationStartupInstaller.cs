@@ -1,7 +1,7 @@
 ﻿using System;
 using Game.Presentation.Startup;
-using Modules.Presentation.Configuration;
-using Modules.Startup.Contracts;
+using Modules.Presentation.Runtime.Configuration;
+using Modules.Startup.Runtime.Contracts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Startup.Contracts;
 using Modules.Startup.Runtime;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.SceneComposition.Shared.Startup
 {

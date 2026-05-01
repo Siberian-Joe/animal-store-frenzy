@@ -1,5 +1,5 @@
-﻿using Modules.ResourceLoading.Contracts;
-using Modules.ResourceLoading.Runtime;
+﻿using Modules.ResourceLoading.Runtime;
+using Modules.ResourceLoading.Runtime.Contracts;
 using Zenject;
 
 namespace Game.ResourceLoading.Composition.Zenject

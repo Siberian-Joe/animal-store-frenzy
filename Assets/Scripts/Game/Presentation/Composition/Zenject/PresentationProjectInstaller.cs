@@ -1,7 +1,6 @@
-using Modules.Presentation.Contracts.Navigation;
-using Modules.Presentation.Contracts.Preparation;
-using Modules.Presentation.Infrastructure.Zenject;
 using Modules.Presentation.Runtime.Catalog;
+using Modules.Presentation.Runtime.Contracts.Navigation;
+using Modules.Presentation.Runtime.Contracts.Preparation;
 using Modules.Presentation.Runtime.Navigation;
 using Modules.Presentation.Runtime.Preparation;
 using Modules.Presentation.Runtime.Registry;

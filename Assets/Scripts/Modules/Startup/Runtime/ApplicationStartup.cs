@@ -1,4 +1,4 @@
-﻿using Modules.Startup.Contracts;
+﻿using Modules.Startup.Runtime.Contracts;
 
 namespace Modules.Startup.Runtime
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 using Modules.Presentation.Runtime.Handles;
 
 namespace Modules.Presentation.Runtime.Layers
@@ -32,7 +32,9 @@ namespace Modules.Presentation.Runtime.Layers
 
         public override void Release(IPanelRuntimeHandle handle)
         {
-            Close(handle);
+            if (handle == null)
+                return;
+
             _opened.Remove(handle);
         }
     }

@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Contracts.Navigation;
-using Modules.Startup.Contracts;
+using Modules.Presentation.Runtime.Contracts.Navigation;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Presentation.Screens.MainMenu.Startup
 {

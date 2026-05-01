@@ -1,6 +1,6 @@
 using Modules.SceneNavigation.Runtime.Contracts;
 
-namespace Game.SceneNavigation.Runtime.Routes
+namespace Game.SceneNavigation.Routes
 {
     public sealed class CoreRoute : SceneRoute
     {

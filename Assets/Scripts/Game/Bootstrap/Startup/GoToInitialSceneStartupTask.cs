@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Game.SceneNavigation.Runtime.Routes;
+using Game.SceneNavigation.Routes;
 using Modules.SceneNavigation.Runtime.Contracts;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Bootstrap.Startup
 {

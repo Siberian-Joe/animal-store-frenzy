@@ -2,8 +2,8 @@
 using Game.Startup.Composition.Zenject;
 using Modules.Readiness.Runtime;
 using Modules.Readiness.Runtime.Contracts;
-using Modules.Startup.Contracts;
 using Modules.Startup.Runtime;
+using Modules.Startup.Runtime.Contracts;
 using UnityEngine;
 
 namespace Game.SceneComposition.Shared

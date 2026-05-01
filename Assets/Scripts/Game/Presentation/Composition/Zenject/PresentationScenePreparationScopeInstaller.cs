@@ -1,5 +1,4 @@
 ﻿using Game.Presentation.Startup;
-using Modules.Presentation.Infrastructure.Zenject;
 using Modules.Presentation.Runtime.Preparation;
 using Zenject;
 

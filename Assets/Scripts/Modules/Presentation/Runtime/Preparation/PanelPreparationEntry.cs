@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Contracts.Preparation;
+using Modules.Presentation.Runtime.Contracts.Preparation;
 using Modules.Presentation.Runtime.Panels;
 
 namespace Modules.Presentation.Runtime.Preparation

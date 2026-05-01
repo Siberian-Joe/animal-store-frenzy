@@ -1,4 +1,4 @@
-﻿using Modules.ResourceLoading.Contracts;
+﻿using Modules.ResourceLoading.Runtime.Contracts;
 using UnityEngine;
 
 namespace Modules.Presentation.Runtime.Root

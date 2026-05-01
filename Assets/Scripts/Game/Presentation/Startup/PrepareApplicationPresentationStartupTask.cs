@@ -2,10 +2,10 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Presentation.Transitions.Loading;
-using Modules.Presentation.Contracts.Navigation;
-using Modules.Presentation.Contracts.Preparation;
-using Modules.Presentation.Contracts.Registry;
-using Modules.Startup.Contracts;
+using Modules.Presentation.Runtime.Contracts.Navigation;
+using Modules.Presentation.Runtime.Contracts.Preparation;
+using Modules.Presentation.Runtime.Contracts.Registry;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Game.Presentation.Startup
 {

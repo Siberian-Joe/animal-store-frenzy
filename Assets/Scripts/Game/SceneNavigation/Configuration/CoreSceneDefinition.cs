@@ -1,8 +1,8 @@
-using Game.SceneNavigation.Runtime.Routes;
+using Game.SceneNavigation.Routes;
 using Modules.SceneNavigation.Runtime.Configurations;
 using UnityEngine;
 
-namespace Game.SceneNavigation.Runtime.Configuration
+namespace Game.SceneNavigation.Configuration
 {
     [CreateAssetMenu(
         fileName = "CoreSceneDefinition",

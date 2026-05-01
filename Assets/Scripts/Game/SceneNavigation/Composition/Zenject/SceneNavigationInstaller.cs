@@ -1,12 +1,12 @@
 using System;
 using Game.Presentation.Transitions.Loading;
 using Game.SceneNavigation.Startup;
-using Modules.SceneNavigation.Runtime;
+using Modules.Readiness.Runtime;
 using Modules.SceneNavigation.Runtime.Catalogs;
 using Modules.SceneNavigation.Runtime.Contracts;
 using Modules.SceneNavigation.Runtime.Loaders;
 using Modules.SceneNavigation.Runtime.Navigators;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;

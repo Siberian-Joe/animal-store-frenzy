@@ -1,5 +1,5 @@
 using System;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 using Modules.Presentation.Runtime.Handles;
 
 namespace Modules.Presentation.Runtime.Layers
@@ -31,6 +31,13 @@ namespace Modules.Presentation.Runtime.Layers
                 _current = null;
         }
 
-        public override void Release(IPanelRuntimeHandle handle) => Close(handle);
+        public override void Release(IPanelRuntimeHandle handle)
+        {
+            if (handle == null)
+                return;
+
+            if (ReferenceEquals(_current, handle))
+                _current = null;
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Modules.Presentation.Contracts;
-using Modules.Presentation.Contracts.Registry;
+﻿using Modules.Presentation.Runtime.Contracts;
+using Modules.Presentation.Runtime.Contracts.Registry;
 using Modules.Presentation.Runtime.Panels;
 
 namespace Modules.Presentation.Runtime.Registry

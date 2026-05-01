@@ -1,6 +1,6 @@
 ﻿using System;
-using Modules.Startup.Contracts;
 using Modules.Startup.Runtime;
+using Modules.Startup.Runtime.Contracts;
 using Zenject;
 
 namespace Game.Startup.Composition.Zenject

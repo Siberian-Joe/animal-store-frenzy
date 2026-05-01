@@ -1,5 +1,5 @@
 using System;
-using Game.SceneNavigation.Runtime.Routes;
+using Game.SceneNavigation.Routes;
 using Modules.Presentation.Runtime.Panels;
 using Modules.SceneNavigation.Runtime.Contracts;
 using R3;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Modules.ResourceLoading.Contracts;
+using Modules.ResourceLoading.Runtime.Contracts;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

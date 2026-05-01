@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 using Debug = UnityEngine.Debug;
 
 namespace Modules.Startup.Runtime

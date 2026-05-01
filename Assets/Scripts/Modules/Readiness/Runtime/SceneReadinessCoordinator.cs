@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using Modules.Readiness.Runtime.Contracts;
 using UnityEngine.SceneManagement;
 
-namespace Modules.SceneNavigation.Runtime
+namespace Modules.Readiness.Runtime
 {
     public sealed class SceneReadinessCoordinator :
         ISceneReadinessPublisher,

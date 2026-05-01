@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Modules.Readiness.Runtime.Contracts;
-using Modules.Startup.Contracts;
+using Modules.Startup.Runtime.Contracts;
 
 namespace Modules.Startup.Runtime
 {

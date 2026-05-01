@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Contracts.Navigation;
-using Modules.Presentation.Contracts.Registry;
+using Modules.Presentation.Runtime.Contracts.Navigation;
+using Modules.Presentation.Runtime.Contracts.Registry;
 using Modules.SceneNavigation.Runtime.Contracts;
 
 namespace Game.Presentation.Transitions.Loading

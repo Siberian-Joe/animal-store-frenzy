@@ -2,7 +2,7 @@ using Game.Presentation.Screens.MainMenu;
 using Game.Presentation.Screens.MainMenu.Startup;
 using Game.Presentation.Startup;
 using Game.SceneComposition.Shared;
-using Modules.Presentation.Contracts.Preparation;
+using Modules.Presentation.Runtime.Contracts.Preparation;
 
 namespace Game.SceneComposition.MainMenu
 {

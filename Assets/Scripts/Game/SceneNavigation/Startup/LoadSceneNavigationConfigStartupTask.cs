@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Game.SceneNavigation.Configuration;
-using Modules.ResourceLoading.Contracts;
+using Modules.ResourceLoading.Runtime.Contracts;
 using Modules.SceneNavigation.Runtime.Catalogs;
-using Modules.Startup.Contracts;
+using Modules.SceneNavigation.Runtime.Configurations;
+using Modules.Startup.Runtime.Contracts;
 using UnityEngine.AddressableAssets;
 
 namespace Game.SceneNavigation.Startup

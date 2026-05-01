@@ -1,5 +1,5 @@
 using System;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 using Modules.Presentation.Runtime.Handles;
 using Modules.Presentation.Runtime.Panels;
 using Modules.Presentation.Runtime.Root;

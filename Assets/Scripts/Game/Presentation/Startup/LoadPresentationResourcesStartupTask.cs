@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Modules.Presentation.Configuration;
 using Modules.Presentation.Runtime.Catalog;
+using Modules.Presentation.Runtime.Configuration;
 using Modules.Presentation.Runtime.Panels;
 using Modules.Presentation.Runtime.Preparation;
 using Modules.Presentation.Runtime.Root;
-using Modules.ResourceLoading.Contracts;
-using Modules.Startup.Contracts;
+using Modules.ResourceLoading.Runtime.Contracts;
+using Modules.Startup.Runtime.Contracts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
@@ -44,7 +44,8 @@ namespace Game.Presentation.Startup
             _catalogInitializer = catalogInitializer ?? throw new ArgumentNullException(nameof(catalogInitializer));
             _presentationRootInitializer =
                 presentationRootInitializer ?? throw new ArgumentNullException(nameof(presentationRootInitializer));
-            _presentationRootAccess = presentationRootAccess ?? throw new ArgumentNullException(nameof(presentationRootAccess));
+            _presentationRootAccess =
+                presentationRootAccess ?? throw new ArgumentNullException(nameof(presentationRootAccess));
             _scopeAccess = scopeAccess ?? throw new ArgumentNullException(nameof(scopeAccess));
         }
 

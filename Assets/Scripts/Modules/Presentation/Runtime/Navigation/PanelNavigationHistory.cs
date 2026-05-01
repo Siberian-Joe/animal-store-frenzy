@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Modules.Presentation.Contracts;
+using Modules.Presentation.Runtime.Contracts;
 using Modules.Presentation.Runtime.Layers;
 
 namespace Modules.Presentation.Runtime.Navigation
