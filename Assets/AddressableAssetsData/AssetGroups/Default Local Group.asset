@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - presentation-panels
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 475f3b2cf5d15564c91aa0d562779351
+    m_Address: CoreScreen 1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6c55ed21d1995744790b6cbec8a1ed18
     m_Address: SceneNavigationConfig
     m_ReadOnly: 0

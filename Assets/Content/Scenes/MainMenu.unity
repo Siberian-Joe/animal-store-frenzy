@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 225226561}
   - component: {fileID: 225226560}
   - component: {fileID: 225226562}
+  - component: {fileID: 225226563}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 225226563}
   - {fileID: 225226562}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
@@ -197,6 +199,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3831b86b6bb864a918ddfe52e171d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.SceneComposition.MainMenu.MainMenuSceneInstaller
+--- !u!114 &225226563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225226558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8d3b9b16704f01befd84ef4a523e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Presentation.Composition.Zenject.PresentationScenePreparationScopeInstaller
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
