@@ -1,6 +1,5 @@
 using Game.World.EntityRuntime;
 using Game.World.Features.Navigation;
-using NewCore.Services.Input;
 using R3;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace Game.World.Debugging
 
         private readonly CompositeDisposable _disposables = new();
 
-        private IPlayerInputService _playerInputService;
+        // private IPlayerInputService _playerInputService;
 
         // [Inject]
         // public void Construct(IPlayerInputService playerInputService)
@@ -22,12 +21,12 @@ namespace Game.World.Debugging
 
         private void Start()
         {
-            if (_playerInputService == null)
-            {
-                Debug.LogError($"{nameof(ClickToMoveTester)}: {nameof(IPlayerInputService)} was not injected.",
-                    this);
-                return;
-            }
+            // if (_playerInputService == null)
+            // {
+            //     Debug.LogError($"{nameof(ClickToMoveTester)}: {nameof(IPlayerInputService)} was not injected.",
+            //         this);
+            //     return;
+            // }
 
             if (_targetEntity == false)
             {
@@ -35,18 +34,18 @@ namespace Game.World.Debugging
                 return;
             }
 
-            _playerInputService.Clicked
-                .Subscribe(HandleClick)
-                .AddTo(_disposables);
+            // _playerInputService.Clicked
+            //     .Subscribe(HandleClick)
+            //     .AddTo(_disposables);
         }
 
-        private void HandleClick(ClickContext click)
-        {
-            if (TryGetNavigation(_targetEntity, out var navigation) == false)
-                return;
-
-            navigation.SetTarget(click.WorldPosition);
-        }
+        // private void HandleClick(ClickContext click)
+        // {
+        //     if (TryGetNavigation(_targetEntity, out var navigation) == false)
+        //         return;
+        //
+        //     navigation.SetTarget(click.WorldPosition);
+        // }
 
         private static bool TryGetNavigation(EntityRoot root, out INavigationFeature navigation)
         {

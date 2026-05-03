@@ -10,12 +10,12 @@ namespace Modules.Presentation.Runtime.Layers
     public abstract class PanelLayer : MonoBehaviour, IPanelLayer
     {
         [Header("Roots")]
-        [Tooltip("Required. Opened panel instances handled by this layer are moved here.")]
+        [Tooltip("Required. Closed prepared panel instances handled by this layer are moved here.")]
         [SerializeField]
-        private Transform _contentRoot;
-
-        [Tooltip("Required. Closed prepared panel instances handled by this layer are moved here.")] [SerializeField]
         private Transform _cacheRoot;
+
+        [Tooltip("Required. Opened panel instances handled by this layer are moved here.")] [SerializeField]
+        private Transform _contentRoot;
 
         [Header("Navigation")]
         [Tooltip(

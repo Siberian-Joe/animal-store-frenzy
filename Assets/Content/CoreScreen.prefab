@@ -236,6 +236,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -304,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -374}
+  m_AnchoredPosition: {x: 1200, y: -374}
   m_SizeDelta: {x: 605.52, y: 200}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3961034078057416335
@@ -373,6 +374,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -504,7 +506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5384178445673228693}
-  - component: {fileID: 5265719590774665336}
+  - component: {fileID: -2559396772235950766}
   m_Layer: 0
   m_Name: CoreScreen
   m_TagString: Untagged
@@ -533,7 +535,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5265719590774665336
+--- !u!114 &-2559396772235950766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -542,10 +544,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4733750523910481861}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a52870081a4d4f36ab535a1c48e945d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 00d70e636d05441884ccc6f79c34a804, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  _button: {fileID: 676096727114410652}
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Presentation.Screens.Core.CoreScreen
+  _mainMenuButton: {fileID: 676096727114410652}
 --- !u!1 &6370554173011295874
 GameObject:
   m_ObjectHideFlags: 0

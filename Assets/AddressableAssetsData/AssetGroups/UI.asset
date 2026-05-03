@@ -15,23 +15,36 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: 88b3454b57ca5c041a34929708afd3ea
   m_SerializeEntries:
-  - m_GUID: 403483270aa96ce48b3f583aa604d091
-    m_Address: UIContainerRoot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b7943af6f9d622b44ae63c40f7150f5d
-    m_Address: LoadingSystemOverlay
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ddcd6b7fcd37f1549b95934832f1317a
+  - m_GUID: 292d05b1c9775474e82336cb5b016c61
     m_Address: MainMenuScreen
     m_ReadOnly: 0
+    m_SerializedLabels:
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36918bb72559b5146969c9fe2401a3e1
+    m_Address: LoadingSystemOverlay
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 475f3b2cf5d15564c91aa0d562779351
+    m_Address: CoreScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - presentation-panels
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c55ed21d1995744790b6cbec8a1ed18
+    m_Address: SceneNavigationConfig
+    m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e4f01e5c7f93cc942a2c4e182776c0e6
-    m_Address: CoreScreen
+  - m_GUID: 9d6f43a037eb7b64b899c0da6dd47698
+    m_Address: PresentationResourcesConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf966dbc822e4b042bbf65e55a42dee0
+    m_Address: PresentationRoot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

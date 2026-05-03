@@ -4,7 +4,6 @@ using Game.World.EntityRuntime;
 using Game.World.Features.InteractionTarget;
 using Game.World.Features.Navigation;
 using Game.World.Interactions;
-using NewCore.Services.Input;
 using R3;
 using UnityEngine;
 using Zenject;
@@ -18,7 +17,7 @@ namespace Game.World.Debugging
         private readonly CompositeDisposable _disposables = new();
         private readonly List<InteractionOption> _interactionOptions = new(4);
 
-        private IPlayerInputService _inputService;
+        // private IPlayerInputService _inputService;
         private GameCommandDispatcher _commandDispatcher;
         private InteractionOption _pendingOption;
         private InteractionActorPart _sourcePart;
@@ -47,11 +46,11 @@ namespace Game.World.Debugging
                 return;
             }
 
-            if (_inputService == null)
-            {
-                Debug.LogError($"{nameof(PlayerShelfInteractionTester)}: input service was not injected", this);
-                return;
-            }
+            // if (_inputService == null)
+            // {
+            //     Debug.LogError($"{nameof(PlayerShelfInteractionTester)}: input service was not injected", this);
+            //     return;
+            // }
 
             if (TryGetNavigation(_player, out _navigation) == false)
             {
@@ -71,32 +70,32 @@ namespace Game.World.Debugging
                 .Subscribe(_ => CompletePendingInteraction())
                 .AddTo(_disposables);
 
-            _inputService.Clicked
-                .Subscribe(HandleClick)
-                .AddTo(_disposables);
+            // _inputService.Clicked
+            //     .Subscribe(HandleClick)
+            //     .AddTo(_disposables);
         }
 
-        private void HandleClick(ClickContext click)
-        {
-            if (click.HitCollider == false)
-                return;
-
-            var targetRoot = click.HitCollider.GetComponentInParent<EntityRoot>();
-            if (targetRoot == false)
-                return;
-
-            if (TryGetInteractionTarget(targetRoot, out var targetPoint) == false)
-                return;
-
-            _interactionOptions.Clear();
-            targetPoint.CollectOptions(_sourcePart, _interactionOptions);
-
-            if (_interactionOptions.Count <= 0)
-                return;
-
-            _pendingOption = _interactionOptions[0];
-            _navigation.SetTarget(_pendingOption.ApproachPoint);
-        }
+        // private void HandleClick(ClickContext click)
+        // {
+        //     if (click.HitCollider == false)
+        //         return;
+        //
+        //     var targetRoot = click.HitCollider.GetComponentInParent<EntityRoot>();
+        //     if (targetRoot == false)
+        //         return;
+        //
+        //     if (TryGetInteractionTarget(targetRoot, out var targetPoint) == false)
+        //         return;
+        //
+        //     _interactionOptions.Clear();
+        //     targetPoint.CollectOptions(_sourcePart, _interactionOptions);
+        //
+        //     if (_interactionOptions.Count <= 0)
+        //         return;
+        //
+        //     _pendingOption = _interactionOptions[0];
+        //     _navigation.SetTarget(_pendingOption.ApproachPoint);
+        // }
 
         private void CompletePendingInteraction()
         {
