@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.World.EntityRuntime;
 using Game.World.Features.InteractionTarget;
+using Game.World.Inventory;
 using Game.World.Shop;
 using Game.World.Shop.Checkouts;
 using Game.World.Shop.Exits;
@@ -15,33 +16,33 @@ namespace Game.World.UtilityAi
         IShopInteractionLocator,
         IShopInteractionRegistry
     {
-        private readonly Dictionary<ProductId, List<ShelfOpportunityEntry>> _shelvesByProduct = new();
+        private readonly Dictionary<ItemId, List<ShelfOpportunityEntry>> _shelvesByItem = new();
         private readonly List<CheckoutOpportunityEntry> _checkouts = new(4);
         private readonly List<ExitOpportunityEntry> _exits = new(4);
 
-        public void Register(ShelfProductPart shelf)
+        public void Register(ShelfStockPart shelf)
         {
             if (shelf == false)
                 throw new ArgumentNullException(nameof(shelf));
 
             var entry = CreateShelfEntry(shelf);
 
-            if (_shelvesByProduct.TryGetValue(entry.ProductId, out var entries) == false)
+            if (_shelvesByItem.TryGetValue(entry.ItemId, out var entries) == false)
             {
                 entries = new List<ShelfOpportunityEntry>(4);
-                _shelvesByProduct.Add(entry.ProductId, entries);
+                _shelvesByItem.Add(entry.ItemId, entries);
             }
 
             if (ContainsShelf(entries, shelf) == false)
                 entries.Add(entry);
         }
 
-        public void Unregister(ShelfProductPart shelf)
+        public void Unregister(ShelfStockPart shelf)
         {
             if (shelf == false)
                 return;
 
-            if (_shelvesByProduct.TryGetValue(shelf.ProductId, out var entries) == false)
+            if (_shelvesByItem.TryGetValue(shelf.ItemId, out var entries) == false)
                 return;
 
             for (var index = entries.Count - 1; index >= 0; index--)
@@ -51,7 +52,7 @@ namespace Game.World.UtilityAi
             }
 
             if (entries.Count == 0)
-                _shelvesByProduct.Remove(shelf.ProductId);
+                _shelvesByItem.Remove(shelf.ItemId);
         }
 
         public void Register(CheckoutCounterPart checkout)
@@ -101,7 +102,7 @@ namespace Game.World.UtilityAi
         }
 
         public void CollectShelves(
-            ProductId productId,
+            ItemId itemId,
             EntityRoot excludedRoot,
             bool requireInteractionTarget,
             List<ShelfOpportunityEntry> results)
@@ -109,7 +110,7 @@ namespace Game.World.UtilityAi
             if (results == null)
                 throw new ArgumentNullException(nameof(results));
 
-            if (_shelvesByProduct.TryGetValue(productId, out var entries) == false)
+            if (_shelvesByItem.TryGetValue(itemId, out var entries) == false)
                 return;
 
             for (var index = 0; index < entries.Count; index++)
@@ -162,7 +163,7 @@ namespace Game.World.UtilityAi
         }
 
         public bool TryFindShelf(
-            ProductId productId,
+            ItemId itemId,
             Vector3 origin,
             EntityRoot excludedRoot,
             bool requireInteractionTarget,
@@ -171,7 +172,7 @@ namespace Game.World.UtilityAi
             targetRoot = null;
             var bestDistanceSqr = float.MaxValue;
 
-            if (_shelvesByProduct.TryGetValue(productId, out var entries) == false)
+            if (_shelvesByItem.TryGetValue(itemId, out var entries) == false)
                 return false;
 
             for (var index = 0; index < entries.Count; index++)
@@ -246,7 +247,7 @@ namespace Game.World.UtilityAi
             return targetRoot != false;
         }
 
-        private static ShelfOpportunityEntry CreateShelfEntry(ShelfProductPart shelf)
+        private static ShelfOpportunityEntry CreateShelfEntry(ShelfStockPart shelf)
         {
             var root = shelf.OwnerRoot;
             root.TryFindOwnedComponent(out InteractionTargetPart interactionTarget);
@@ -332,7 +333,7 @@ namespace Game.World.UtilityAi
 
         private static bool ContainsShelf(
             List<ShelfOpportunityEntry> entries,
-            ShelfProductPart shelf)
+            ShelfStockPart shelf)
         {
             for (var index = 0; index < entries.Count; index++)
             {

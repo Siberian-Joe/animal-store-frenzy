@@ -1,4 +1,6 @@
-﻿namespace Game.World.Shop.Customers
+using Game.World.Inventory;
+
+namespace Game.World.Shop.Customers
 {
     public interface ICustomerNeeds
     {
@@ -6,8 +8,8 @@
 
         int ActiveNeedCount { get; }
 
-        bool WantsProduct(ProductId productId);
+        bool WantsItem(ItemId itemId);
 
-        bool TrySatisfyProductNeed(ProductId productId, float satisfactionAmount = 1f);
+        bool TrySatisfyItemNeed(ItemId itemId, float satisfactionAmount = 1f);
     }
 }

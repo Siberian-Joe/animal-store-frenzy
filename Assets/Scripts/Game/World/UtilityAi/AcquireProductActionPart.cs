@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Game.World.Shop;
+using Game.World.Inventory;
 using Game.World.Shop.Customers;
 using UnityEngine;
 using Zenject;
@@ -52,13 +52,14 @@ namespace Game.World.UtilityAi
                 if (need == null || need.Intensity <= 0f)
                     continue;
 
-                if (string.IsNullOrWhiteSpace(need.ProductId))
+                if (string.IsNullOrWhiteSpace(need.ItemId))
                     continue;
 
+                var itemId = new ItemId(need.ItemId);
                 _shelfBuffer.Clear();
 
                 _opportunityLocator.CollectShelves(
-                    new ProductId(need.ProductId),
+                    itemId,
                     OwnerRoot,
                     _requireInteractionTarget,
                     _shelfBuffer);
@@ -68,7 +69,7 @@ namespace Game.World.UtilityAi
 
                 var needHandle = new CustomerNeedHandle(
                     need.NeedId,
-                    new ProductId(need.ProductId),
+                    itemId,
                     need.Intensity);
 
                 foreach (var entry in _shelfBuffer)

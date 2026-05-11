@@ -3,47 +3,14 @@ using System.Collections.Generic;
 
 namespace Game.World.Commands
 {
-    public interface IGameCommand
-    {
-    }
-
-    public interface IGameCommandHandler
-    {
-        Type CommandType { get; }
-
-        void Execute(IGameCommand command);
-    }
-
-    public interface IGameCommandHandler<in TCommand> : IGameCommandHandler
-        where TCommand : IGameCommand
-    {
-        void Execute(TCommand command);
-    }
-
-    public abstract class GameCommandHandler<TCommand> : IGameCommandHandler<TCommand>
-        where TCommand : IGameCommand
-    {
-        public Type CommandType => typeof(TCommand);
-
-        public abstract void Execute(TCommand command);
-
-        void IGameCommandHandler.Execute(IGameCommand command)
-        {
-            if (command is not TCommand typedCommand)
-            {
-                throw new InvalidOperationException(
-                    $"Command handler '{GetType().Name}' cannot execute '{command?.GetType().Name ?? "<null>"}'.");
-            }
-
-            Execute(typedCommand);
-        }
-    }
-
     public sealed class GameCommandDispatcher
     {
         private readonly Dictionary<Type, IGameCommandHandler> _handlers = new();
+        private readonly IReadOnlyList<IGameCommandPostProcessor> _postProcessors;
 
-        public GameCommandDispatcher(List<IGameCommandHandler> handlers)
+        public GameCommandDispatcher(
+            List<IGameCommandHandler> handlers,
+            List<IGameCommandPostProcessor> postProcessors = null)
         {
             if (handlers == null)
                 throw new ArgumentNullException(nameof(handlers));
@@ -63,6 +30,9 @@ namespace Game.World.Commands
 
                 _handlers.Add(handler.CommandType, handler);
             }
+
+            _postProcessors = (IReadOnlyList<IGameCommandPostProcessor>)postProcessors ??
+                              Array.Empty<IGameCommandPostProcessor>();
         }
 
         public void Dispatch(IGameCommand command)
@@ -73,12 +43,12 @@ namespace Game.World.Commands
             var commandType = command.GetType();
 
             if (_handlers.TryGetValue(commandType, out var handler) == false)
-            {
-                throw new InvalidOperationException(
-                    $"No game command handler is registered for '{commandType.Name}'.");
-            }
+                throw new InvalidOperationException($"No game command handler is registered for '{commandType.Name}'.");
 
             handler.Execute(command);
+
+            foreach (var postProcessor in _postProcessors)
+                postProcessor.Process(command);
         }
     }
 }

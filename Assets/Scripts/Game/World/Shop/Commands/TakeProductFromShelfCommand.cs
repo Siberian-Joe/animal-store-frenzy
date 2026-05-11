@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game.World.Commands;
 using Game.World.EntityRuntime;
 
@@ -10,18 +10,18 @@ namespace Game.World.Shop.Commands
         public TakeProductFromShelfCommand(
             EntityId customerId,
             EntityId shelfId,
-            string productId,
+            string itemId,
             int quantity)
         {
-            if (string.IsNullOrWhiteSpace(productId))
-                throw new ArgumentException("Product id cannot be null or whitespace.", nameof(productId));
+            if (string.IsNullOrWhiteSpace(itemId))
+                throw new ArgumentException("Item id cannot be null or whitespace.", nameof(itemId));
 
             if (quantity <= 0)
                 throw new ArgumentOutOfRangeException(nameof(quantity), quantity, "Take quantity must be positive.");
 
             CustomerId = customerId;
             ShelfId = shelfId;
-            ProductId = productId.Trim();
+            ItemId = itemId.Trim();
             Quantity = quantity;
         }
 
@@ -29,7 +29,7 @@ namespace Game.World.Shop.Commands
 
         public EntityId ShelfId { get; }
 
-        public string ProductId { get; }
+        public string ItemId { get; }
 
         public int Quantity { get; }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game.World.Features.InteractionTarget;
 using Game.World.Interactions;
 using Game.World.Shop.Shelves;
@@ -9,11 +9,11 @@ namespace Game.World.UtilityAi
     public sealed class AcquireProductOption : CustomerShopOption
     {
         public CustomerNeedHandle Need { get; }
-        public ShelfProductPart Shelf { get; }
+        public ShelfStockPart Shelf { get; }
 
         public AcquireProductOption(
             CustomerNeedHandle need,
-            ShelfProductPart shelf,
+            ShelfStockPart shelf,
             InteractionTargetPart interactionTarget,
             Vector3 approachPoint,
             float normalizedDistance)
@@ -41,6 +41,6 @@ namespace Game.World.UtilityAi
         public override bool MatchesInteraction(InteractionOption option) =>
             option != null &&
             option.TargetRoot == TargetRoot &&
-            string.Equals(option.SubjectId, Need.ProductId.Value, StringComparison.Ordinal);
+            string.Equals(option.SubjectId, Need.ItemId.Value, StringComparison.Ordinal);
     }
 }

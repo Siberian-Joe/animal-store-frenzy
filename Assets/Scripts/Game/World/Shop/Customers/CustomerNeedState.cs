@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Game.World.Shop.Customers
 {
@@ -6,7 +6,7 @@ namespace Game.World.Shop.Customers
     public sealed class CustomerNeedState
     {
         public string NeedId;
-        public string ProductId;
+        public string ItemId;
         public float Intensity;
 
         public CustomerNeedState DeepClone()
@@ -14,7 +14,7 @@ namespace Game.World.Shop.Customers
             return new CustomerNeedState
             {
                 NeedId = NeedId,
-                ProductId = ProductId,
+                ItemId = ItemId,
                 Intensity = Intensity
             };
         }

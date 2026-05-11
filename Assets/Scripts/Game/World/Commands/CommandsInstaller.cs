@@ -6,6 +6,9 @@ namespace Game.World.Commands
     {
         public override void InstallBindings()
         {
+            if (Container.HasBinding<GameCommandDispatcher>())
+                return;
+
             Container
                 .Bind<GameCommandDispatcher>()
                 .AsSingle();

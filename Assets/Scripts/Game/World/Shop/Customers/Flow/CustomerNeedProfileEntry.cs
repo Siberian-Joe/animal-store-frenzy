@@ -1,5 +1,5 @@
-﻿using System;
-using Game.World.Shop.Products;
+using System;
+using Game.World.Inventory;
 using UnityEngine;
 
 namespace Game.World.Shop.Customers.Flow
@@ -8,7 +8,7 @@ namespace Game.World.Shop.Customers.Flow
     public struct CustomerNeedProfileEntry
     {
         public string NeedId;
-        public ProductDefinition Product;
+        public ItemDefinition Item;
 
         [Min(0)] public int Weight;
 

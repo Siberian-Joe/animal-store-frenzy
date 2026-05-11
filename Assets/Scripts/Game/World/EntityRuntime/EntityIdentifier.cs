@@ -51,7 +51,10 @@ namespace Game.World.EntityRuntime
 
         private void GenerateNewIdInternal()
         {
-            _id = Guid.NewGuid().ToString("N");
+            _id = Guid
+                .NewGuid()
+                .ToString("N");
+
             EditorUtility.SetDirty(this);
         }
 #endif

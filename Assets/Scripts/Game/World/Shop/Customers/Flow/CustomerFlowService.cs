@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.World.EntityRuntime;
 using Game.World.Persistence;
@@ -232,7 +232,7 @@ namespace Game.World.Shop.Customers.Flow
 
         private static bool IsValidNeedProfile(CustomerNeedProfileEntry entry)
         {
-            return entry.Product != false && entry.Weight > 0;
+            return entry.Item != false && entry.Weight > 0;
         }
 
         private static int ChooseWeightedCandidateSlot(
@@ -268,9 +268,9 @@ namespace Game.World.Shop.Customers.Flow
 
         private static CustomerNeedState CreateNeed(CustomerNeedProfileEntry entry)
         {
-            var productId = entry.Product.ProductId.Value;
+            var itemId = entry.Item.Id.Value;
             var baseNeedId = string.IsNullOrWhiteSpace(entry.NeedId)
-                ? productId
+                ? itemId
                 : entry.NeedId.Trim();
 
             var intensity = Random.Range(
@@ -280,7 +280,7 @@ namespace Game.World.Shop.Customers.Flow
             return new CustomerNeedState
             {
                 NeedId = $"{baseNeedId}_{Guid.NewGuid():N}",
-                ProductId = productId,
+                ItemId = itemId,
                 Intensity = intensity
             };
         }

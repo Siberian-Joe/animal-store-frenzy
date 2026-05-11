@@ -6,8 +6,8 @@ namespace Game.World.Shop
 {
     public interface IShopInteractionRegistry
     {
-        void Register(ShelfProductPart shelf);
-        void Unregister(ShelfProductPart shelf);
+        void Register(ShelfStockPart shelf);
+        void Unregister(ShelfStockPart shelf);
 
         void Register(CheckoutCounterPart checkout);
         void Unregister(CheckoutCounterPart checkout);

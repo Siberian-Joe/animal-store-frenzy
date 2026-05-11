@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.World.EntityRuntime;
 using Game.World.Interactions;
@@ -13,7 +13,7 @@ namespace Game.World.Shop.Shelves.Interactions
         [Header("Shelf Take Interaction")] [SerializeField]
         private string _interactionActionId = "take-product-from-shelf";
 
-        [SerializeField] private ShelfProductPart _shelfProduct;
+        [SerializeField] private ShelfStockPart _shelfStock;
 
         public override void CollectOptions(
             IInteractionActor actor,
@@ -26,17 +26,17 @@ namespace Game.World.Shop.Shelves.Interactions
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            _shelfProduct ??= GetComponent<ShelfProductPart>();
-            if (_shelfProduct == false)
+            _shelfStock ??= GetComponent<ShelfStockPart>();
+            if (_shelfStock == false)
                 return;
 
-            if (_shelfProduct.HasStock == false)
+            if (_shelfStock.HasStock == false)
                 return;
 
             if (actor.TryGetRole<ICustomerShoppingRole>(out var shoppingRole) == false)
                 return;
 
-            if (shoppingRole.WantsProduct(_shelfProduct.ProductId) == false)
+            if (shoppingRole.WantsItem(_shelfStock.ItemId) == false)
                 return;
 
             if (actor is not Component actorComponent)
@@ -52,13 +52,13 @@ namespace Game.World.Shop.Shelves.Interactions
 
             const int quantity = 1;
 
-            if (_shelfProduct.CurrentQuantity < quantity)
+            if (_shelfStock.CurrentQuantity < quantity)
                 return;
 
             var command = new TakeProductFromShelfCommand(
                 actorRoot.Id,
                 targetRoot.Id,
-                _shelfProduct.ProductId.Value,
+                _shelfStock.ItemId.Value,
                 quantity);
 
             options.Add(new InteractionOption(
@@ -66,7 +66,7 @@ namespace Game.World.Shop.Shelves.Interactions
                 approachPoint,
                 command,
                 targetRoot,
-                _shelfProduct.ProductId.Value,
+                _shelfStock.ItemId.Value,
                 quantity));
         }
     }

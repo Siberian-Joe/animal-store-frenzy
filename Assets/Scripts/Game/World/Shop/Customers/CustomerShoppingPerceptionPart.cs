@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Game.World.EntityRuntime;
+using Game.World.Inventory;
 using UnityEngine;
 using Zenject;
 
@@ -116,13 +117,13 @@ namespace Game.World.Shop.Customers
                 if (need == null || need.Intensity <= 0f)
                     continue;
 
-                if (string.IsNullOrWhiteSpace(need.ProductId))
+                if (string.IsNullOrWhiteSpace(need.ItemId))
                     continue;
 
-                var productId = new ProductId(need.ProductId);
+                var itemId = new ItemId(need.ItemId);
 
                 if (_shopInteractionLocator.TryFindShelf(
-                        productId,
+                        itemId,
                         origin,
                         OwnerRoot,
                         _requireInteractionTarget,
@@ -153,6 +154,12 @@ namespace Game.World.Shop.Customers
 
         private readonly struct BestNeedEvaluation
         {
+            public CustomerNeedState Need { get; }
+            public EntityRoot TargetRoot { get; }
+            public float Intensity { get; }
+            public float ProximityScore { get; }
+            public float FinalScore { get; }
+
             public BestNeedEvaluation(
                 CustomerNeedState need,
                 EntityRoot targetRoot,
@@ -166,12 +173,6 @@ namespace Game.World.Shop.Customers
                 ProximityScore = proximityScore;
                 FinalScore = finalScore;
             }
-
-            public CustomerNeedState Need { get; }
-            public EntityRoot TargetRoot { get; }
-            public float Intensity { get; }
-            public float ProximityScore { get; }
-            public float FinalScore { get; }
         }
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6616acc403643a4b9f2a5f44427c197, type: 3}
+  m_Name: ShelfStockCondition
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Conditions.ShelfStockQuestConditionDefinition
+  _target: {fileID: 11400000, guid: 969a117ff2072404ea087a21bd69f463, type: 2}
+  _requiredItem: {fileID: 11400000, guid: d6c51206e828fa94fb63c80113e4399d, type: 2}
+  _requiredAmount: 1

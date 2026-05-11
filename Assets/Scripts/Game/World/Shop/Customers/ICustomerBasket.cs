@@ -1,4 +1,6 @@
-﻿namespace Game.World.Shop.Customers
+using Game.World.Inventory;
+
+namespace Game.World.Shop.Customers
 {
     public interface ICustomerBasket
     {
@@ -8,9 +10,9 @@
 
         int UniqueItemCount { get; }
 
-        int GetQuantity(ProductId productId);
+        int GetQuantity(ItemId itemId);
 
-        void AddProduct(ProductId productId, int quantity);
+        void AddItem(ItemId itemId, int quantity);
 
         void ClearBasket();
     }

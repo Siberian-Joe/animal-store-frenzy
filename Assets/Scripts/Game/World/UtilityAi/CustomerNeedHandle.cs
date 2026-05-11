@@ -1,5 +1,5 @@
-﻿using System;
-using Game.World.Shop;
+using System;
+using Game.World.Inventory;
 using UnityEngine;
 
 namespace Game.World.UtilityAi
@@ -7,16 +7,16 @@ namespace Game.World.UtilityAi
     public readonly struct CustomerNeedHandle : IEquatable<CustomerNeedHandle>
     {
         public string NeedId { get; }
-        public ProductId ProductId { get; }
+        public ItemId ItemId { get; }
         public float Intensity { get; }
 
-        public CustomerNeedHandle(string needId, ProductId productId, float intensity)
+        public CustomerNeedHandle(string needId, ItemId itemId, float intensity)
         {
             NeedId = string.IsNullOrWhiteSpace(needId)
                 ? throw new ArgumentException("Need id cannot be empty.", nameof(needId))
                 : needId.Trim();
 
-            ProductId = productId;
+            ItemId = itemId;
             Intensity = Mathf.Clamp01(intensity);
         }
 

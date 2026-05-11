@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f7ba8d34b6bbe488e6088cbf613231, type: 3}
+  m_Name: RestoreAndStockShelfQuest
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Authoring.QuestDefinition
+  _id: restore_shelf
+  _title: Restore the shop
+  _summary: Restore the shelf and place product on it
+  _objectives:
+  - _objectiveId: restore_shelf
+    _objectiveText: Restore the shelf
+    _condition: {fileID: 11400000, guid: 8a47e78de8ce3ff4591819f41fe3c905, type: 2}
+  - _objectiveId: stock_shelf
+    _objectiveText: Place product on the shelf
+    _condition: {fileID: 11400000, guid: f8f5b0fb8b1fe184997af0e26be1366c, type: 2}

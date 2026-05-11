@@ -1,4 +1,5 @@
 using Game.World.EntityRuntime;
+using Game.World.Inventory;
 using UnityEngine;
 
 namespace Game.World.Shop
@@ -6,7 +7,7 @@ namespace Game.World.Shop
     public interface IShopInteractionLocator
     {
         bool TryFindShelf(
-            ProductId productId,
+            ItemId itemId,
             Vector3 origin,
             EntityRoot excludedRoot,
             bool requireInteractionTarget,

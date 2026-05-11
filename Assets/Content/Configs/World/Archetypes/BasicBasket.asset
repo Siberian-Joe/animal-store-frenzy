@@ -18,34 +18,22 @@ MonoBehaviour:
   _maxInitialNeedCount: 3
   _needProfiles:
   - NeedId: bread
-    Product: {fileID: 11400000, guid: f0dd97f8b1fcddf418a0064224ffabfb, type: 2}
+    Item: {fileID: 11400000, guid: 30d1876f2cf4348449aa2f6f398d9d5d, type: 2}
     Weight: 5
     MinIntensity: 0.6
     MaxIntensity: 1
-    MinQuantity: 1
-    MaxQuantity: 2
-    IsOptional: 0
   - NeedId: milk
-    Product: {fileID: 11400000, guid: e4f26a6f227d69e45badc9d68f085e10, type: 2}
+    Item: {fileID: 11400000, guid: 290c47292735002479a95f745af4a324, type: 2}
     Weight: 5
     MinIntensity: 0.6
     MaxIntensity: 1
-    MinQuantity: 1
-    MaxQuantity: 2
-    IsOptional: 0
   - NeedId: water
-    Product: {fileID: 11400000, guid: 3829709be304dbd4f92b6311770825f5, type: 2}
+    Item: {fileID: 11400000, guid: ad8a8d3216b31a043859981278c3ce63, type: 2}
     Weight: 2
     MinIntensity: 0.2
     MaxIntensity: 0.6
-    MinQuantity: 1
-    MaxQuantity: 1
-    IsOptional: 1
   - NeedId: snacks
-    Product: {fileID: 11400000, guid: 7730eefb69930ec408a2223592ccbf90, type: 2}
+    Item: {fileID: 11400000, guid: 6dceab0747ff22c4dbe1f0adef476308, type: 2}
     Weight: 2
     MinIntensity: 0.2
     MaxIntensity: 0.7
-    MinQuantity: 1
-    MaxQuantity: 1
-    IsOptional: 1

@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.World.Interactions;
+using Game.World.Inventory;
 using Game.World.Persistence;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ namespace Game.World.Shop.Customers
                 for (var index = 0; index < State.Items.Count; index++)
                 {
                     var item = State.Items[index];
-                    if (item == null || item.Quantity <= 0 || string.IsNullOrWhiteSpace(item.ProductId))
+                    if (item == null || item.Quantity <= 0 || string.IsNullOrWhiteSpace(item.ItemId))
                         continue;
 
                     total++;
@@ -79,7 +80,7 @@ namespace Game.World.Shop.Customers
             CleanupState();
         }
 
-        public int GetQuantity(ProductId productId)
+        public int GetQuantity(ItemId itemId)
         {
             if (State.Items == null)
                 return 0;
@@ -90,27 +91,26 @@ namespace Game.World.Shop.Customers
                 if (item == null || item.Quantity <= 0)
                     continue;
 
-                if (item.Matches(productId))
+                if (item.Matches(itemId))
                     return item.Quantity;
             }
 
             return 0;
         }
 
-        public void AddProduct(ProductId productId, int quantity)
+        public void AddItem(ItemId itemId, int quantity)
         {
             if (quantity <= 0)
                 throw new ArgumentOutOfRangeException(nameof(quantity), quantity, "Basket quantity must be positive.");
 
             State.Items ??= new List<CustomerBasketItemState>();
 
-            for (var index = 0; index < State.Items.Count; index++)
+            foreach (var item in State.Items)
             {
-                var item = State.Items[index];
                 if (item == null)
                     continue;
 
-                if (item.Matches(productId) == false)
+                if (item.Matches(itemId) == false)
                     continue;
 
                 item.Quantity += quantity;
@@ -119,7 +119,7 @@ namespace Game.World.Shop.Customers
 
             State.Items.Add(new CustomerBasketItemState
             {
-                ProductId = productId.Value,
+                ItemId = itemId.Value,
                 Quantity = quantity
             });
         }
@@ -144,8 +144,10 @@ namespace Game.World.Shop.Customers
             {
                 var item = State.Items[index];
 
-                if (item == null || string.IsNullOrWhiteSpace(item.ProductId) || item.Quantity <= 0)
+                if (item == null || string.IsNullOrWhiteSpace(item.ItemId) || item.Quantity <= 0)
                     State.Items.RemoveAt(index);
+                else
+                    item.ItemId = item.ItemId.Trim();
             }
         }
     }

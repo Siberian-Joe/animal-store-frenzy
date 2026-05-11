@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Game.World.EntityRuntime;
-using Game.World.Shop;
+using Game.World.Inventory;
 
 namespace Game.World.UtilityAi
 {
     public interface IShopUtilityOpportunityLocator
     {
         void CollectShelves(
-            ProductId productId,
+            ItemId itemId,
             EntityRoot excludedRoot,
             bool requireInteractionTarget,
             List<ShelfOpportunityEntry> results);

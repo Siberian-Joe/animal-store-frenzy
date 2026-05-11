@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.World.Interactions;
+using Game.World.Inventory;
 using Game.World.Persistence;
 using UnityEngine;
 
@@ -76,7 +77,7 @@ namespace Game.World.Shop.Customers
             SanitizeState();
         }
 
-        public bool WantsProduct(ProductId productId)
+        public bool WantsItem(ItemId itemId)
         {
             if (State.Needs == null || State.Needs.Count == 0)
                 return false;
@@ -86,14 +87,14 @@ namespace Game.World.Shop.Customers
                 if (IsActiveNeed(need) == false)
                     continue;
 
-                if (string.Equals(need.ProductId, productId.Value, StringComparison.Ordinal))
+                if (string.Equals(need.ItemId, itemId.Value, StringComparison.Ordinal))
                     return true;
             }
 
             return false;
         }
 
-        public bool TrySatisfyProductNeed(ProductId productId, float satisfactionAmount = 1f)
+        public bool TrySatisfyItemNeed(ItemId itemId, float satisfactionAmount = 1f)
         {
             if (satisfactionAmount <= 0f)
             {
@@ -111,7 +112,7 @@ namespace Game.World.Shop.Customers
                 if (IsActiveNeed(need) == false)
                     continue;
 
-                if (string.Equals(need.ProductId, productId.Value, StringComparison.Ordinal) == false)
+                if (string.Equals(need.ItemId, itemId.Value, StringComparison.Ordinal) == false)
                     continue;
 
                 need.Intensity = Mathf.Max(0f, need.Intensity - satisfactionAmount);
@@ -146,20 +147,20 @@ namespace Game.World.Shop.Customers
                     ? Guid.NewGuid().ToString("N")
                     : need.NeedId.Trim();
 
-                need.ProductId = string.IsNullOrWhiteSpace(need.ProductId)
+                need.ItemId = string.IsNullOrWhiteSpace(need.ItemId)
                     ? string.Empty
-                    : need.ProductId.Trim();
+                    : need.ItemId.Trim();
 
                 need.Intensity = Mathf.Clamp01(need.Intensity);
 
-                if (string.IsNullOrWhiteSpace(need.ProductId) || need.Intensity <= 0f)
+                if (string.IsNullOrWhiteSpace(need.ItemId) || need.Intensity <= 0f)
                     State.Needs.RemoveAt(index);
             }
         }
 
         private static bool IsActiveNeed(CustomerNeedState need) =>
             need != null &&
-            string.IsNullOrWhiteSpace(need.ProductId) == false &&
+            string.IsNullOrWhiteSpace(need.ItemId) == false &&
             need.Intensity > 0f;
     }
 }
