@@ -4,15 +4,22 @@ using Game.World.Inventory;
 using Game.World.Persistence;
 using Game.World.Shop.Customers;
 using Game.World.Shop.Shelves;
+using Game.World.Store;
 
 namespace Game.World.Shop.Commands
 {
     public sealed class TakeProductFromShelfCommandHandler : GameCommandHandler<TakeProductFromShelfCommand>
     {
         private readonly ILiveEntityRegistry _liveEntityRegistry;
+        private readonly IStoreRuntimeResolver _storeResolver;
 
-        public TakeProductFromShelfCommandHandler(ILiveEntityRegistry liveEntityRegistry) => _liveEntityRegistry =
-            liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+        public TakeProductFromShelfCommandHandler(
+            ILiveEntityRegistry liveEntityRegistry,
+            IStoreRuntimeResolver storeResolver)
+        {
+            _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+            _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+        }
 
         public override void Execute(TakeProductFromShelfCommand command)
         {
@@ -70,6 +77,13 @@ namespace Game.World.Shop.Commands
                     $"Customer '{customerRoot.Id}' failed to satisfy need for '{itemId}' after shelf take.");
 
             customerBasket.AddItem(itemId, command.Quantity);
+            MarkCustomerCycleStage(CustomerCycleStage.ProductTaken);
+        }
+
+        private void MarkCustomerCycleStage(CustomerCycleStage stage)
+        {
+            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
+                progress.Mark(stage);
         }
     }
 }

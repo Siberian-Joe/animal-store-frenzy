@@ -4,6 +4,7 @@ using Game.World.EntityRuntime;
 using Game.World.Persistence;
 using Game.World.Shop.Customers;
 using Game.World.Shop.Exits;
+using Game.World.Store;
 
 namespace Game.World.Shop.Commands
 {
@@ -12,15 +13,18 @@ namespace Game.World.Shop.Commands
         private readonly ILiveEntityRegistry _liveEntityRegistry;
         private readonly EntityActivator _entityActivator;
         private readonly IEntityFactory _entityFactory;
+        private readonly IStoreRuntimeResolver _storeResolver;
 
         public LeaveStoreCommandHandler(
             ILiveEntityRegistry liveEntityRegistry,
             EntityActivator entityActivator,
-            IEntityFactory entityFactory)
+            IEntityFactory entityFactory,
+            IStoreRuntimeResolver storeResolver)
         {
             _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
             _entityActivator = entityActivator ?? throw new ArgumentNullException(nameof(entityActivator));
             _entityFactory = entityFactory ?? throw new ArgumentNullException(nameof(entityFactory));
+            _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
         }
 
         public override void Execute(LeaveStoreCommand command)
@@ -61,6 +65,19 @@ namespace Game.World.Shop.Commands
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerNeeds)} component.");
             }
 
+            var checkoutProgress = customerRoot.FindOwnedComponent<ICustomerCheckoutProgress>();
+            if (checkoutProgress == null)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' has no {nameof(ICustomerCheckoutProgress)} component.");
+            }
+
+            if (checkoutProgress.IsCheckoutCompleted == false)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' cannot leave the store before checkout is completed.");
+            }
+
             if (basket.HasItems)
             {
                 throw new InvalidOperationException(
@@ -73,9 +90,17 @@ namespace Game.World.Shop.Commands
                     $"Customer '{customerRoot.Id}' cannot leave the store while it still has active needs.");
             }
 
+            MarkCustomerCycleStage(CustomerCycleStage.CustomerLeft);
+
             _entityActivator.RemoveState(customerRoot);
             _entityActivator.Deactivate(customerRoot);
             _entityFactory.Destroy(customerRoot);
+        }
+
+        private void MarkCustomerCycleStage(CustomerCycleStage stage)
+        {
+            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
+                progress.Mark(stage);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Game.World.UtilityAi
         private CustomerNeedsPart _customerNeeds;
 
         [SerializeField] private CustomerBasketPart _customerBasket;
+        [SerializeField] private CustomerCheckoutProgressPart _checkoutProgress;
         [SerializeField, Min(0.1f)] private float _maxRelevantDistance = 12f;
         [SerializeField] private bool _requireInteractionTarget = true;
 
@@ -28,6 +29,7 @@ namespace Game.World.UtilityAi
 
             _customerNeeds ??= OwnerRoot.FindOwnedComponent<CustomerNeedsPart>();
             _customerBasket ??= OwnerRoot.FindOwnedComponent<CustomerBasketPart>();
+            _checkoutProgress ??= OwnerRoot.FindOwnedComponent<CustomerCheckoutProgressPart>();
 
             if (_customerNeeds == false)
                 throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerNeedsPart)}.");
@@ -35,11 +37,12 @@ namespace Game.World.UtilityAi
             if (_customerBasket == false)
                 throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerBasketPart)}.");
 
+            if (_checkoutProgress == false)
+                throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerCheckoutProgressPart)}.");
+
             if (_opportunityLocator == null)
-            {
                 throw new InvalidOperationException(
                     $"{GetType().Name} requires {nameof(IShopUtilityOpportunityLocator)} injection.");
-            }
         }
 
         public override void CollectOptions(List<IUtilityOption> options)
@@ -51,6 +54,9 @@ namespace Game.World.UtilityAi
                 return;
 
             if (_customerBasket.HasItems)
+                return;
+
+            if (_checkoutProgress.IsCheckoutCompleted == false)
                 return;
 
             _exitBuffer.Clear();

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Game.World.EntityRuntime;
 using Game.World.Persistence;
+using Game.World.Shop;
+using Game.World.Store;
 using UnityEngine;
 using Zenject;
 using EntityId = Game.World.EntityRuntime.EntityId;
@@ -17,6 +19,8 @@ namespace Game.World.Shop.Customers.Flow
         private readonly IEntityFactory _entityFactory;
         private readonly EntityActivator _entityActivator;
         private readonly ILiveEntityRegistry _liveEntityRegistry;
+        private readonly IStoreRuntimeResolver _storeResolver;
+        private readonly IShopInteractionLocator _shopInteractionLocator;
 
         private float _timeUntilNextSpawn;
 
@@ -26,7 +30,9 @@ namespace Game.World.Shop.Customers.Flow
             IEntityBlueprintCatalog entityBlueprintCatalog,
             IEntityFactory entityFactory,
             EntityActivator entityActivator,
-            ILiveEntityRegistry liveEntityRegistry)
+            ILiveEntityRegistry liveEntityRegistry,
+            IStoreRuntimeResolver storeResolver,
+            IShopInteractionLocator shopInteractionLocator)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _spawnPointLocator = spawnPointLocator ?? throw new ArgumentNullException(nameof(spawnPointLocator));
@@ -35,6 +41,8 @@ namespace Game.World.Shop.Customers.Flow
             _entityFactory = entityFactory ?? throw new ArgumentNullException(nameof(entityFactory));
             _entityActivator = entityActivator ?? throw new ArgumentNullException(nameof(entityActivator));
             _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+            _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+            _shopInteractionLocator = shopInteractionLocator ?? throw new ArgumentNullException(nameof(shopInteractionLocator));
         }
 
         public void Initialize() => _timeUntilNextSpawn = _config.GetRandomSpawnInterval();
@@ -42,6 +50,9 @@ namespace Game.World.Shop.Customers.Flow
         public void Tick()
         {
             if (_config.AutoStart == false)
+                return;
+
+            if (_storeResolver.TryGetOpenStore(out _) == false)
                 return;
 
             if (_spawnPointLocator.HasSpawnPoints == false)
@@ -79,7 +90,7 @@ namespace Game.World.Shop.Customers.Flow
             if (_spawnPointLocator.TryGetRandomSpawnPoint(out var spawnPoint) == false)
                 return;
 
-            if (TryBuildSpawnRequest(out var spawnRequest) == false)
+            if (TryBuildSpawnRequest(spawnPoint.transform.position, out var spawnRequest) == false)
                 return;
 
             var blueprintId = _config.CustomerBlueprintId;
@@ -109,6 +120,7 @@ namespace Game.World.Shop.Customers.Flow
                 }
 
                 initializer.ApplySpawnRequest(spawnRequest);
+                MarkCustomerCycleStage(CustomerCycleStage.CustomerSpawned);
             }
             catch
             {
@@ -123,14 +135,20 @@ namespace Game.World.Shop.Customers.Flow
             }
         }
 
-        private bool TryBuildSpawnRequest(out CustomerSpawnRequest spawnRequest)
+        private void MarkCustomerCycleStage(CustomerCycleStage stage)
+        {
+            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
+                progress.Mark(stage);
+        }
+
+        private bool TryBuildSpawnRequest(Vector3 spawnOrigin, out CustomerSpawnRequest spawnRequest)
         {
             spawnRequest = default;
 
             if (TryChooseArchetype(out var archetype) == false)
                 return false;
 
-            if (TryBuildInitialNeeds(archetype, out var needs) == false)
+            if (TryBuildInitialNeeds(archetype, spawnOrigin, out var needs) == false)
                 return false;
 
             spawnRequest = new CustomerSpawnRequest(archetype.ArchetypeId, needs);
@@ -181,8 +199,9 @@ namespace Game.World.Shop.Customers.Flow
             return false;
         }
 
-        private static bool TryBuildInitialNeeds(
+        private bool TryBuildInitialNeeds(
             CustomerArchetypeDefinition archetype,
+            Vector3 spawnOrigin,
             out CustomerNeedState[] needs)
         {
             needs = Array.Empty<CustomerNeedState>();
@@ -198,7 +217,7 @@ namespace Game.World.Shop.Customers.Flow
 
             for (var index = 0; index < profiles.Length; index++)
             {
-                if (IsValidNeedProfile(profiles[index]))
+                if (IsValidNeedProfile(profiles[index], spawnOrigin))
                     candidateIndices.Add(index);
             }
 
@@ -230,9 +249,16 @@ namespace Game.World.Shop.Customers.Flow
             return true;
         }
 
-        private static bool IsValidNeedProfile(CustomerNeedProfileEntry entry)
+        private bool IsValidNeedProfile(CustomerNeedProfileEntry entry, Vector3 spawnOrigin)
         {
-            return entry.Item != false && entry.Weight > 0;
+            return entry.Item != false &&
+                   entry.Weight > 0 &&
+                   _shopInteractionLocator.TryFindShelf(
+                       entry.Item.Id,
+                       spawnOrigin,
+                       excludedRoot: null,
+                       requireInteractionTarget: true,
+                       out _);
         }
 
         private static int ChooseWeightedCandidateSlot(

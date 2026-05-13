@@ -1,5 +1,6 @@
 using Game.World.Commands;
 using Game.World.Shop.Commands;
+using Game.World.Store;
 using Game.World.UtilityAi;
 using Zenject;
 
@@ -9,6 +10,8 @@ namespace Game.World.Shop
     {
         public override void InstallBindings()
         {
+            StoreRuntimeInstaller.InstallStoreRuntimeBindings(Container);
+
             Container
                 .BindInterfacesAndSelfTo<ShopUtilityOpportunityLocator>()
                 .AsSingle();

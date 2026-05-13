@@ -39,6 +39,10 @@ namespace Game.World.Shop.Exits.Interactions
             if (customerNeeds == null || customerNeeds.HasActiveNeeds)
                 return;
 
+            var checkoutProgress = actorRoot.FindOwnedComponent<ICustomerCheckoutProgress>();
+            if (checkoutProgress == null || checkoutProgress.IsCheckoutCompleted == false)
+                return;
+
             var exitRoot = GetComponentInParent<EntityRoot>();
             if (exitRoot == false)
                 return;

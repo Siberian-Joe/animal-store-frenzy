@@ -3,15 +3,22 @@ using Game.World.Commands;
 using Game.World.Persistence;
 using Game.World.Shop.Checkouts;
 using Game.World.Shop.Customers;
+using Game.World.Store;
 
 namespace Game.World.Shop.Commands
 {
     public sealed class CheckoutCustomerCommandHandler : GameCommandHandler<CheckoutCustomerCommand>
     {
         private readonly ILiveEntityRegistry _liveEntityRegistry;
+        private readonly IStoreRuntimeResolver _storeResolver;
 
-        public CheckoutCustomerCommandHandler(ILiveEntityRegistry liveEntityRegistry) => _liveEntityRegistry =
-            liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+        public CheckoutCustomerCommandHandler(
+            ILiveEntityRegistry liveEntityRegistry,
+            IStoreRuntimeResolver storeResolver)
+        {
+            _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+            _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+        }
 
         public override void Execute(CheckoutCustomerCommand command)
         {
@@ -44,6 +51,19 @@ namespace Game.World.Shop.Commands
                     $"Checkout root '{checkoutRoot.Id}' has no {nameof(ICheckoutServicePoint)} component.");
             }
 
+            var checkoutProgress = customerRoot.FindOwnedComponent<ICustomerCheckoutProgressWriter>();
+            if (checkoutProgress == null)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' has no {nameof(ICustomerCheckoutProgressWriter)} component.");
+            }
+
+            if (checkoutProgress.IsCheckoutCompleted)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' has already completed checkout.");
+            }
+
             if (basket.HasItems == false)
             {
                 throw new InvalidOperationException(
@@ -58,6 +78,14 @@ namespace Game.World.Shop.Commands
             }
 
             basket.ClearBasket();
+            checkoutProgress.MarkCheckoutCompleted();
+            MarkCustomerCycleStage(CustomerCycleStage.CheckoutCompleted);
+        }
+
+        private void MarkCustomerCycleStage(CustomerCycleStage stage)
+        {
+            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
+                progress.Mark(stage);
         }
     }
 }

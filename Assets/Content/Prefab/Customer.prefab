@@ -232,6 +232,7 @@ MonoBehaviour:
   _customerProfile: {fileID: 7301745031536028130}
   _customerNeeds: {fileID: 8392330699088496613}
   _customerBasket: {fileID: 1031976586270051152}
+  _checkoutProgress: {fileID: 0}
 --- !u!114 &1031976586270051152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +350,8 @@ GameObject:
   - component: {fileID: 5822099881822960473}
   - component: {fileID: 2828272022304020758}
   - component: {fileID: 6044444686981888829}
+  - component: {fileID: -7093677808631556097}
+  - component: {fileID: 4896214187252521193}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -459,6 +462,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba95b29f3dfa4e5aaed9df0eb8040294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Interactions.InteractionActorPart
+--- !u!114 &-7093677808631556097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694794259245672548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f3ffacd68bf2c4d9e5494c051e6255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.CustomerCheckoutProgressPart
+--- !u!114 &4896214187252521193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694794259245672548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f666e051bc35422fa1b6bd354e6ba23e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.Flow.CustomerSpawnInitializerPart
+  _customerProfile: {fileID: 7301745031536028130}
+  _customerNeeds: {fileID: 8392330699088496613}
+  _customerBasket: {fileID: 1031976586270051152}
+  _checkoutProgress: {fileID: -7093677808631556097}
 --- !u!1 &3069224892318891904
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +684,7 @@ MonoBehaviour:
   _arrivalDistanceEpsilon: 0.05
   _customerNeeds: {fileID: 8392330699088496613}
   _customerBasket: {fileID: 1031976586270051152}
+  _checkoutProgress: {fileID: 0}
   _maxRelevantDistance: 18
   _requireInteractionTarget: 1
 --- !u!1 &8537009945740881276
@@ -779,5 +811,6 @@ MonoBehaviour:
   _arrivalDistanceEpsilon: 0.05
   _customerNeeds: {fileID: 8392330699088496613}
   _customerBasket: {fileID: 1031976586270051152}
+  _checkoutProgress: {fileID: 0}
   _maxRelevantDistance: 16
   _requireInteractionTarget: 1

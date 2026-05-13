@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f7ba8d34b6bbe488e6088cbf613231, type: 3}
-  m_Name: RestoreAndStockShelfQuest
+  m_Name: RestoreAndServeFirstCustomerQuest
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Authoring.QuestDefinition
-  _id: restore_shelf
+  _id: restore_and_serve_first_customer
   _title: Restore the shop
-  _summary: Restore the shelf and place product on it
+  _summary: Restore the shelf, stock it, open the store and serve the first customer
   _objectives:
   - _objectiveId: restore_shelf
     _objectiveText: Restore the shelf
@@ -22,3 +22,9 @@ MonoBehaviour:
   - _objectiveId: stock_shelf
     _objectiveText: Place product on the shelf
     _condition: {fileID: 11400000, guid: f8f5b0fb8b1fe184997af0e26be1366c, type: 2}
+  - _objectiveId: open_store
+    _objectiveText: Open the store
+    _condition: {fileID: 11400000, guid: d677cd678e25483499718536bfbe65ba, type: 2}
+  - _objectiveId: serve_first_customer
+    _objectiveText: Serve first customer
+    _condition: {fileID: 11400000, guid: 0e43665587619d8448f80befb99af58d, type: 2}

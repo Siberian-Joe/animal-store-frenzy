@@ -37,6 +37,10 @@ namespace Game.World.Shop.Checkouts.Interactions
             if (actorRoot == false)
                 return;
 
+            var checkoutProgress = actorRoot.FindOwnedComponent<ICustomerCheckoutProgress>();
+            if (checkoutProgress == null || checkoutProgress.IsCheckoutCompleted)
+                return;
+
             var checkoutRoot = GetComponentInParent<EntityRoot>();
             if (checkoutRoot == false)
                 return;

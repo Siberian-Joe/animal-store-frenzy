@@ -113,10 +113,8 @@ namespace Game.World.UtilityAi
             if (_shelvesByItem.TryGetValue(itemId, out var entries) == false)
                 return;
 
-            for (var index = 0; index < entries.Count; index++)
+            foreach (var entry in entries)
             {
-                var entry = entries[index];
-
                 if (IsShelfEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -132,10 +130,8 @@ namespace Game.World.UtilityAi
             if (results == null)
                 throw new ArgumentNullException(nameof(results));
 
-            for (var index = 0; index < _checkouts.Count; index++)
+            foreach (var entry in _checkouts)
             {
-                var entry = _checkouts[index];
-
                 if (IsCheckoutEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -151,10 +147,8 @@ namespace Game.World.UtilityAi
             if (results == null)
                 throw new ArgumentNullException(nameof(results));
 
-            for (var index = 0; index < _exits.Count; index++)
+            foreach (var entry in _exits)
             {
-                var entry = _exits[index];
-
                 if (IsExitEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -175,10 +169,8 @@ namespace Game.World.UtilityAi
             if (_shelvesByItem.TryGetValue(itemId, out var entries) == false)
                 return false;
 
-            for (var index = 0; index < entries.Count; index++)
+            foreach (var entry in entries)
             {
-                var entry = entries[index];
-
                 if (IsShelfEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -202,10 +194,8 @@ namespace Game.World.UtilityAi
             targetRoot = null;
             var bestDistanceSqr = float.MaxValue;
 
-            for (var index = 0; index < _checkouts.Count; index++)
+            foreach (var entry in _checkouts)
             {
-                var entry = _checkouts[index];
-
                 if (IsCheckoutEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -229,10 +219,8 @@ namespace Game.World.UtilityAi
             targetRoot = null;
             var bestDistanceSqr = float.MaxValue;
 
-            for (var index = 0; index < _exits.Count; index++)
+            foreach (var entry in _exits)
             {
-                var entry = _exits[index];
-
                 if (IsExitEntryValid(entry, excludedRoot, requireInteractionTarget) == false)
                     continue;
 
@@ -276,7 +264,10 @@ namespace Game.World.UtilityAi
             if (entry.Shelf == false || entry.Shelf.IsActive == false)
                 return false;
 
-            if (entry.Shelf.HasStock == false)
+            if (entry.Shelf.HasStock == false || entry.Shelf.CurrentQuantity <= 0)
+                return false;
+
+            if (entry.Shelf.ItemId != entry.ItemId)
                 return false;
 
             return IsCommonEntryValid(
@@ -335,9 +326,9 @@ namespace Game.World.UtilityAi
             List<ShelfOpportunityEntry> entries,
             ShelfStockPart shelf)
         {
-            for (var index = 0; index < entries.Count; index++)
+            foreach (var entry in entries)
             {
-                if (entries[index].Shelf == shelf)
+                if (entry.Shelf == shelf)
                     return true;
             }
 
@@ -346,9 +337,9 @@ namespace Game.World.UtilityAi
 
         private bool ContainsCheckout(CheckoutCounterPart checkout)
         {
-            for (var index = 0; index < _checkouts.Count; index++)
+            foreach (var entry in _checkouts)
             {
-                if (_checkouts[index].Checkout == checkout)
+                if (entry.Checkout == checkout)
                     return true;
             }
 
@@ -357,9 +348,9 @@ namespace Game.World.UtilityAi
 
         private bool ContainsExit(StoreExitPointPart exitPoint)
         {
-            for (var index = 0; index < _exits.Count; index++)
+            foreach (var exit in _exits)
             {
-                if (_exits[index].ExitPoint == exitPoint)
+                if (exit.ExitPoint == exitPoint)
                     return true;
             }
 
