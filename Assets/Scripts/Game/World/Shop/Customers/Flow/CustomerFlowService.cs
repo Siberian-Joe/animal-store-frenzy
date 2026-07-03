@@ -55,6 +55,9 @@ namespace Game.World.Shop.Customers.Flow
             if (_storeResolver.TryGetOpenStore(out _) == false)
                 return;
 
+            if (_storeResolver.TryGetAnyShiftWriter(out var shift) == false || shift.CanSpawnCustomer == false)
+                return;
+
             if (_spawnPointLocator.HasSpawnPoints == false)
                 return;
 
@@ -121,6 +124,7 @@ namespace Game.World.Shop.Customers.Flow
 
                 initializer.ApplySpawnRequest(spawnRequest);
                 MarkCustomerCycleStage(CustomerCycleStage.CustomerSpawned);
+                MarkCustomerEntered();
             }
             catch
             {
@@ -139,6 +143,12 @@ namespace Game.World.Shop.Customers.Flow
         {
             if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
                 progress.Mark(stage);
+        }
+
+        private void MarkCustomerEntered()
+        {
+            if (_storeResolver.TryGetAnyShiftWriter(out var shift))
+                shift.MarkCustomerEntered();
         }
 
         private bool TryBuildSpawnRequest(Vector3 spawnOrigin, out CustomerSpawnRequest spawnRequest)

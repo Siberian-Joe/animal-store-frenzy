@@ -36,6 +36,7 @@ namespace Game.World.Store
         }
 
         public void Open() => State.Status = StoreStatus.Open;
+        public void Close() => State.Status = StoreStatus.Closed;
 
         private static void Normalize(StoreState state)
         {

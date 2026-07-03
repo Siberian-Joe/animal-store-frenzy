@@ -8,6 +8,7 @@ namespace Game.World.Store
     {
         private readonly Dictionary<EntityId, IStoreStatusWriter> _statusByStoreId = new();
         private readonly Dictionary<EntityId, ICustomerCycleProgressWriter> _progressByStoreId = new();
+        private readonly Dictionary<EntityId, IStoreShiftWriter> _shiftByStoreId = new();
 
         public void Register(StoreStatusPart status)
         {
@@ -57,6 +58,30 @@ namespace Game.World.Store
                 ReferenceEquals(existing, progress)) _progressByStoreId.Remove(storeId);
         }
 
+        public void Register(StoreShiftPart shift)
+        {
+            if (shift == false)
+                throw new ArgumentNullException(nameof(shift));
+
+            var storeId = shift.OwnerRoot.Id;
+            if (_shiftByStoreId.TryGetValue(storeId, out var existing) &&
+                ReferenceEquals(existing, shift) == false)
+                throw new InvalidOperationException(
+                    $"Duplicate store shift for store '{storeId}' detected.");
+
+            _shiftByStoreId[storeId] = shift;
+        }
+
+        public void Unregister(StoreShiftPart shift)
+        {
+            if (shift == false)
+                return;
+
+            var storeId = shift.OwnerRoot.Id;
+            if (_shiftByStoreId.TryGetValue(storeId, out var existing) &&
+                ReferenceEquals(existing, shift)) _shiftByStoreId.Remove(storeId);
+        }
+
         public bool TryGetStatus(EntityId storeId, out IStoreStatus status)
         {
             if (_statusByStoreId.TryGetValue(storeId, out var writer))
@@ -84,6 +109,66 @@ namespace Game.World.Store
             }
 
             status = null;
+            return false;
+        }
+
+        public bool TryGetShift(EntityId storeId, out IStoreShift shift)
+        {
+            if (_shiftByStoreId.TryGetValue(storeId, out var writer))
+            {
+                shift = writer;
+                return true;
+            }
+
+            shift = null;
+            return false;
+        }
+
+        public bool TryGetShiftWriter(EntityId storeId, out IStoreShiftWriter shift) =>
+            _shiftByStoreId.TryGetValue(storeId, out shift);
+
+        public bool TryGetAnyShift(out IStoreShift shift)
+        {
+            foreach (var candidate in _shiftByStoreId.Values)
+            {
+                if (candidate == null)
+                    continue;
+
+                shift = candidate;
+                return true;
+            }
+
+            shift = null;
+            return false;
+        }
+
+        public bool TryGetAnyShiftWriter(out IStoreShiftWriter shift)
+        {
+            foreach (var candidate in _shiftByStoreId.Values)
+            {
+                if (candidate == null)
+                    continue;
+
+                shift = candidate;
+                return true;
+            }
+
+            shift = null;
+            return false;
+        }
+
+        public bool TryGetAnyShiftRewardPolicy(out IStoreShiftRewardPolicy rewardPolicy)
+        {
+            foreach (var candidate in _shiftByStoreId.Values)
+            {
+                if (candidate is not IStoreShiftRewardPolicy policy)
+                    continue;
+
+                rewardPolicy = policy;
+                return true;
+            }
+
+            rewardPolicy = null;
             return false;
         }
 

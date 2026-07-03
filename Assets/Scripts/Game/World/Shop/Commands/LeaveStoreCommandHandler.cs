@@ -33,64 +33,47 @@ namespace Game.World.Shop.Commands
                 throw new ArgumentNullException(nameof(command));
 
             if (_liveEntityRegistry.TryGet(command.CustomerId, out var customerRoot) == false || customerRoot == false)
-            {
                 throw new InvalidOperationException(
                     $"Cannot execute {nameof(LeaveStoreCommand)} because customer '{command.CustomerId}' is not live.");
-            }
 
             if (_liveEntityRegistry.TryGet(command.ExitPointId, out var exitRoot) == false || exitRoot == false)
-            {
                 throw new InvalidOperationException(
                     $"Cannot execute {nameof(LeaveStoreCommand)} because exit point '{command.ExitPointId}' is not live.");
-            }
 
             var exitPoint = exitRoot.FindOwnedComponent<IStoreExitPoint>();
             if (exitPoint == null)
-            {
                 throw new InvalidOperationException(
                     $"Exit root '{exitRoot.Id}' has no {nameof(IStoreExitPoint)} component.");
-            }
 
             var basket = customerRoot.FindOwnedComponent<ICustomerBasket>();
             if (basket == null)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerBasket)} component.");
-            }
 
             var needs = customerRoot.FindOwnedComponent<ICustomerNeeds>();
             if (needs == null)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerNeeds)} component.");
-            }
 
             var checkoutProgress = customerRoot.FindOwnedComponent<ICustomerCheckoutProgress>();
             if (checkoutProgress == null)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerCheckoutProgress)} component.");
-            }
 
             if (checkoutProgress.IsCheckoutCompleted == false)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' cannot leave the store before checkout is completed.");
-            }
 
             if (basket.HasItems)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' cannot leave the store while basket still contains items.");
-            }
 
             if (needs.HasActiveNeeds)
-            {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' cannot leave the store while it still has active needs.");
-            }
 
             MarkCustomerCycleStage(CustomerCycleStage.CustomerLeft);
+            MarkCustomerServed(customerRoot.Id);
 
             _entityActivator.RemoveState(customerRoot);
             _entityActivator.Deactivate(customerRoot);
@@ -101,6 +84,18 @@ namespace Game.World.Shop.Commands
         {
             if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
                 progress.Mark(stage);
+        }
+
+        private void MarkCustomerServed(EntityId customerId)
+        {
+            if (_storeResolver.TryGetAnyShiftWriter(out var shift) == false)
+                return;
+
+            var reward = 0;
+            if (_storeResolver.TryGetAnyShiftRewardPolicy(out var rewardPolicy))
+                reward = rewardPolicy.GetReward(new StoreShiftRewardContext(customerId, shift.ServedCustomers + 1));
+
+            shift.MarkCustomerServed(reward);
         }
     }
 }

@@ -14,16 +14,23 @@ namespace Game.World.Store
                     .BindInterfacesAndSelfTo<StoreRuntimeRegistry>()
                     .AsSingle();
 
-            if (container.HasBinding<OpenStoreCommandHandler>())
+            BindCommandHandler<OpenStoreCommandHandler>(container);
+            BindCommandHandler<CloseStoreCommandHandler>(container);
+        }
+
+        private static void BindCommandHandler<THandler>(DiContainer container)
+            where THandler : IGameCommandHandler
+        {
+            if (container.HasBinding<THandler>())
                 return;
 
             container
-                .Bind<OpenStoreCommandHandler>()
+                .Bind<THandler>()
                 .AsSingle();
 
             container
                 .Bind<IGameCommandHandler>()
-                .To<OpenStoreCommandHandler>()
+                .To<THandler>()
                 .FromResolve();
         }
     }

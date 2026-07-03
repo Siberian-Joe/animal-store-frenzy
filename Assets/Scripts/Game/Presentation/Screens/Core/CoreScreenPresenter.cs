@@ -4,6 +4,7 @@ using Game.SceneNavigation.Routes;
 using Game.World.Inventory;
 using Game.World.PlayerInteraction;
 using Game.World.Quests.Progress;
+using Game.World.Store;
 using Modules.Presentation.Runtime.Panels;
 using Modules.SceneNavigation.Runtime.Contracts;
 using R3;
@@ -18,6 +19,7 @@ namespace Game.Presentation.Screens.Core
         private readonly IPlayerInventoryReader _playerInventoryReader;
         private readonly IPlayerFeedbackReader _feedbackReader;
         private readonly IPlayerFeedback _feedback;
+        private readonly IStoreRuntimeResolver _storeResolver;
         private readonly CompositeDisposable _disposables = new();
 
         public CoreScreenPresenter(
@@ -25,7 +27,8 @@ namespace Game.Presentation.Screens.Core
             IQuestProgressReader questProgressReader,
             IPlayerInventoryReader playerInventoryReader,
             IPlayerFeedbackReader feedbackReader,
-            IPlayerFeedback feedback)
+            IPlayerFeedback feedback,
+            IStoreRuntimeResolver storeResolver)
         {
             _sceneNavigator = sceneNavigator ?? throw new ArgumentNullException(nameof(sceneNavigator));
             _questProgressReader = questProgressReader ?? throw new ArgumentNullException(nameof(questProgressReader));
@@ -33,6 +36,7 @@ namespace Game.Presentation.Screens.Core
                 playerInventoryReader ?? throw new ArgumentNullException(nameof(playerInventoryReader));
             _feedbackReader = feedbackReader ?? throw new ArgumentNullException(nameof(feedbackReader));
             _feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
+            _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
         }
 
         protected override void OnPanelAttached(CoreScreen panel)
@@ -64,12 +68,12 @@ namespace Game.Presentation.Screens.Core
 
         protected override void OnOpened()
         {
-            if (Panel)
-            {
-                RenderQuest(_questProgressReader.Current);
-                RenderInventory();
-                Panel.SetFeedbackText(_feedbackReader.CurrentMessage);
-            }
+            if (Panel == false)
+                return;
+
+            RenderQuest(_questProgressReader.Current);
+            RenderInventory();
+            Panel.SetFeedbackText(_feedbackReader.CurrentMessage);
         }
 
         protected override void OnReleased() => _disposables.Dispose();
@@ -99,7 +103,25 @@ namespace Game.Presentation.Screens.Core
                     .AppendLine(objective.Text);
             }
 
+            AppendShift(builder);
             Panel.SetObjectiveText(builder.ToString().TrimEnd());
+        }
+
+        private void AppendShift(StringBuilder builder)
+        {
+            if (_storeResolver.TryGetAnyShift(out var shift) == false)
+                return;
+
+            builder
+                .AppendLine()
+                .Append("Shift: ")
+                .AppendLine(shift.Status.ToString())
+                .Append("Customers: ")
+                .Append(shift.ServedCustomers)
+                .Append(" / ")
+                .AppendLine(shift.RequiredCustomers.ToString())
+                .Append("Revenue: ")
+                .Append(shift.Revenue);
         }
 
         private void RenderInventory()

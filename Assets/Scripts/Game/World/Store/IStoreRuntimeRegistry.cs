@@ -7,5 +7,8 @@ namespace Game.World.Store
 
         void Register(StoreCustomerCycleProgressPart progress);
         void Unregister(StoreCustomerCycleProgressPart progress);
+
+        void Register(StoreShiftPart shift);
+        void Unregister(StoreShiftPart shift);
     }
 }

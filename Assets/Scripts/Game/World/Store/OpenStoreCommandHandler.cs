@@ -1,5 +1,6 @@
 using System;
 using Game.World.Commands;
+using Game.World.EntityRuntime;
 using Game.World.Persistence;
 
 namespace Game.World.Store
@@ -34,11 +35,24 @@ namespace Game.World.Store
                 return;
 
             storeStatus.Open();
+            StartShift(storeRoot);
 
             if (storeRoot.TryFindOwnedComponent<ICustomerCycleProgressWriter>(out var localProgress))
                 localProgress.Mark(CustomerCycleStage.StoreOpened);
             else if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
                 progress.Mark(CustomerCycleStage.StoreOpened);
+        }
+
+        private void StartShift(EntityRoot storeRoot)
+        {
+            if (storeRoot.TryFindOwnedComponent<IStoreShiftWriter>(out var localShift))
+            {
+                localShift.StartShift();
+                return;
+            }
+
+            if (_storeResolver.TryGetAnyShiftWriter(out var shift))
+                shift.StartShift();
         }
     }
 }

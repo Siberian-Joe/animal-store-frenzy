@@ -28,3 +28,6 @@ MonoBehaviour:
   - _objectiveId: serve_first_customer
     _objectiveText: Serve first customer
     _condition: {fileID: 11400000, guid: 0e43665587619d8448f80befb99af58d, type: 2}
+  - _objectiveId: complete_shift
+    _objectiveText: Close the store
+    _condition: {fileID: 11400000, guid: 1485234ae463ace498d0c2b2c140f8fb, type: 2}
