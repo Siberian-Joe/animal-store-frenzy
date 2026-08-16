@@ -7,6 +7,7 @@ using Game.Presentation.Startup;
 using Game.SceneComposition.Shared;
 using Game.World.Commands;
 using Game.World.Pickups;
+using Game.World.Processing;
 using Game.World.Quests.Authoring;
 using Game.World.Quests.Progress;
 using Game.World.Quests.Targets;
@@ -81,6 +82,11 @@ namespace Game.SceneComposition.Core
             Container
                 .Bind<IGameCommandHandler>()
                 .To<PickupItemCommandHandler>()
+                .AsSingle();
+
+            Container
+                .Bind<IGameCommandHandler>()
+                .To<ProcessItemsCommandHandler>()
                 .AsSingle();
 
             Container
