@@ -28,6 +28,11 @@ namespace Game.World.Shop
 
             Container
                 .Bind<IGameCommandHandler>()
+                .To<WaitForCheckoutCommandHandler>()
+                .AsSingle();
+
+            Container
+                .Bind<IGameCommandHandler>()
                 .To<CheckoutCustomerCommandHandler>()
                 .AsSingle();
 

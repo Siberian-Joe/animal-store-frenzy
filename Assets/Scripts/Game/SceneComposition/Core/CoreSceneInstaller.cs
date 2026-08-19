@@ -13,6 +13,7 @@ using Game.World.Quests.Progress;
 using Game.World.Quests.Targets;
 using Game.World.Shop.Shelves;
 using Game.World.Store;
+using Game.World.Supplies;
 using Game.World.Upgrades;
 using Modules.Presentation.Runtime.Contracts.Preparation;
 using UnityEngine;
@@ -87,6 +88,11 @@ namespace Game.SceneComposition.Core
             Container
                 .Bind<IGameCommandHandler>()
                 .To<ProcessItemsCommandHandler>()
+                .AsSingle();
+
+            Container
+                .Bind<IGameCommandHandler>()
+                .To<CollectSupplyCommandHandler>()
                 .AsSingle();
 
             Container

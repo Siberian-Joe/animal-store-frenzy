@@ -7,12 +7,14 @@ namespace Game.World.Shop.Customers
     public sealed class CustomerCheckoutProgressState : IEntityStateData
     {
         public bool IsCheckoutCompleted;
+        public string WaitingCheckoutId;
 
         public IEntityStateData DeepClone()
         {
             return new CustomerCheckoutProgressState
             {
-                IsCheckoutCompleted = IsCheckoutCompleted
+                IsCheckoutCompleted = IsCheckoutCompleted,
+                WaitingCheckoutId = WaitingCheckoutId
             };
         }
     }

@@ -61,6 +61,13 @@ namespace Game.Presentation.Screens.Core
                 .Subscribe(panel.SetFeedbackText)
                 .AddTo(_disposables);
 
+            if (_storeResolver.TryGetAnyShift(out var shift))
+            {
+                shift.Changed
+                    .Subscribe(_ => RenderQuest(_questProgressReader.Current))
+                    .AddTo(_disposables);
+            }
+
             RenderQuest(_questProgressReader.Current);
             RenderInventory();
             panel.SetFeedbackText(_feedbackReader.CurrentMessage);

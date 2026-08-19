@@ -32,17 +32,20 @@ namespace Game.World.UtilityAi
             _checkoutProgress ??= OwnerRoot.FindOwnedComponent<CustomerCheckoutProgressPart>();
 
             if (_customerNeeds == false)
-                throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerNeedsPart)}.");
+                throw new InvalidOperationException(
+                    $"{nameof(GoToCheckoutActionPart)} requires {nameof(CustomerNeedsPart)}.");
 
             if (_customerBasket == false)
-                throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerBasketPart)}.");
+                throw new InvalidOperationException(
+                    $"{nameof(GoToCheckoutActionPart)} requires {nameof(CustomerBasketPart)}.");
 
             if (_checkoutProgress == false)
-                throw new InvalidOperationException($"{GetType().Name} requires {nameof(CustomerCheckoutProgressPart)}.");
+                throw new InvalidOperationException(
+                    $"{nameof(GoToCheckoutActionPart)} requires {nameof(CustomerCheckoutProgressPart)}.");
 
             if (_opportunityLocator == null)
                 throw new InvalidOperationException(
-                    $"{GetType().Name} requires {nameof(IShopUtilityOpportunityLocator)} injection.");
+                    $"{nameof(GoToCheckoutActionPart)} requires {nameof(IShopUtilityOpportunityLocator)} injection.");
         }
 
         public override void CollectOptions(List<IUtilityOption> options)
@@ -56,7 +59,7 @@ namespace Game.World.UtilityAi
             if (_customerBasket.HasItems == false)
                 return;
 
-            if (_checkoutProgress.IsCheckoutCompleted)
+            if (_checkoutProgress.IsCheckoutCompleted || _checkoutProgress.IsWaitingForCheckout)
                 return;
 
             _checkoutBuffer.Clear();

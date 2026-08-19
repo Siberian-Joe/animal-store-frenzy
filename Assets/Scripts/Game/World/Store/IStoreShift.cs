@@ -1,3 +1,5 @@
+using R3;
+
 namespace Game.World.Store
 {
     public interface IStoreShift
@@ -9,5 +11,6 @@ namespace Game.World.Store
         int Revenue { get; }
         bool CanSpawnCustomer { get; }
         bool CanCloseStore { get; }
+        Observable<Unit> Changed { get; }
     }
 }

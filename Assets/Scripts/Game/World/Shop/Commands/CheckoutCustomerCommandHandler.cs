@@ -64,6 +64,12 @@ namespace Game.World.Shop.Commands
                     $"Customer '{customerRoot.Id}' has already completed checkout.");
             }
 
+            if (checkoutProgress.IsWaitingAt(command.CheckoutId) == false)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' is not waiting at checkout '{command.CheckoutId}'.");
+            }
+
             if (basket.HasItems == false)
             {
                 throw new InvalidOperationException(

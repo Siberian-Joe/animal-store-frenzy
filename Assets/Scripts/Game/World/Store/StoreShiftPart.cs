@@ -1,5 +1,6 @@
 using System;
 using Game.World.Persistence;
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -20,6 +21,7 @@ namespace Game.World.Store
 
         [Inject] private readonly IStoreRuntimeRegistry _registry;
 
+        private readonly Subject<Unit> _changed = new();
         private FixedStoreShiftRewardPolicy _rewardPolicy;
 
         public override int ActivationOrder => 310;
@@ -29,6 +31,7 @@ namespace Game.World.Store
         public int RequiredCustomers => State.RequiredCustomers;
         public int ActiveCustomers => State.ActiveCustomers;
         public int Revenue => State.Revenue;
+        public Observable<Unit> Changed => _changed;
 
         public bool CanSpawnCustomer =>
             IsStoreOpen() &&
@@ -72,13 +75,15 @@ namespace Game.World.Store
         {
             Normalize(State);
 
-            if (Status == StoreShiftStatus.Completed)
+            if (Status != StoreShiftStatus.NotStarted && Status != StoreShiftStatus.Completed)
                 return;
 
-            if (Status != StoreShiftStatus.NotStarted)
-                return;
-
+            State.RequiredCustomers = Mathf.Max(1, _requiredCustomers);
+            State.ServedCustomers = 0;
+            State.ActiveCustomers = 0;
+            State.Revenue = 0;
             State.Status = StoreShiftStatus.Active;
+            NotifyChanged();
         }
 
         public void MarkCustomerEntered()
@@ -89,9 +94,11 @@ namespace Game.World.Store
                 throw new InvalidOperationException("Cannot enter customer because store shift is not active.");
 
             if (CanSpawnCustomer == false)
-                throw new InvalidOperationException("Cannot enter customer because store shift spawn limit is reached.");
+                throw new InvalidOperationException(
+                    "Cannot enter customer because store shift spawn limit is reached.");
 
             State.ActiveCustomers++;
+            NotifyChanged();
         }
 
         public void MarkCustomerServed(int reward)
@@ -102,7 +109,8 @@ namespace Game.World.Store
                 throw new InvalidOperationException("Cannot serve customer because store shift is not active.");
 
             if (State.ActiveCustomers <= 0)
-                throw new InvalidOperationException("Cannot serve customer because no active shift customer is tracked.");
+                throw new InvalidOperationException(
+                    "Cannot serve customer because no active shift customer is tracked.");
 
             State.ActiveCustomers--;
             State.ServedCustomers = Mathf.Min(State.RequiredCustomers, State.ServedCustomers + 1);
@@ -110,6 +118,8 @@ namespace Game.World.Store
 
             if (State.ServedCustomers >= State.RequiredCustomers && State.ActiveCustomers == 0)
                 State.Status = StoreShiftStatus.ReadyToClose;
+
+            NotifyChanged();
         }
 
         public void CompleteShift()
@@ -123,6 +133,7 @@ namespace Game.World.Store
                 throw new InvalidOperationException("Cannot complete store shift before it is ready to close.");
 
             State.Status = StoreShiftStatus.Completed;
+            NotifyChanged();
         }
 
         public int GetReward(StoreShiftRewardContext context)
@@ -174,6 +185,14 @@ namespace Game.World.Store
 
             if (state.Status == StoreShiftStatus.Completed)
                 state.ActiveCustomers = 0;
+        }
+
+        private void NotifyChanged() => _changed.OnNext(Unit.Default);
+
+        protected override void OnDestroy()
+        {
+            _changed.Dispose();
+            base.OnDestroy();
         }
 
         private void OnValidate()
