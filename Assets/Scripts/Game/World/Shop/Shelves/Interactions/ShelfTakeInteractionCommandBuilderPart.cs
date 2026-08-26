@@ -30,9 +30,6 @@ namespace Game.World.Shop.Shelves.Interactions
             if (_shelfStock == false)
                 return;
 
-            if (_shelfStock.HasStock == false)
-                return;
-
             if (actor.TryGetRole<ICustomerShoppingRole>(out var shoppingRole) == false)
                 return;
 
@@ -51,9 +48,6 @@ namespace Game.World.Shop.Shelves.Interactions
                 return;
 
             const int quantity = 1;
-
-            if (_shelfStock.CurrentQuantity < quantity)
-                return;
 
             var command = new TakeProductFromShelfCommand(
                 actorRoot.Id,

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Authoring.QuestDefinition
   _id: restore_and_serve_first_customer
   _title: Restore the shop
-  _summary: Gather wood, make a plank, restore and stock the shelf, then open the store and serve the first customer.
+  _summary: Gather wood, make a plank, restore and stock the shelf, then open the store, serve the first customer, and close the store.
   _objectives:
   - _objectiveId: gather_wood
     _objectiveText: Gather Wood
@@ -34,6 +34,6 @@ MonoBehaviour:
   - _objectiveId: serve_first_customer
     _objectiveText: Serve first customer
     _condition: {fileID: 11400000, guid: 0e43665587619d8448f80befb99af58d, type: 2}
-  - _objectiveId: complete_shift
+  - _objectiveId: close_store
     _objectiveText: Close the store
     _condition: {fileID: 11400000, guid: 1485234ae463ace498d0c2b2c140f8fb, type: 2}

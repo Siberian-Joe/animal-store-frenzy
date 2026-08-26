@@ -11,7 +11,7 @@ namespace Game.World.Store
         [Header("Close Store Interaction")] [SerializeField]
         private string _interactionActionId = "close-store";
 
-        [SerializeField] private StoreShiftPart _storeShift;
+        [SerializeField] private StoreStatusPart _storeStatus;
 
         public override void CollectOptions(
             IInteractionActor actor,
@@ -24,8 +24,8 @@ namespace Game.World.Store
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            _storeShift ??= GetComponent<StoreShiftPart>();
-            if (_storeShift == false || _storeShift.CanCloseStore == false)
+            _storeStatus ??= GetComponent<StoreStatusPart>();
+            if (_storeStatus == false || _storeStatus.IsOpen == false)
                 return;
 
             var storeRoot = GetComponentInParent<EntityRoot>();

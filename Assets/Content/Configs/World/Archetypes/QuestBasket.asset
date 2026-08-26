@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.Flow.CustomerArchetypeDefinition
   _archetypeId: quest_basket
   _spawnWeight: 1
+  _tutorialOnly: 1
   _minInitialNeedCount: 1
   _maxInitialNeedCount: 1
   _needProfiles:

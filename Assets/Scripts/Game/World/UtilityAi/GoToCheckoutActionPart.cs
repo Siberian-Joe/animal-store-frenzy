@@ -18,10 +18,16 @@ namespace Game.World.UtilityAi
 
         private readonly List<CheckoutOpportunityEntry> _checkoutBuffer = new(4);
         private IShopUtilityOpportunityLocator _opportunityLocator;
+        private ICustomerNeedResolution _needResolution;
 
         [Inject]
-        public void ConstructLocator(IShopUtilityOpportunityLocator opportunityLocator) =>
+        public void ConstructLocator(
+            IShopUtilityOpportunityLocator opportunityLocator,
+            ICustomerNeedResolution needResolution)
+        {
             _opportunityLocator = opportunityLocator;
+            _needResolution = needResolution;
+        }
 
         protected override void OnActionActivated()
         {
@@ -46,6 +52,10 @@ namespace Game.World.UtilityAi
             if (_opportunityLocator == null)
                 throw new InvalidOperationException(
                     $"{nameof(GoToCheckoutActionPart)} requires {nameof(IShopUtilityOpportunityLocator)} injection.");
+
+            if (_needResolution == null)
+                throw new InvalidOperationException(
+                    $"{nameof(GoToCheckoutActionPart)} requires {nameof(ICustomerNeedResolution)} injection.");
         }
 
         public override void CollectOptions(List<IUtilityOption> options)
@@ -53,7 +63,7 @@ namespace Game.World.UtilityAi
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            if (_customerNeeds.HasActiveNeeds)
+            if (_needResolution.HasPendingShelfVisit(OwnerRoot, _customerNeeds))
                 return;
 
             if (_customerBasket.HasItems == false)
@@ -75,7 +85,7 @@ namespace Game.World.UtilityAi
                     continue;
 
                 var reachability = EvaluateTarget(
-                    entry.ApproachPoint,
+                    entry.InteractionTarget.ResolveApproachPoint(InteractionActor),
                     out var navigationTarget);
 
                 if (reachability.IsReachable == false)

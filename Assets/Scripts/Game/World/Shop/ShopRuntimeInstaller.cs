@@ -1,5 +1,6 @@
 using Game.World.Commands;
 using Game.World.Shop.Commands;
+using Game.World.Shop.Customers;
 using Game.World.Store;
 using Game.World.UtilityAi;
 using Zenject;
@@ -19,6 +20,11 @@ namespace Game.World.Shop
             Container
                 .Bind<IUtilityReachabilityEvaluator>()
                 .To<NavMeshUtilityReachabilityEvaluator>()
+                .AsSingle();
+
+            Container
+                .Bind<ICustomerNeedResolution>()
+                .To<CustomerNeedResolution>()
                 .AsSingle();
 
             Container

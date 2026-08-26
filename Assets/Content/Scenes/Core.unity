@@ -3846,6 +3846,8 @@ GameObject:
   - component: {fileID: 1148530398}
   - component: {fileID: 1148530396}
   - component: {fileID: 1148530399}
+  - component: {fileID: 1148530400}
+  - component: {fileID: 1148530401}
   m_Layer: 0
   m_Name: Checkout
   m_TagString: Untagged
@@ -4008,6 +4010,32 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &1148530400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148530386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b49e1799124471a6fc2c7a08e85590, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Shop.Customers.CustomerInteractionApproachPointPart
+  _localOffset: {x: 0, y: 0, z: -0.75}
+--- !u!114 &1148530401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148530386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b491e9344b44f978f724eb145832296, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Inventory.InventoryInteractionApproachPointPart
+  _localOffset: {x: 0, y: 0, z: 0.75}
 --- !u!1 &1278159780
 GameObject:
   m_ObjectHideFlags: 0
@@ -7076,7 +7104,6 @@ GameObject:
   - component: {fileID: 8934822028893250043}
   - component: {fileID: 8934822028893250045}
   - component: {fileID: 8934822028893250044}
-  - component: {fileID: 8934822028893250047}
   - component: {fileID: 8934822028893250046}
   m_Layer: 0
   m_Name: Shelf
@@ -7467,22 +7494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.World.Store.CloseStoreInteractionCommandBuilderPart
   _order: 0
   _interactionActionId: close-store
-  _storeShift: {fileID: 8934822028893250047}
---- !u!114 &8934822028893250047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7782112965683168979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc6afb6aa05e274787f34bc0c237820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Store.StoreShiftPart
-  _requiredCustomers: 3
-  _maxActiveCustomers: 1
-  _fixedRewardPerCustomer: 10
   _storeStatus: {fileID: 8934822028893250042}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

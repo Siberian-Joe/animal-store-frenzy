@@ -78,7 +78,7 @@ namespace Game.World.UtilityAi
                         continue;
 
                     var reachability = EvaluateTarget(
-                        entry.ApproachPoint,
+                        entry.InteractionTarget.ResolveApproachPoint(InteractionActor),
                         out var navigationTarget);
 
                     if (reachability.IsReachable == false)

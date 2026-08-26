@@ -54,8 +54,8 @@ namespace Game.World.Store
             if (state.CurrentStage < CustomerCycleStage.None)
                 state.CurrentStage = CustomerCycleStage.None;
 
-            if (state.CurrentStage > CustomerCycleStage.CustomerLeft)
-                state.CurrentStage = CustomerCycleStage.CustomerLeft;
+            if (state.CurrentStage > CustomerCycleStage.StoreClosed)
+                state.CurrentStage = CustomerCycleStage.StoreClosed;
         }
     }
 }

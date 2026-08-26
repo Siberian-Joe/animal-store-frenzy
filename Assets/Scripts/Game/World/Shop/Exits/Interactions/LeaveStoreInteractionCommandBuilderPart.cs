@@ -5,6 +5,7 @@ using Game.World.Interactions;
 using Game.World.Shop.Commands;
 using Game.World.Shop.Customers;
 using UnityEngine;
+using Zenject;
 
 namespace Game.World.Shop.Exits.Interactions
 {
@@ -12,6 +13,12 @@ namespace Game.World.Shop.Exits.Interactions
     {
         [Header("Leave Store Interaction")] [SerializeField]
         private string _interactionActionId = "leave-store";
+
+        private ICustomerNeedResolution _needResolution;
+
+        [Inject]
+        public void Construct(ICustomerNeedResolution needResolution) =>
+            _needResolution = needResolution ?? throw new ArgumentNullException(nameof(needResolution));
 
         public override void CollectOptions(
             IInteractionActor actor,
@@ -36,11 +43,20 @@ namespace Game.World.Shop.Exits.Interactions
                 return;
 
             var customerNeeds = actorRoot.FindOwnedComponent<ICustomerNeeds>();
-            if (customerNeeds == null || customerNeeds.HasActiveNeeds)
+            if (customerNeeds == null)
+                return;
+
+            if (_needResolution == null)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(LeaveStoreInteractionCommandBuilderPart)} requires {nameof(ICustomerNeedResolution)} injection.");
+            }
+
+            if (_needResolution.HasPendingShelfVisit(actorRoot, customerNeeds))
                 return;
 
             var checkoutProgress = actorRoot.FindOwnedComponent<ICustomerCheckoutProgress>();
-            if (checkoutProgress == null || checkoutProgress.IsCheckoutCompleted == false)
+            if (checkoutProgress == null || checkoutProgress.IsWaitingForCheckout)
                 return;
 
             var exitRoot = GetComponentInParent<EntityRoot>();

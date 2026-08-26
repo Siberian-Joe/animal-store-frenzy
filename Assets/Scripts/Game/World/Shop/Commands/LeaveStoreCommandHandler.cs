@@ -14,17 +14,20 @@ namespace Game.World.Shop.Commands
         private readonly EntityActivator _entityActivator;
         private readonly IEntityFactory _entityFactory;
         private readonly IStoreRuntimeResolver _storeResolver;
+        private readonly ICustomerNeedResolution _needResolution;
 
         public LeaveStoreCommandHandler(
             ILiveEntityRegistry liveEntityRegistry,
             EntityActivator entityActivator,
             IEntityFactory entityFactory,
-            IStoreRuntimeResolver storeResolver)
+            IStoreRuntimeResolver storeResolver,
+            ICustomerNeedResolution needResolution)
         {
             _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
             _entityActivator = entityActivator ?? throw new ArgumentNullException(nameof(entityActivator));
             _entityFactory = entityFactory ?? throw new ArgumentNullException(nameof(entityFactory));
             _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+            _needResolution = needResolution ?? throw new ArgumentNullException(nameof(needResolution));
         }
 
         public override void Execute(LeaveStoreCommand command)
@@ -60,20 +63,30 @@ namespace Game.World.Shop.Commands
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerCheckoutProgress)} component.");
 
-            if (checkoutProgress.IsCheckoutCompleted == false)
+            if (checkoutProgress.IsWaitingForCheckout)
                 throw new InvalidOperationException(
-                    $"Customer '{customerRoot.Id}' cannot leave the store before checkout is completed.");
+                    $"Customer '{customerRoot.Id}' cannot leave while waiting for checkout.");
 
             if (basket.HasItems)
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' cannot leave the store while basket still contains items.");
 
+            if (_needResolution.HasPendingShelfVisit(customerRoot, needs))
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' cannot leave while pending shelf visits remain.");
+            }
+
+            _needResolution.AbandonUnresolvableNeeds(customerRoot, needs);
+
             if (needs.HasActiveNeeds)
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' cannot leave the store while it still has active needs.");
 
-            MarkCustomerCycleStage(CustomerCycleStage.CustomerLeft);
-            MarkCustomerServed(customerRoot.Id);
+            var completedCheckout = checkoutProgress.IsCheckoutCompleted;
+
+            if (completedCheckout)
+                MarkCustomerCycleStage(CustomerCycleStage.CustomerLeft);
 
             _entityActivator.RemoveState(customerRoot);
             _entityActivator.Deactivate(customerRoot);
@@ -82,20 +95,17 @@ namespace Game.World.Shop.Commands
 
         private void MarkCustomerCycleStage(CustomerCycleStage stage)
         {
-            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
-                progress.Mark(stage);
-        }
-
-        private void MarkCustomerServed(EntityId customerId)
-        {
-            if (_storeResolver.TryGetAnyShiftWriter(out var shift) == false)
+            if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress) == false)
                 return;
 
-            var reward = 0;
-            if (_storeResolver.TryGetAnyShiftRewardPolicy(out var rewardPolicy))
-                reward = rewardPolicy.GetReward(new StoreShiftRewardContext(customerId, shift.ServedCustomers + 1));
+            progress.Mark(stage);
 
-            shift.MarkCustomerServed(reward);
+            if (stage == CustomerCycleStage.CustomerLeft &&
+                _storeResolver.TryGetAnyStatus(out var storeStatus) &&
+                storeStatus.IsOpen == false)
+            {
+                progress.Mark(CustomerCycleStage.StoreClosed);
+            }
         }
     }
 }

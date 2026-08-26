@@ -7,6 +7,7 @@ namespace Game.World.Store
         CustomerSpawned = 20,
         ProductTaken = 30,
         CheckoutCompleted = 40,
-        CustomerLeft = 50
+        CustomerLeft = 50,
+        StoreClosed = 60
     }
 }

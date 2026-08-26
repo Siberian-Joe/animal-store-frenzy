@@ -123,6 +123,32 @@ namespace Game.World.Shop.Customers
             return false;
         }
 
+        public bool TryAbandonNeed(string needId)
+        {
+            if (string.IsNullOrWhiteSpace(needId))
+                throw new ArgumentException("Need id cannot be null or whitespace.", nameof(needId));
+
+            if (State.Needs == null || State.Needs.Count == 0)
+                return false;
+
+            var normalizedNeedId = needId.Trim();
+
+            for (var index = 0; index < State.Needs.Count; index++)
+            {
+                var need = State.Needs[index];
+                if (IsActiveNeed(need) == false)
+                    continue;
+
+                if (string.Equals(need.NeedId, normalizedNeedId, StringComparison.Ordinal) == false)
+                    continue;
+
+                State.Needs.RemoveAt(index);
+                return true;
+            }
+
+            return false;
+        }
+
         public void RegisterRoles(InteractionRoleRegistry registry)
         {
             if (registry == null)

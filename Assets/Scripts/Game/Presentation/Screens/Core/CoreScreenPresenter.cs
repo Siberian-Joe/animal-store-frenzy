@@ -61,15 +61,16 @@ namespace Game.Presentation.Screens.Core
                 .Subscribe(panel.SetFeedbackText)
                 .AddTo(_disposables);
 
-            if (_storeResolver.TryGetAnyShift(out var shift))
+            if (_storeResolver.TryGetAnyStatus(out var storeStatus))
             {
-                shift.Changed
-                    .Subscribe(_ => RenderQuest(_questProgressReader.Current))
+                storeStatus.Changed
+                    .Subscribe(_ => RenderStoreStatus())
                     .AddTo(_disposables);
             }
 
             RenderQuest(_questProgressReader.Current);
             RenderInventory();
+            RenderStoreStatus();
             panel.SetFeedbackText(_feedbackReader.CurrentMessage);
         }
 
@@ -80,6 +81,7 @@ namespace Game.Presentation.Screens.Core
 
             RenderQuest(_questProgressReader.Current);
             RenderInventory();
+            RenderStoreStatus();
             Panel.SetFeedbackText(_feedbackReader.CurrentMessage);
         }
 
@@ -90,14 +92,13 @@ namespace Game.Presentation.Screens.Core
             if (Panel == false)
                 return;
 
-            if (snapshot.Quests == null || snapshot.Quests.Count == 0)
+            if (TryGetActiveQuest(snapshot, out var quest) == false)
             {
                 Panel.SetObjectiveText(string.Empty);
                 return;
             }
 
             var builder = new StringBuilder();
-            var quest = snapshot.Quests[0];
             builder.AppendLine(quest.Title);
 
             if (string.IsNullOrWhiteSpace(quest.Summary) == false)
@@ -110,25 +111,39 @@ namespace Game.Presentation.Screens.Core
                     .AppendLine(objective.Text);
             }
 
-            AppendShift(builder);
             Panel.SetObjectiveText(builder.ToString().TrimEnd());
         }
 
-        private void AppendShift(StringBuilder builder)
+        private static bool TryGetActiveQuest(QuestProgressSnapshot snapshot, out QuestSnapshot quest)
         {
-            if (_storeResolver.TryGetAnyShift(out var shift) == false)
+            if (snapshot.Quests != null)
+            {
+                foreach (var candidate in snapshot.Quests)
+                {
+                    if (candidate.IsCompleted)
+                        continue;
+
+                    quest = candidate;
+                    return true;
+                }
+            }
+
+            quest = default;
+            return false;
+        }
+
+        private void RenderStoreStatus()
+        {
+            if (Panel == false)
                 return;
 
-            builder
-                .AppendLine()
-                .Append("Shift: ")
-                .AppendLine(shift.Status.ToString())
-                .Append("Customers: ")
-                .Append(shift.ServedCustomers)
-                .Append(" / ")
-                .AppendLine(shift.RequiredCustomers.ToString())
-                .Append("Revenue: ")
-                .Append(shift.Revenue);
+            if (_storeResolver.TryGetAnyStatus(out var status) == false)
+            {
+                Panel.SetStoreStatusText(string.Empty);
+                return;
+            }
+
+            Panel.SetStoreStatusText(status.IsOpen ? "Store: OPEN" : "Store: CLOSED");
         }
 
         private void RenderInventory()

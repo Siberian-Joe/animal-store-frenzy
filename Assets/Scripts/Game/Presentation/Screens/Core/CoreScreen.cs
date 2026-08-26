@@ -9,11 +9,18 @@ namespace Game.Presentation.Screens.Core
     public sealed class CoreScreen : Screen
     {
         [SerializeField] private Button _mainMenuButton;
+        [SerializeField] private TMP_Text _storeStatusText;
         [SerializeField] private TMP_Text _objectiveText;
         [SerializeField] private TMP_Text _inventoryText;
         [SerializeField] private TMP_Text _feedbackText;
 
         public Observable<Unit> MainMenuRequested => _mainMenuButton.onClick.AsObservable();
+
+        public void SetStoreStatusText(string text)
+        {
+            if (_storeStatusText)
+                _storeStatusText.text = text ?? string.Empty;
+        }
 
         public void SetObjectiveText(string text)
         {

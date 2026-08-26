@@ -9,9 +9,15 @@ namespace Game.World.Shop.Commands
     public sealed class WaitForCheckoutCommandHandler : GameCommandHandler<WaitForCheckoutCommand>
     {
         private readonly ILiveEntityRegistry _liveEntityRegistry;
+        private readonly ICustomerNeedResolution _needResolution;
 
-        public WaitForCheckoutCommandHandler(ILiveEntityRegistry liveEntityRegistry) =>
+        public WaitForCheckoutCommandHandler(
+            ILiveEntityRegistry liveEntityRegistry,
+            ICustomerNeedResolution needResolution)
+        {
             _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
+            _needResolution = needResolution ?? throw new ArgumentNullException(nameof(needResolution));
+        }
 
         public override void Execute(WaitForCheckoutCommand command)
         {
@@ -41,19 +47,10 @@ namespace Game.World.Shop.Commands
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerNeeds)} component.");
 
-            if (needs.HasActiveNeeds)
-            {
-                throw new InvalidOperationException(
-                    $"Customer '{customerRoot.Id}' cannot wait for checkout while active needs remain.");
-            }
-
             var basket = customerRoot.FindOwnedComponent<ICustomerBasket>();
             if (basket == null)
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' has no {nameof(ICustomerBasket)} component.");
-
-            if (basket.HasItems == false)
-                throw new InvalidOperationException($"Customer '{customerRoot.Id}' has no items to checkout.");
 
             var progress = customerRoot.FindOwnedComponent<ICustomerCheckoutProgressWriter>();
             if (progress == null)
@@ -72,6 +69,23 @@ namespace Game.World.Shop.Commands
             {
                 throw new InvalidOperationException(
                     $"Customer '{customerRoot.Id}' is already waiting at another checkout.");
+            }
+
+            if (basket.HasItems == false)
+                throw new InvalidOperationException($"Customer '{customerRoot.Id}' has no items to checkout.");
+
+            if (_needResolution.HasPendingShelfVisit(customerRoot, needs))
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' cannot wait for checkout while pending shelf visits remain.");
+            }
+
+            _needResolution.AbandonUnresolvableNeeds(customerRoot, needs);
+
+            if (needs.HasActiveNeeds)
+            {
+                throw new InvalidOperationException(
+                    $"Customer '{customerRoot.Id}' still has unresolved needs after unresolvable needs were abandoned.");
             }
 
             progress.MarkWaitingForCheckout(command.CheckoutId);

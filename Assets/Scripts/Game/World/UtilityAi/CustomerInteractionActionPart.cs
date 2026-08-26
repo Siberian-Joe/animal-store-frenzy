@@ -18,6 +18,8 @@ namespace Game.World.UtilityAi
         private IUtilityReachabilityEvaluator _reachabilityEvaluator;
         private TOption _runningOption;
 
+        protected IInteractionActor InteractionActor => _interactionActor;
+
         [Inject]
         public void ConstructExecution(
             GameCommandDispatcher commandDispatcher,

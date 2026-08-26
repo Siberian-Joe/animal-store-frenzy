@@ -264,9 +264,6 @@ namespace Game.World.UtilityAi
             if (entry.Shelf == false || entry.Shelf.IsActive == false)
                 return false;
 
-            if (entry.Shelf.HasStock == false || entry.Shelf.CurrentQuantity <= 0)
-                return false;
-
             if (entry.Shelf.ItemId != entry.ItemId)
                 return false;
 

@@ -1,6 +1,5 @@
 using System;
 using Game.World.Commands;
-using Game.World.EntityRuntime;
 using Game.World.Persistence;
 
 namespace Game.World.Store
@@ -24,35 +23,26 @@ namespace Game.World.Store
                 throw new ArgumentNullException(nameof(command));
 
             if (_liveEntityRegistry.TryGet(command.StoreId, out var storeRoot) == false || storeRoot == false)
+            {
                 throw new InvalidOperationException(
                     $"Cannot execute {nameof(OpenStoreCommand)} because store '{command.StoreId}' is not live.");
+            }
 
             if (_storeResolver.TryGetStatusWriter(command.StoreId, out var storeStatus) == false)
+            {
                 throw new InvalidOperationException(
                     $"Store '{command.StoreId}' has no mutable {nameof(IStoreStatusWriter)}.");
+            }
 
             if (storeStatus.IsOpen)
                 return;
 
             storeStatus.Open();
-            StartShift(storeRoot);
 
             if (storeRoot.TryFindOwnedComponent<ICustomerCycleProgressWriter>(out var localProgress))
                 localProgress.Mark(CustomerCycleStage.StoreOpened);
             else if (_storeResolver.TryGetAnyCycleProgressWriter(out var progress))
                 progress.Mark(CustomerCycleStage.StoreOpened);
-        }
-
-        private void StartShift(EntityRoot storeRoot)
-        {
-            if (storeRoot.TryFindOwnedComponent<IStoreShiftWriter>(out var localShift))
-            {
-                localShift.StartShift();
-                return;
-            }
-
-            if (_storeResolver.TryGetAnyShiftWriter(out var shift))
-                shift.StartShift();
         }
     }
 }

@@ -17,10 +17,16 @@ namespace Game.World.Shop.Checkouts.Interactions
         private string _interactionActionId = "checkout-customer";
 
         private ILiveEntityRegistry _liveEntities;
+        private ICustomerNeedResolution _needResolution;
 
         [Inject]
-        public void Construct(ILiveEntityRegistry liveEntities) =>
+        public void Construct(
+            ILiveEntityRegistry liveEntities,
+            ICustomerNeedResolution needResolution)
+        {
             _liveEntities = liveEntities ?? throw new ArgumentNullException(nameof(liveEntities));
+            _needResolution = needResolution ?? throw new ArgumentNullException(nameof(needResolution));
+        }
 
         public override void CollectOptions(
             IInteractionActor actor,
@@ -65,6 +71,19 @@ namespace Game.World.Shop.Checkouts.Interactions
             {
                 return;
             }
+
+            var customerNeeds = customerRoot.FindOwnedComponent<ICustomerNeeds>();
+            if (customerNeeds == null)
+                return;
+
+            if (_needResolution == null)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(CheckoutInteractionCommandBuilderPart)} requires {nameof(ICustomerNeedResolution)} injection.");
+            }
+
+            if (_needResolution.HasPendingShelfVisit(customerRoot, customerNeeds))
+                return;
 
             var checkoutRoot = GetComponentInParent<EntityRoot>();
             if (checkoutRoot == false)

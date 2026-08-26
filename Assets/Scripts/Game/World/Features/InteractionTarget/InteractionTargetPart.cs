@@ -17,11 +17,41 @@ namespace Game.World.Features.InteractionTarget
         private SpatialPart _spatial;
 
         private InteractionCommandBuilderPart[] _commandBuilders;
+        private InteractionApproachPointPart[] _approachPointProviders;
 
         public override int ActivationOrder => 400;
 
-        public Vector3 ApproachPoint =>
-            Spatial.Position.Value + Spatial.Rotation.Value * _localInteractionOffset;
+        public Vector3 ApproachPoint => ResolveLocalOffset(_localInteractionOffset);
+
+        public Vector3 ResolveApproachPoint(IInteractionActor actor)
+        {
+            if (actor == null)
+                throw new ArgumentNullException(nameof(actor));
+
+            EnsureApproachPointProvidersCached();
+
+            InteractionApproachPointPart matchedProvider = null;
+
+            for (var index = 0; index < _approachPointProviders.Length; index++)
+            {
+                var provider = _approachPointProviders[index];
+                if (provider == false || provider.isActiveAndEnabled == false || provider.Supports(actor) == false)
+                    continue;
+
+                if (matchedProvider != false)
+                {
+                    throw new InvalidOperationException(
+                        $"Interaction target '{name}' has multiple approach point providers matching actor " +
+                        $"'{actor.GetType().Name}': '{matchedProvider.GetType().Name}' and '{provider.GetType().Name}'.");
+                }
+
+                matchedProvider = provider;
+            }
+
+            return matchedProvider != false
+                ? matchedProvider.Resolve(Spatial)
+                : ApproachPoint;
+        }
 
         public void CollectOptions(IInteractionActor actor, List<InteractionOption> options)
         {
@@ -32,9 +62,10 @@ namespace Game.World.Features.InteractionTarget
                 throw new ArgumentNullException(nameof(options));
 
             EnsureBuildersCached();
+            var approachPoint = ResolveApproachPoint(actor);
 
             foreach (var builder in _commandBuilders)
-                builder.CollectOptions(actor, ApproachPoint, options);
+                builder.CollectOptions(actor, approachPoint, options);
         }
 
         public bool TryGetPrimaryOption(IInteractionActor actor, out InteractionOption option)
@@ -43,12 +74,13 @@ namespace Game.World.Features.InteractionTarget
                 throw new ArgumentNullException(nameof(actor));
 
             EnsureBuildersCached();
+            var approachPoint = ResolveApproachPoint(actor);
             var optionsBuffer = InteractionTargetBuffers.Get();
 
             for (var index = 0; index < _commandBuilders.Length; index++)
             {
                 var startCount = optionsBuffer.Count;
-                _commandBuilders[index].CollectOptions(actor, ApproachPoint, optionsBuffer);
+                _commandBuilders[index].CollectOptions(actor, approachPoint, optionsBuffer);
 
                 if (optionsBuffer.Count > startCount)
                 {
@@ -72,6 +104,7 @@ namespace Game.World.Features.InteractionTarget
             }
 
             EnsureBuildersCached();
+            EnsureApproachPointProvidersCached();
 
             if (_commandBuilders.Length == 0)
             {
@@ -89,6 +122,9 @@ namespace Game.World.Features.InteractionTarget
             }
         }
 
+        private Vector3 ResolveLocalOffset(Vector3 localOffset) =>
+            Spatial.Position.Value + Spatial.Rotation.Value * localOffset;
+
         private void EnsureBuildersCached()
         {
             if (_commandBuilders != null)
@@ -97,6 +133,24 @@ namespace Game.World.Features.InteractionTarget
             var builders = GetComponents<InteractionCommandBuilderPart>();
             Array.Sort(builders, static (left, right) => left.Order.CompareTo(right.Order));
             _commandBuilders = builders;
+        }
+
+        private void EnsureApproachPointProvidersCached()
+        {
+            if (_approachPointProviders != null)
+                return;
+
+            _approachPointProviders = GetComponents<InteractionApproachPointPart>();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            var origin = transform.position;
+            var point = origin + transform.rotation * _localInteractionOffset;
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(origin, point);
+            Gizmos.DrawWireSphere(point, 0.1f);
         }
 
         private static class InteractionTargetBuffers

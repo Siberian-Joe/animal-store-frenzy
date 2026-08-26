@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46ecb6de270ea1049a5128cc4ca39aa0, type: 3}
-  m_Name: StoreShiftCompletedCondition
-  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Conditions.StoreShiftCompletedQuestConditionDefinition
+  m_Script: {fileID: 11500000, guid: f5eb520fd1732b5428c90fce2b9222fb, type: 3}
+  m_Name: StoreClosedCondition
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.Quests.Conditions.StoreCustomerCycleQuestConditionDefinition
   _target: {fileID: 11400000, guid: 9b8dd6e2f8491cc4d8f6cd068409ee34, type: 2}
+  _requiredStage: 60

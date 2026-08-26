@@ -65,8 +65,15 @@ namespace Game.World.Shop.Commands
                     $"Shelf '{shelfRoot.Id}' stores item '{shelf.ItemId}' instead of '{itemId}'.");
 
             if (shelf.CurrentQuantity < command.Quantity)
-                throw new InvalidOperationException(
-                    $"Shelf '{shelfRoot.Id}' does not have enough '{itemId}'. Requested: {command.Quantity}, available: {shelf.CurrentQuantity}.");
+            {
+                if (TryAbandonItemNeed(customerNeeds, itemId) == false)
+                {
+                    throw new InvalidOperationException(
+                        $"Customer '{customerRoot.Id}' failed to abandon unavailable need for '{itemId}' at empty shelf '{shelfRoot.Id}'.");
+                }
+
+                return;
+            }
 
             if (shelf.TryTake(command.Quantity) == false)
                 throw new InvalidOperationException(
@@ -78,6 +85,27 @@ namespace Game.World.Shop.Commands
 
             customerBasket.AddItem(itemId, command.Quantity);
             MarkCustomerCycleStage(CustomerCycleStage.ProductTaken);
+        }
+
+        private static bool TryAbandonItemNeed(ICustomerNeeds customerNeeds, ItemId itemId)
+        {
+            var needs = customerNeeds.Needs;
+            if (needs == null || needs.Count == 0)
+                return false;
+
+            for (var index = 0; index < needs.Count; index++)
+            {
+                var need = needs[index];
+                if (need == null || need.Intensity <= 0f)
+                    continue;
+
+                if (string.Equals(need.ItemId, itemId.Value, StringComparison.Ordinal) == false)
+                    continue;
+
+                return customerNeeds.TryAbandonNeed(need.NeedId);
+            }
+
+            return false;
         }
 
         private void MarkCustomerCycleStage(CustomerCycleStage stage)

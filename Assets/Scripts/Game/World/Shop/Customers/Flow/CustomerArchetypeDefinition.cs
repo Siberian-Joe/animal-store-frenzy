@@ -9,12 +9,14 @@ namespace Game.World.Shop.Customers.Flow
     {
         [SerializeField] private string _archetypeId;
         [SerializeField, Min(1)] private int _spawnWeight = 1;
+        [SerializeField] private bool _tutorialOnly;
         [SerializeField, Min(1)] private int _minInitialNeedCount = 1;
         [SerializeField, Min(1)] private int _maxInitialNeedCount = 2;
         [SerializeField] private CustomerNeedProfileEntry[] _needProfiles;
 
         public string ArchetypeId => _archetypeId;
         public int SpawnWeight => Mathf.Max(1, _spawnWeight);
+        public bool TutorialOnly => _tutorialOnly;
         public int MinInitialNeedCount => Mathf.Max(1, _minInitialNeedCount);
         public int MaxInitialNeedCount => Mathf.Max(MinInitialNeedCount, _maxInitialNeedCount);
         public CustomerNeedProfileEntry[] NeedProfiles => _needProfiles;
