@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5039337573066752294}
   - component: {fileID: 6352755964078075066}
   - component: {fileID: 766704640686179430}
+  - component: {fileID: 820000000000000001}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   - {fileID: 5039337573066752294}
   - {fileID: 6352755964078075066}
   - {fileID: 766704640686179430}
+  - {fileID: 820000000000000001}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 1
@@ -126,6 +128,20 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+--- !u!114 &820000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972554989254088606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600e37d93246415188440a277311b244, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Game.World.GameTime.Composition.Zenject.GameTimeInstaller
+  _config: {fileID: 11400000, guid: f3f1f8d417fb4cf8b951df295fe27266, type: 2}
+  _saveFileName: game-time.json
 --- !u!114 &766704640686179430
 MonoBehaviour:
   m_ObjectHideFlags: 0

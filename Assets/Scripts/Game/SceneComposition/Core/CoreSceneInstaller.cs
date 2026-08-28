@@ -14,6 +14,7 @@ using Game.World.Quests.Targets;
 using Game.World.Shop.Shelves;
 using Game.World.Store;
 using Game.World.Supplies;
+using Game.World.GameTime;
 using Game.World.Upgrades;
 using Modules.Presentation.Runtime.Contracts.Preparation;
 using UnityEngine;
@@ -55,6 +56,10 @@ namespace Game.SceneComposition.Core
             }
 
             StoreRuntimeInstaller.InstallStoreRuntimeBindings(Container);
+
+            Container
+                .BindInterfacesTo<GameTimeAdvancer>()
+                .AsSingle();
 
             Container
                 .Bind<List<QuestDefinition>>()

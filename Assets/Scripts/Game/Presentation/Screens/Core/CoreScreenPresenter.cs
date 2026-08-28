@@ -5,6 +5,7 @@ using Game.World.Inventory;
 using Game.World.PlayerInteraction;
 using Game.World.Quests.Progress;
 using Game.World.Store;
+using Game.World.GameTime;
 using Modules.Presentation.Runtime.Panels;
 using Modules.SceneNavigation.Runtime.Contracts;
 using R3;
@@ -20,6 +21,7 @@ namespace Game.Presentation.Screens.Core
         private readonly IPlayerFeedbackReader _feedbackReader;
         private readonly IPlayerFeedback _feedback;
         private readonly IStoreRuntimeResolver _storeResolver;
+        private readonly IGameTimeReader _gameTimeReader;
         private readonly CompositeDisposable _disposables = new();
 
         public CoreScreenPresenter(
@@ -28,7 +30,8 @@ namespace Game.Presentation.Screens.Core
             IPlayerInventoryReader playerInventoryReader,
             IPlayerFeedbackReader feedbackReader,
             IPlayerFeedback feedback,
-            IStoreRuntimeResolver storeResolver)
+            IStoreRuntimeResolver storeResolver,
+            IGameTimeReader gameTimeReader)
         {
             _sceneNavigator = sceneNavigator ?? throw new ArgumentNullException(nameof(sceneNavigator));
             _questProgressReader = questProgressReader ?? throw new ArgumentNullException(nameof(questProgressReader));
@@ -37,6 +40,7 @@ namespace Game.Presentation.Screens.Core
             _feedbackReader = feedbackReader ?? throw new ArgumentNullException(nameof(feedbackReader));
             _feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
             _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+            _gameTimeReader = gameTimeReader ?? throw new ArgumentNullException(nameof(gameTimeReader));
         }
 
         protected override void OnPanelAttached(CoreScreen panel)
@@ -68,9 +72,14 @@ namespace Game.Presentation.Screens.Core
                     .AddTo(_disposables);
             }
 
+            _gameTimeReader.MinuteChanged
+                .Subscribe(_ => RenderGameTime())
+                .AddTo(_disposables);
+
             RenderQuest(_questProgressReader.Current);
             RenderInventory();
             RenderStoreStatus();
+            RenderGameTime();
             panel.SetFeedbackText(_feedbackReader.CurrentMessage);
         }
 
@@ -82,6 +91,7 @@ namespace Game.Presentation.Screens.Core
             RenderQuest(_questProgressReader.Current);
             RenderInventory();
             RenderStoreStatus();
+            RenderGameTime();
             Panel.SetFeedbackText(_feedbackReader.CurrentMessage);
         }
 
@@ -130,6 +140,15 @@ namespace Game.Presentation.Screens.Core
 
             quest = default;
             return false;
+        }
+
+        private void RenderGameTime()
+        {
+            if (Panel == false)
+                return;
+
+            var time = _gameTimeReader.Current;
+            Panel.SetGameTimeText($"Day {time.Day} · {time.Hour:00}:{time.Minute:00}");
         }
 
         private void RenderStoreStatus()

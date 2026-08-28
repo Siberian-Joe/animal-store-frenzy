@@ -9,7 +9,8 @@ namespace Game.EditorTools
         private static readonly string[] GameplaySaveFileNames =
         {
             "world-state.json",
-            "quest-progress.json"
+            "quest-progress.json",
+            "game-time.json"
         };
 
         [MenuItem("Tools/Animal Store Frenzy/Clear Gameplay Save")]
