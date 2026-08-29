@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.World.EntityRuntime;
+using Game.World.GameTime;
 using Game.World.Persistence;
 using Game.World.Store;
 using UnityEngine;
@@ -19,8 +20,11 @@ namespace Game.World.Shop.Customers.Flow
         private readonly EntityActivator _entityActivator;
         private readonly ILiveEntityRegistry _liveEntityRegistry;
         private readonly IStoreRuntimeResolver _storeResolver;
+        private readonly IGameTimeReader _gameTimeReader;
 
-        private float _timeUntilNextSpawn;
+        private float _gameMinutesUntilNextSpawn;
+        private long _lastObservedTotalMinutes;
+        private int _activePeriodStartMinute;
 
         public CustomerFlowService(
             CustomerFlowConfig config,
@@ -29,7 +33,8 @@ namespace Game.World.Shop.Customers.Flow
             IEntityFactory entityFactory,
             EntityActivator entityActivator,
             ILiveEntityRegistry liveEntityRegistry,
-            IStoreRuntimeResolver storeResolver)
+            IStoreRuntimeResolver storeResolver,
+            IGameTimeReader gameTimeReader)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _spawnPointLocator = spawnPointLocator ?? throw new ArgumentNullException(nameof(spawnPointLocator));
@@ -39,12 +44,34 @@ namespace Game.World.Shop.Customers.Flow
             _entityActivator = entityActivator ?? throw new ArgumentNullException(nameof(entityActivator));
             _liveEntityRegistry = liveEntityRegistry ?? throw new ArgumentNullException(nameof(liveEntityRegistry));
             _storeResolver = storeResolver ?? throw new ArgumentNullException(nameof(storeResolver));
+            _gameTimeReader = gameTimeReader ?? throw new ArgumentNullException(nameof(gameTimeReader));
         }
 
-        public void Initialize() => _timeUntilNextSpawn = _config.GetRandomSpawnInterval();
+        public void Initialize()
+        {
+            var currentTime = _gameTimeReader.Current;
+            var period = _config.TrafficProfile.Resolve(currentTime);
+
+            _lastObservedTotalMinutes = currentTime.TotalMinutes;
+            ResetCountdown(period);
+        }
 
         public void Tick()
         {
+            var currentTime = _gameTimeReader.Current;
+            var elapsedGameMinutes = currentTime.TotalMinutes - _lastObservedTotalMinutes;
+            _lastObservedTotalMinutes = currentTime.TotalMinutes;
+
+            var period = _config.TrafficProfile.Resolve(currentTime);
+            if (period.StartMinuteOfDay != _activePeriodStartMinute)
+            {
+                ResetCountdown(period);
+                return;
+            }
+
+            if (elapsedGameMinutes <= 0L)
+                return;
+
             if (_config.AutoStart == false)
                 return;
 
@@ -57,12 +84,18 @@ namespace Game.World.Shop.Customers.Flow
             if (GetActiveCustomerCount() >= _config.MaxActiveCustomers)
                 return;
 
-            _timeUntilNextSpawn -= Time.deltaTime;
-            if (_timeUntilNextSpawn > 0f)
+            _gameMinutesUntilNextSpawn -= elapsedGameMinutes;
+            if (_gameMinutesUntilNextSpawn > 0f)
                 return;
 
             SpawnCustomer();
-            _timeUntilNextSpawn = _config.GetRandomSpawnInterval();
+            ResetCountdown(period);
+        }
+
+        private void ResetCountdown(CustomerTrafficPeriod period)
+        {
+            _activePeriodStartMinute = period.StartMinuteOfDay;
+            _gameMinutesUntilNextSpawn = period.GetRandomSpawnIntervalMinutes();
         }
 
         private int GetActiveCustomerCount()

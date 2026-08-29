@@ -16,6 +16,8 @@ namespace Game.World.Shop.Customers.Flow
                     $"{nameof(CustomerFlowInstaller)} requires a {nameof(CustomerFlowConfig)} reference.");
             }
 
+            _config.Validate();
+
             Container
                 .BindInstance(_config)
                 .AsSingle();

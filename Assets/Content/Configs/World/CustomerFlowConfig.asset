@@ -15,8 +15,7 @@ MonoBehaviour:
   _autoStart: 1
   _customerBlueprintId: customer
   _maxActiveCustomers: 1
-  _minSpawnInterval: 1.5
-  _maxSpawnInterval: 3
+  _trafficProfile: {fileID: 11400000, guid: a7971cedca532e74891f159337d83a91, type: 2}
   _archetypes:
   - {fileID: 11400000, guid: 4b96d3e09ee75ad4b92b2de03806126b, type: 2}
   - {fileID: 11400000, guid: f5fb87764dde8574da81daed8a45bc94, type: 2}
